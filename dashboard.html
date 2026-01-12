@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="AI Dashboard - Julio Garbers">
+    <title>Dashboard - Julio Garbers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .dashboard-container {
+            position: relative;
+            width: 100%;
+            height: calc(100vh - 180px);
+            min-height: 600px;
+        }
+
+        .dashboard-container iframe {
+            width: 100%;
+            height: 100%;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+        }
+
+        .dashboard-notice {
+            background: var(--color-bg-alt);
+            padding: 1rem 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1.5rem;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Julio Garbers</a>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">AI & Innovation Dashboard</h1>
+
+            <div class="dashboard-notice">
+                Interactive dashboard visualizing AI adoption measures from firm-level web data in Europe.
+            </div>
+
+            <div class="dashboard-container">
+                <iframe src="http://localhost:8001" title="AI Dashboard"></iframe>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span>&copy; 2025 Julio Garbers</span>
+            <a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
