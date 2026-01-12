@@ -37,20 +37,9 @@ Edit the CSS variables at the top of `styles.css`:
 ### Fonts
 The site uses Google Fonts (Playfair Display + Source Sans 3). To use different fonts, update the `<link>` tag in the HTML files and the CSS variables.
 
-## Deployment Options
+## Deployment 
 
-### GitHub Pages (Free)
-1. Create a repository on GitHub
-2. Push these files to the repo
-3. Go to Settings → Pages → Select "main" branch
-4. Your site will be at `https://yourusername.github.io/reponame`
-
-### Custom Domain
-After deploying, you can connect `juliogarbers.com`:
-1. Update your domain's DNS settings
-2. Add a CNAME record pointing to your hosting provider
-3. Configure the custom domain in your hosting dashboard
-
-## Browser Support
-
-Works in all modern browsers (Chrome, Firefox, Safari, Edge). Mobile-responsive design included.
+After deploying, connect to `juliogarbers.com`:
+1. Update domain's DNS settings
+2. Add a CNAME record pointing to my hosting provider
+3. Configure the custom domain in my hosting dashboard
