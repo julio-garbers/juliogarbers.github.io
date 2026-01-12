@@ -12,6 +12,64 @@
     href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
     rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .contact-box {
+      display: flex;
+      align-items: stretch;
+      gap: 5rem;
+      background: var(--color-bg-alt);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 2rem;
+    }
+
+    .contact-box .hero-image {
+      height: auto;
+      width: auto;
+      max-height: 260px;
+      object-fit: cover;
+      border-radius: 6px;
+      aspect-ratio: 1;
+    }
+
+    .contact-box .contact-details {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .contact-box .contact-details a {
+      font-weight: 500;
+    }
+
+    .contact-box address {
+      font-style: normal;
+      margin-top: 0.75rem;
+      line-height: 1.5;
+      color: var(--color-text-muted);
+    }
+
+    .bio-section {
+      margin-bottom: 2rem;
+    }
+
+    .bio-section p {
+      font-size: 1.05rem;
+      color: var(--color-text-muted);
+    }
+
+    @media (max-width: 600px) {
+      .contact-box {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .contact-box .hero-image {
+        max-height: 120px;
+      }
+    }
+  </style>
 </head>
 
 <body>
@@ -38,35 +96,37 @@
 
   <main>
     <div class="container">
-      <section class="hero">
+      <h1 style="margin-bottom: 1.5rem;">Julio Garbers</h1>
+
+      <div class="contact-box">
         <img src="picture.png" alt="Julio Garbers" class="hero-image">
-        <div class="hero-content">
-          <h1>Julio Garbers</h1>
-          <p>
-            I am a Research Associate at the
-            <a href="https://www.liser.lu/" target="_blank" rel="noopener">Luxembourg Institute of Socio-Economic
-              Research</a> (LISER), working at the <a href="https://www.liser.lu/labour-market" target="_blank"
-              rel="noopener">Labour Market Department</a>.
-          </p>
-          <p>
-            I have recently obtained a PhD in Economics from the University of Luxembourg as part of the
-            <a href="https://sites.google.com/view/fredericdocquier/xingb-blog/across" target="_blank"
-              rel="noopener">Doctoral Team Unit ACROSS</a> at LISER and was a visiting scholar at
-            <a href="https://pp.ethz.ch/" target="_blank" rel="noopener">ETH Zürich (Public Policy Group)</a>.
-            I co-organize the <a href="https://www.liser.lu/data-science-and-simulation" target="_blank"
-              rel="noopener">DSS Seminar Series</a>.
-          </p>
-          <div class="contact-info">
-            <strong>Contact:</strong> <a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a>
-            <address>
-              Luxembourg Institute of Socio-Economic Research (LISER)<br>
-              11, Porte des Sciences<br>
-              Campus Belval<br>
-              L-4366 Esch-sur-Alzette<br>
-              <a href="http://www.liser.lu" target="_blank" rel="noopener">www.liser.lu</a>
-            </address>
-          </div>
+        <div class="contact-details">
+          <strong>Contact:</strong> <a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a>
+          <address>
+            Luxembourg Institute of Socio-Economic Research (LISER)<br>
+            11, Porte des Sciences<br>
+            Campus Belval<br>
+            L-4366 Esch-sur-Alzette<br>
+            <a href="http://www.liser.lu" target="_blank" rel="noopener">www.liser.lu</a>
+          </address>
         </div>
+      </div>
+
+      <section class="bio-section">
+        <p>
+          I am a Research Associate at the
+          <a href="https://www.liser.lu/" target="_blank" rel="noopener">Luxembourg Institute of Socio-Economic
+            Research</a> (LISER), working at the <a href="https://www.liser.lu/labour-market" target="_blank"
+            rel="noopener">Labour Market Department</a>.
+        </p>
+        <p>
+          I have recently obtained a PhD in Economics from the University of Luxembourg as part of the
+          <a href="https://sites.google.com/view/fredericdocquier/xingb-blog/across" target="_blank"
+            rel="noopener">Doctoral Team Unit ACROSS</a> at LISER and was a visiting scholar at
+          <a href="https://pp.ethz.ch/" target="_blank" rel="noopener">ETH Zürich (Public Policy Group)</a>.
+          I co-organize the <a href="https://www.liser.lu/data-science-and-simulation" target="_blank"
+            rel="noopener">DSS Seminar Series</a>.
+        </p>
       </section>
 
       <div class="info-grid">
