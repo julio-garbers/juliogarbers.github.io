@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Policy Work - Julio Garbers">
+    <title>Policy - Julio Garbers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="index.html" class="logo">Julio Garbers</a>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="research.html">Research</a></li>
+                    <li><a href="policy.html" class="active">Policy</a></li>
+                    <li><a href="cv.html">CV</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <h1 class="page-title">Policy</h1>
+
+            <section class="research-section">
+                <h2>Policy Briefs</h2>
+
+                <article class="paper">
+                    <h3 class="paper-title">Welche Kompetenzen bringen internationale Fachkräfte nach Deutschland?</h3>
+                    <p class="paper-meta">
+                        with <a href="https://sites.google.com/view/christina-gathmann/start" target="_blank"
+                            rel="noopener">Christina Gathmann</a><br> and <a href="https://felixstips.github.io/policy/"
+                            target="_blank" rel="noopener">Felix Stips</a><br>
+                        <em>Wirtschaftsdienst</em>, 2025
+                    </p>
+                    <div class="paper-links">
+                        <a href="wirtschaftsdienst.pdf" class="paper-link" target="_blank">
+                            📄 Policy Brief (PDF)
+                        </a>
+                    </div>
+                </article>
+            </section>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span>&copy; 2026 Julio Garbers</span>
+            <a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a>
+        </div>
+    </footer>
+
+    <script>
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => {
+            navUl.classList.toggle('active');
+        });
+    </script>
+</body>
+
+</html>
