@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="The Linguistic Web of Luxembourg - Data Visualization">
+    <title>The Linguistic Web of Luxembourg - Julio Garbers</title>
+    <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
+        rel="stylesheet">
+    <style>
+        :root {
+            --color-bg: #faf9f7;
+            --color-bg-alt: #f0eeea;
+            --color-card: #ffffff;
+            --color-text: #2d2d2d;
+            --color-text-secondary: #555;
+            --color-text-muted: #666;
+            --color-accent: #1a5f7a;
+            --color-accent-hover: #134a5f;
+            --color-border: #e0ddd8;
+            --font-display: 'Playfair Display', Georgia, serif;
+            --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --max-width: 900px;
+            --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
+            --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            font-size: 17px;
+            line-height: 1.7;
+            color: var(--color-text);
+            background-color: var(--color-bg);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        a {
+            color: var(--color-accent);
+            text-decoration: none;
+            transition: color 0.2s ease;
+        }
+
+        a:hover {
+            color: var(--color-accent-hover);
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: var(--max-width);
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Header */
+        header {
+            background: white;
+            border-bottom: 1px solid var(--color-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 1rem;
+            padding-bottom: 1rem;
+        }
+
+        .logo {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-text);
+        }
+
+        .logo:hover {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        nav a {
+            color: var(--color-text-muted);
+            font-weight: 500;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            padding: 0.5rem 0;
+            position: relative;
+        }
+
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--color-accent);
+            transition: width 0.3s ease;
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 100%;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+
+        /* Main */
+        main {
+            flex: 1;
+            padding: 3rem 0;
+        }
+
+        /* Back link */
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .back-link:hover {
+            color: var(--color-accent);
+            text-decoration: none;
+        }
+
+        /* Post Header */
+        .post-header {
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .post-meta {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--color-accent);
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-family: var(--font-display);
+            font-size: 2.75rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .post-subtitle {
+            font-size: 1.2rem;
+            color: var(--color-text-secondary);
+            font-weight: 300;
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: var(--color-border);
+            border-radius: 12px;
+            overflow: hidden;
+            margin: 2.5rem 0;
+        }
+
+        .stat-item {
+            background: var(--color-card);
+            padding: 1.5rem 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-family: var(--font-display);
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+            color: var(--color-text);
+        }
+
+        .stat-value.accent {
+            color: var(--color-accent);
+        }
+
+        .stat-value.positive {
+            color: #059669;
+        }
+
+        .stat-value.warning {
+            color: #d97706;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Sections */
+        .section {
+            margin: 4rem 0;
+        }
+
+        .section-number {
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            color: var(--color-accent);
+            letter-spacing: 0.1em;
+            margin-bottom: 0.75rem;
+            display: block;
+        }
+
+        h2 {
+            font-family: var(--font-display);
+            font-size: 1.75rem;
+            font-weight: 600;
+            margin-bottom: 0.75rem;
+        }
+
+        .section-description {
+            font-size: 1rem;
+            color: var(--color-text-secondary);
+            max-width: 700px;
+        }
+
+        /* Chart Container */
+        .chart-wrapper {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: var(--shadow-md);
+        }
+
+        .chart-title {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        /* Legend */
+        .legend {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.25rem;
+            justify-content: center;
+            margin: 1rem 0;
+            padding: 0.75rem;
+            background: var(--color-bg-alt);
+            border-radius: 8px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        /* Insight Cards */
+        .insight-card {
+            background: linear-gradient(135deg, rgba(26, 95, 122, 0.08) 0%, rgba(26, 95, 122, 0.04) 100%);
+            border: 1px solid rgba(26, 95, 122, 0.2);
+            border-left: 4px solid var(--color-accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .insight-card h3 {
+            font-family: var(--font-display);
+            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            color: var(--color-accent);
+        }
+
+        .insight-card p {
+            color: var(--color-text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Methodology */
+        .methodology {
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .methodology h3 {
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            margin-bottom: 1rem;
+        }
+
+        .methodology>p {
+            color: var(--color-text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .pipeline-steps {
+            display: grid;
+            gap: 1.25rem;
+        }
+
+        .pipeline-step {
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .step-number {
+            flex-shrink: 0;
+            width: 32px;
+            height: 32px;
+            background: var(--color-accent);
+            color: white;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .step-content h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .step-content p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+        }
+
+        .step-content code {
+            font-family: var(--font-mono);
+            font-size: 0.85em;
+            background: var(--color-bg-alt);
+            padding: 0.1em 0.3em;
+            border-radius: 3px;
+        }
+
+        /* Footer */
+        footer {
+            background: white;
+            border-top: 1px solid var(--color-border);
+            padding: 1.5rem 0;
+            margin-top: auto;
+        }
+
+        footer .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--color-text-muted);
+        }
+
+        /* Loading */
+        .loading {
+            min-height: 400px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .loading-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid var(--color-border);
+            border-top-color: var(--color-accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .content {
+            display: none;
+        }
+
+        .content.loaded {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 0 1.25rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .stats-banner {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            nav ul {
+                gap: 1rem;
+            }
+
+            nav a {
+                font-size: 0.85rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .menu-toggle {
+                display: block;
+            }
+
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: white;
+                flex-direction: column;
+                padding: 1rem 2rem;
+                border-bottom: 1px solid var(--color-border);
+                gap: 0;
+            }
+
+            nav ul.active {
+                display: flex;
+            }
+
+            nav li {
+                border-bottom: 1px solid var(--color-border);
+            }
+
+            nav li:last-child {
+                border-bottom: none;
+            }
+
+            nav a {
+                display: block;
+                padding: 0.75rem 0;
+            }
+
+            header .container {
+                position: relative;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <a href="../../index.html" class="logo">Julio Garbers</a>
+            <button class="menu-toggle" aria-label="Toggle menu">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="3" y1="6" x2="21" y2="6"></line>
+                    <line x1="3" y1="12" x2="21" y2="12"></line>
+                    <line x1="3" y1="18" x2="21" y2="18"></line>
+                </svg>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="../../index.html">Home</a></li>
+                    <li><a href="../../research.html">Research</a></li>
+                    <li><a href="../../policy.html">Policy</a></li>
+                    <li><a href="../../blog.html" class="active">Blog</a></li>
+                    <li><a href="../../cv.html">CV</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <a href="../../blog.html" class="back-link">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                Back to Blog
+            </a>
+
+            <!-- Loading State -->
+            <div class="loading" id="loading">
+                <div class="loading-spinner"></div>
+                <p style="color: var(--color-text-muted);">Loading data...</p>
+            </div>
+
+            <!-- Main Content -->
+            <div class="content" id="content">
+                <header class="post-header">
+                    <div class="post-meta">January 2026 · Data Visualization</div>
+                    <h1>The Linguistic Web of Luxembourg</h1>
+                    <p class="post-subtitle" id="hero-subtitle"></p>
+                </header>
+
+                <div class="stats-banner" id="stats-banner"></div>
+
+                <!-- Section 1 -->
+                <section class="section">
+                    <span class="section-number">01 — Language Availability</span>
+                    <h2>Four Languages, One Web</h2>
+                    <p class="section-description">
+                        The percentage of Luxembourg websites offering content in each language.
+                        Unlike detecting what language a page is written in, this measures which
+                        languages a website makes available through language switchers.
+                    </p>
+
+                    <div class="chart-wrapper">
+                        <div class="chart-title">Language availability on .lu websites over time</div>
+                        <div id="chart-languages" style="height: 400px;"></div>
+                        <div class="legend">
+                            <div class="legend-item"><span class="legend-dot" style="background: #2563eb;"></span>
+                                French</div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #dc2626;"></span>
+                                German</div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #059669;"></span>
+                                English</div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span>
+                                Luxembourgish</div>
+                        </div>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>The French-German Shift</h3>
+                        <p id="insight-1"></p>
+                    </div>
+                </section>
+
+                <!-- Section 2 -->
+                <section class="section">
+                    <span class="section-number">02 — Multilingual Web</span>
+                    <h2>Beyond Monolingual</h2>
+                    <p class="section-description">
+                        Luxembourg's constitutional trilingualism (French, German, Luxembourgish)
+                        is reflected online. How many languages do websites actually offer?
+                    </p>
+
+                    <div class="chart-wrapper">
+                        <div class="chart-title">Distribution of language options per website</div>
+                        <div id="chart-multilingual" style="height: 350px;"></div>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>The Rise of Trilingual Sites</h3>
+                        <p id="insight-2"></p>
+                    </div>
+                </section>
+
+                <!-- Section 3 -->
+                <section class="section">
+                    <span class="section-number">03 — National Language</span>
+                    <h2>Lëtzebuergesch Goes Digital</h2>
+                    <p class="section-description">
+                        Once rarely seen online, Luxembourgish is experiencing a digital renaissance.
+                        Government initiatives and cultural pride are driving adoption.
+                    </p>
+
+                    <div class="chart-wrapper">
+                        <div class="chart-title">Websites offering Luxembourgish content</div>
+                        <div id="chart-luxembourgish" style="height: 300px;"></div>
+                    </div>
+                </section>
+
+                <!-- Section 4 -->
+                <section class="section">
+                    <span class="section-number">04 — Language Combinations</span>
+                    <h2>Common Configurations</h2>
+                    <p class="section-description" id="combinations-description"></p>
+
+                    <div class="chart-wrapper">
+                        <div class="chart-title" id="combinations-title">Most common language combinations</div>
+                        <div id="chart-combinations" style="height: 450px;"></div>
+                    </div>
+                </section>
+
+                <!-- Methodology -->
+                <div class="methodology">
+                    <h3>📐 Methodology</h3>
+                    <p>
+                        This analysis uses a hybrid approach to detect language <em>availability</em>
+                        (which languages a site offers) rather than just language <em>content</em>
+                        (what language a page happens to be in).
+                    </p>
+                    <div class="pipeline-steps" id="methodology-steps"></div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <span>&copy; 2026 Julio Garbers</span>
+            <a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navUl = document.querySelector('nav ul');
+        menuToggle.addEventListener('click', () => navUl.classList.toggle('active'));
+
+        // Configuration
+        const DATA_URL = 'stats.json';
+
+        const langColors = { fr: '#2563eb', de: '#dc2626', en: '#059669', lb: '#d97706' };
+        const langNames = { fr: 'French', de: 'German', en: 'English', lb: 'Luxembourgish' };
+
+        const lightLayout = {
+            paper_bgcolor: 'rgba(0,0,0,0)',
+            plot_bgcolor: 'rgba(0,0,0,0)',
+            font: { family: 'Source Sans 3, sans-serif', color: '#666', size: 13 },
+            margin: { t: 20, r: 30, b: 50, l: 60 },
+            xaxis: {
+                gridcolor: 'rgba(0,0,0,0.06)',
+                linecolor: 'rgba(0,0,0,0.1)',
+                tickfont: { size: 12 },
+                tickcolor: 'rgba(0,0,0,0.1)'
+            },
+            yaxis: {
+                gridcolor: 'rgba(0,0,0,0.06)',
+                linecolor: 'rgba(0,0,0,0.1)',
+                tickfont: { size: 12 },
+                tickcolor: 'rgba(0,0,0,0.1)'
+            },
+            hoverlabel: {
+                bgcolor: '#fff',
+                bordercolor: 'rgba(0,0,0,0.1)',
+                font: { family: 'Source Sans 3, sans-serif', color: '#2d2d2d', size: 13 }
+            }
+        };
+
+        const plotlyConfig = { displayModeBar: false, responsive: true };
+
+        function formatNumber(n) { return n.toLocaleString(); }
+        function formatChange(n) { return (n >= 0 ? '+' : '') + n.toFixed(1); }
+
+        async function loadData() {
+            try {
+                const response = await fetch(DATA_URL);
+                if (!response.ok) throw new Error('Failed to load data');
+                return await response.json();
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.getElementById('loading').innerHTML = `<p style="color: #dc2626;">Error loading data. Make sure stats.json exists.</p>`;
+                throw error;
+            }
+        }
+
+        function populateContent(data) {
+            const { summary, methodology } = data;
+
+            document.getElementById('hero-subtitle').innerHTML =
+                `How a nation of 660,000 people navigates four languages online — an analysis of ${formatNumber(summary.total_website_years)} website observations from ${summary.first_year} to ${summary.last_year}.`;
+
+            document.getElementById('stats-banner').innerHTML = `
+        <div class="stat-item"><div class="stat-value accent">${Math.round(summary.fr_last)}%</div><div class="stat-label">Sites offer French</div></div>
+        <div class="stat-item"><div class="stat-value">${Math.round(summary.de_last)}%</div><div class="stat-label">Sites offer German</div></div>
+        <div class="stat-item"><div class="stat-value positive">${formatChange(summary.lb_change)}pp</div><div class="stat-label">Luxembourgish Growth</div></div>
+        <div class="stat-item"><div class="stat-value warning">${Math.round(summary.multilingual_last)}%</div><div class="stat-label">Multilingual Sites</div></div>
+      `;
+
+            document.getElementById('insight-1').innerHTML =
+                `French remains the dominant web language at ${Math.round(summary.fr_last)}%, but its lead has narrowed (${formatChange(summary.fr_change)} percentage points since ${summary.first_year}). German has held steady around ${Math.round(summary.de_last)}%, while English has grown to ${Math.round(summary.en_last)}% — reflecting Luxembourg's position as an international financial center and EU hub. The most striking trend is Luxembourgish: from ${summary.lb_first.toFixed(1)}% to ${summary.lb_last.toFixed(1)}%.`;
+
+            document.getElementById('insight-2').innerHTML =
+                `In ${summary.first_year}, only ${Math.round(summary.multilingual_first)}% of Luxembourg websites offered multiple languages. By ${summary.last_year}, this had grown to ${Math.round(summary.multilingual_last)}%. The classic FR+DE combination is being supplemented — and sometimes replaced — by FR+DE+EN, reflecting the country's internationalization and the global dominance of English in business.`;
+
+            document.getElementById('combinations-description').innerHTML =
+                `Which language combinations do Luxembourg websites actually deploy? The top configurations in ${data.combinations_year}.`;
+
+            document.getElementById('combinations-title').textContent =
+                `Most common language combinations (${data.combinations_year})`;
+
+            document.getElementById('methodology-steps').innerHTML = `
+        <div class="pipeline-step"><div class="step-number">1</div><div class="step-content"><h4>Data Collection</h4><p>Extracted ${formatNumber(methodology.total_website_years)} website-year observations from CommonCrawl archives (${summary.first_year}–${summary.last_year}), filtering for .lu domains.</p></div></div>
+        <div class="pipeline-step"><div class="step-number">2</div><div class="step-content"><h4>Regex Extraction (Fast Path)</h4><p>Scanned HTML for <code>hreflang</code> tags — the gold standard for multilingual sites. Successfully extracted from ${formatNumber(methodology.regex_extracted)} website-years.</p></div></div>
+        <div class="pipeline-step"><div class="step-number">3</div><div class="step-content"><h4>LLM Detection (Magistral)</h4><p>For sites without hreflang tags, used Mistral's Magistral model to detect language switchers from HTML navigation. Processed ${formatNumber(methodology.llm_extracted)} website-years.</p></div></div>
+        <div class="pipeline-step"><div class="step-number">4</div><div class="step-content"><h4>FastText Fallback</h4><p>Sites where no multilingual signals were found are assumed monolingual. Language determined via FastText classification. Applied to ${formatNumber(methodology.fasttext_applied)} website-years.</p></div></div>
+      `;
+        }
+
+        function renderLanguageChart(yearlyData) {
+            const traces = ['fr', 'de', 'en', 'lb'].map(lang => ({
+                x: yearlyData.map(d => d.year),
+                y: yearlyData.map(d => d[`${lang}_pct`]),
+                name: langNames[lang],
+                type: 'scatter',
+                mode: 'lines+markers',
+                line: { color: langColors[lang], width: 3, shape: 'spline', smoothing: 0.8 },
+                marker: { size: 7, color: langColors[lang] },
+                hovertemplate: `<b>${langNames[lang]}</b><br>%{y:.1f}% of websites<br>Year: %{x}<extra></extra>`
+            }));
+            const maxPct = Math.max(...yearlyData.map(d => Math.max(d.fr_pct, d.de_pct, d.en_pct)));
+            Plotly.newPlot('chart-languages', traces, {
+                ...lightLayout,
+                yaxis: { ...lightLayout.yaxis, title: { text: '% of websites', standoff: 15 }, range: [0, maxPct + 5], ticksuffix: '%' },
+                xaxis: { ...lightLayout.xaxis, dtick: 1 },
+                showlegend: false
+            }, plotlyConfig);
+        }
+
+        function renderMultilingualChart(multilingualData) {
+            const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef'];
+            const names = ['1 Language', '2 Languages', '3 Languages', '4+ Languages'];
+            const keys = ['monolingual', 'bilingual', 'trilingual', 'quadlingual_plus'];
+            const traces = keys.map((key, i) => ({
+                x: multilingualData.map(d => d.year),
+                y: multilingualData.map(d => d[key]),
+                name: names[i],
+                type: 'scatter',
+                mode: 'lines',
+                stackgroup: 'one',
+                fillcolor: colors[i] + '80',
+                line: { color: colors[i], width: 0 },
+                hovertemplate: `<b>${names[i]}</b><br>%{y:.1f}%<extra></extra>`
+            }));
+            Plotly.newPlot('chart-multilingual', traces, {
+                ...lightLayout,
+                yaxis: { ...lightLayout.yaxis, title: { text: '% of websites', standoff: 15 }, range: [0, 100], ticksuffix: '%' },
+                xaxis: { ...lightLayout.xaxis, dtick: 1 },
+                legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center', font: { size: 12 } }
+            }, plotlyConfig);
+        }
+
+        function renderLuxembourgishChart(yearlyData) {
+            const trace = [{
+                x: yearlyData.map(d => d.year),
+                y: yearlyData.map(d => d.lb_pct),
+                type: 'scatter',
+                mode: 'lines+markers',
+                fill: 'tozeroy',
+                fillcolor: 'rgba(217, 119, 6, 0.15)',
+                line: { color: '#d97706', width: 4, shape: 'spline', smoothing: 0.8 },
+                marker: { size: 10, color: '#d97706', line: { color: '#fff', width: 2 } },
+                hovertemplate: '<b>Luxembourgish</b><br>%{y:.1f}% of websites<br>Year: %{x}<extra></extra>'
+            }];
+            Plotly.newPlot('chart-luxembourgish', trace, {
+                ...lightLayout,
+                yaxis: { ...lightLayout.yaxis, title: { text: '% of websites', standoff: 15 }, ticksuffix: '%' },
+                xaxis: { ...lightLayout.xaxis, dtick: 1 },
+                showlegend: false
+            }, plotlyConfig);
+        }
+
+        function renderCombinationsChart(combinationsData) {
+            const trace = [{
+                y: combinationsData.map(d => d.combo).reverse(),
+                x: combinationsData.map(d => d.pct).reverse(),
+                type: 'bar',
+                orientation: 'h',
+                marker: {
+                    color: combinationsData.map((_, i) =>
+                        `hsl(${200 + (combinationsData.length - 1 - i) * 10}, 60%, ${45 + (combinationsData.length - 1 - i) * 3}%)`
+                    ).reverse(),
+                    line: { width: 0 }
+                },
+                text: combinationsData.map(d => `${d.pct}%`).reverse(),
+                textposition: 'outside',
+                textfont: { color: '#666', size: 11 },
+                hovertemplate: '<b>%{y}</b><br>%{x:.1f}% of websites<extra></extra>'
+            }];
+            const maxPct = Math.max(...combinationsData.map(d => d.pct));
+            Plotly.newPlot('chart-combinations', trace, {
+                ...lightLayout,
+                xaxis: { ...lightLayout.xaxis, title: { text: '% of websites', standoff: 15 }, ticksuffix: '%', range: [0, maxPct + 8] },
+                yaxis: { ...lightLayout.yaxis, tickfont: { size: 11 }, automargin: true },
+                showlegend: false,
+                margin: { ...lightLayout.margin, l: 140 }
+            }, plotlyConfig);
+        }
+
+        async function init() {
+            const data = await loadData();
+            populateContent(data);
+            renderLanguageChart(data.yearly);
+            renderMultilingualChart(data.multilingual);
+            renderLuxembourgishChart(data.yearly);
+            renderCombinationsChart(data.combinations);
+            document.getElementById('loading').style.display = 'none';
+            document.getElementById('content').classList.add('loaded');
+        }
+
+        init();
+    </script>
+</body>
+
+</html>
