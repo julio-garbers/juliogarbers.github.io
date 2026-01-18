@@ -521,20 +521,6 @@ footer a:hover {
 @media (max-width: 600px) {
   .menu-toggle {
     display: block;
-
-    nav ul.active {
-      display: flex;
-    }
-
-    /* Add these for the theme toggle in mobile menu */
-    .theme-toggle {
-      padding: 0.75rem 0;
-      justify-content: flex-start;
-    }
-
-    .social-link {
-      padding: 0.75rem 0;
-    }
   }
 
   nav ul {
@@ -570,6 +556,19 @@ footer a:hover {
   header .container {
     position: relative;
   }
+
+  .theme-toggle {
+    padding: 0.75rem 0;
+    justify-content: flex-start;
+  }
+
+  .social-link {
+    padding: 0.75rem 0;
+  }
+}
+
+[data-theme="dark"] nav ul {
+  background: #222;
 }
 
 .social-link {
