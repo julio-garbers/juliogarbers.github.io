@@ -29,6 +29,16 @@
             --max-width: 900px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
+
+            .stats-banner-title {
+                font-size: 1rem;
+                font-weight: 600;
+                color: var(--color-text);
+                text-transform: uppercase;
+                letter-spacing: 0.08em;
+                margin-bottom: 0.75rem;
+                text-align: center;
+            }
         }
 
         *,
@@ -75,8 +85,7 @@
         header {
             background: white;
             border-bottom: 1px solid var(--color-border);
-            position: sticky;
-            top: 0;
+            position: relative;
             z-index: 100;
             box-shadow: var(--shadow-sm);
         }
@@ -168,38 +177,48 @@
             text-decoration: none;
         }
 
-        /* Post Header */
+        /* Post Header - Updated */
         .post-header {
-            margin-bottom: 3rem;
-            padding-bottom: 2rem;
-            border-bottom: 1px solid var(--color-border);
+            margin-bottom: 2.5rem;
+            padding: 2.5rem;
+            background: var(--color-card);
+            border: 1px solid var(--color-border);
+            border-radius: 12px;
+            box-shadow: var(--shadow-md);
         }
 
         .post-meta {
             font-family: var(--font-mono);
-            font-size: 0.8rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
+            letter-spacing: 0.15em;
             color: var(--color-accent);
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
+            display: inline-block;
+            background: rgba(26, 95, 122, 0.08);
+            padding: 0.35rem 0.75rem;
+            border-radius: 4px;
         }
 
         h1 {
             font-family: var(--font-display);
-            font-size: 2.75rem;
+            font-size: 2.5rem;
             font-weight: 700;
-            line-height: 1.2;
-            margin-bottom: 1rem;
+            line-height: 1.25;
+            margin-bottom: 1.25rem;
             letter-spacing: -0.02em;
+            color: var(--color-text);
         }
 
         .post-subtitle {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: var(--color-text-secondary);
-            font-weight: 300;
+            font-weight: 400;
+            line-height: 1.7;
+            max-width: 650px;
         }
 
-        /* Stats Banner */
+        /* Stats Banner - Updated for 2x4 grid */
         .stats-banner {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -212,32 +231,52 @@
 
         .stat-item {
             background: var(--color-card);
-            padding: 1.5rem 1rem;
+            padding: 1.25rem 1rem;
             text-align: center;
         }
 
         .stat-value {
             font-family: var(--font-display);
-            font-size: 2rem;
+            font-size: 1.75rem;
             font-weight: 600;
             margin-bottom: 0.25rem;
-            color: var(--color-text);
         }
 
-        .stat-value.accent {
-            color: var(--color-accent);
+        /* Language-specific colors */
+        .stat-value.fr {
+            color: #2563eb;
         }
 
-        .stat-value.positive {
+        .stat-value.de {
+            color: #dc2626;
+        }
+
+        .stat-value.en {
             color: #059669;
         }
 
-        .stat-value.warning {
+        .stat-value.lb {
             color: #d97706;
         }
 
+        .stat-value.pt {
+            color: #7c3aed;
+        }
+
+        .stat-value.nl {
+            color: #0891b2;
+        }
+
+        .stat-value.other {
+            color: #6b7280;
+        }
+
+        .stat-value.multi {
+            color: var(--color-accent);
+        }
+
         .stat-label {
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             color: var(--color-text-muted);
             text-transform: uppercase;
             letter-spacing: 0.05em;
@@ -249,12 +288,7 @@
         }
 
         .section-number {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: var(--color-accent);
-            letter-spacing: 0.1em;
-            margin-bottom: 0.75rem;
-            display: block;
+            display: none;
         }
 
         h2 {
@@ -303,6 +337,15 @@
             border-radius: 8px;
         }
 
+        .chart-note {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--color-border);
+        }
+
         .legend-item {
             display: flex;
             align-items: center;
@@ -324,7 +367,12 @@
             border-left: 4px solid var(--color-accent);
             border-radius: 8px;
             padding: 1.5rem;
-            margin: 2rem 0;
+            margin: 1.5rem 0;
+            margin-top: 0;
+        }
+
+        .chart-wrapper+.insight-card {
+            margin-top: 0;
         }
 
         .insight-card h3 {
@@ -464,6 +512,10 @@
                 font-size: 2rem;
             }
 
+            .post-header {
+                padding: 1.5rem;
+            }
+
             .stats-banner {
                 grid-template-columns: repeat(2, 1fr);
             }
@@ -561,25 +613,25 @@
             <!-- Main Content -->
             <div class="content" id="content">
                 <header class="post-header">
-                    <div class="post-meta">January 2026 · Data Visualization</div>
                     <h1>The Linguistic Web of Luxembourg</h1>
                     <p class="post-subtitle" id="hero-subtitle"></p>
                 </header>
 
+                <p class="stats-banner-title" id="stats-banner-title"></p>
                 <div class="stats-banner" id="stats-banner"></div>
 
                 <!-- Section 1 -->
                 <section class="section">
                     <span class="section-number">01 — Language Availability</span>
-                    <h2>Four Languages, One Web</h2>
+                    <h2>The Language Landscape</h2>
                     <p class="section-description">
-                        The percentage of Luxembourg websites offering content in each language.
-                        Unlike detecting what language a page is written in, this measures which
-                        languages a website makes available through language switchers.
+                        Which languages do Luxembourg websites make available to visitors?
+                        <!-- This chart tracks language options offered through navigation menus and language switchers — not
+                        the language a page happens to be written in, but the full set of languages each site supports. -->
                     </p>
 
                     <div class="chart-wrapper">
-                        <div class="chart-title">Language availability on .lu websites over time</div>
+                        <div class="chart-title">Language availability</div>
                         <div id="chart-languages" style="height: 400px;"></div>
                         <div class="legend">
                             <div class="legend-item"><span class="legend-dot" style="background: #2563eb;"></span>
@@ -590,13 +642,22 @@
                                 English</div>
                             <div class="legend-item"><span class="legend-dot" style="background: #d97706;"></span>
                                 Luxembourgish</div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #7c3aed;"></span>
+                                Portuguese</div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #0891b2;"></span> Dutch
+                            </div>
+                            <div class="legend-item"><span class="legend-dot" style="background: #6b7280;"></span> Other
+                            </div>
                         </div>
+                        <p class="chart-note">Note: Percentages indicate share of websites offering each language. Sites
+                            can offer multiple languages, so percentages do not sum to 100%.</p>
                     </div>
 
                     <div class="insight-card">
-                        <h3>The French-German Shift</h3>
+                        <h3>Key Findings</h3>
                         <p id="insight-1"></p>
                     </div>
+
                 </section>
 
                 <!-- Section 2 -->
@@ -604,45 +665,36 @@
                     <span class="section-number">02 — Multilingual Web</span>
                     <h2>Beyond Monolingual</h2>
                     <p class="section-description">
-                        Luxembourg's constitutional trilingualism (French, German, Luxembourgish)
-                        is reflected online. How many languages do websites actually offer?
+                        Is Luxembourg's constitutional trilingualism (French, German, Luxembourgish)
+                        reflected online?
                     </p>
 
                     <div class="chart-wrapper">
-                        <div class="chart-title">Distribution of language options per website</div>
+                        <div class="chart-title">Multilingual breakdown</div>
                         <div id="chart-multilingual" style="height: 350px;"></div>
+                        <p class="chart-note" id="note-multilingual"></p>
                     </div>
-
                     <div class="insight-card">
-                        <h3>The Rise of Trilingual Sites</h3>
+                        <h3>Key Findings</h3>
                         <p id="insight-2"></p>
                     </div>
                 </section>
 
                 <!-- Section 3 -->
                 <section class="section">
-                    <span class="section-number">03 — National Language</span>
-                    <h2>Lëtzebuergesch Goes Digital</h2>
-                    <p class="section-description">
-                        Once rarely seen online, Luxembourgish is experiencing a digital renaissance.
-                        Government initiatives and cultural pride are driving adoption.
-                    </p>
-
-                    <div class="chart-wrapper">
-                        <div class="chart-title">Websites offering Luxembourgish content</div>
-                        <div id="chart-luxembourgish" style="height: 300px;"></div>
-                    </div>
-                </section>
-
-                <!-- Section 4 -->
-                <section class="section">
-                    <span class="section-number">04 — Language Combinations</span>
-                    <h2>Common Configurations</h2>
+                    <span class="section-number">03 — Language Configurations</span>
+                    <h2>Language Configurations</h2>
                     <p class="section-description" id="combinations-description"></p>
 
                     <div class="chart-wrapper">
                         <div class="chart-title" id="combinations-title">Most common language combinations</div>
                         <div id="chart-combinations" style="height: 450px;"></div>
+                        <p class="chart-note" id="note-combinations"></p>
+                    </div>
+
+                    <div class="insight-card">
+                        <h3>Key Findings</h3>
+                        <p id="insight-3"></p>
                     </div>
                 </section>
 
@@ -650,11 +702,42 @@
                 <div class="methodology">
                     <h3>📐 Methodology</h3>
                     <p>
-                        This analysis uses a hybrid approach to detect language <em>availability</em>
-                        (which languages a site offers) rather than just language <em>content</em>
-                        (what language a page happens to be in).
+                        This analysis detects language <em>availability</em> — which languages a website offers to
+                        visitors —
+                        rather than just language <em>content</em> (what language a page happens to be written in).
+                        This distinction matters because analyzing page content alone only reveals the language of that
+                        specific page,
+                        not the full set of languages a site offers. By detecting language switchers and hreflang tags,
+                        I can identify multilingual sites even when only one language version was archived.
+                    </p>
+                    <p style="margin-top: 1rem; color: var(--color-text-secondary);">
+                        I use a three-tier detection pipeline, prioritizing the most reliable signals first.
                     </p>
                     <div class="pipeline-steps" id="methodology-steps"></div>
+                    <p class="chart-note" id="methodology-note"></p>
+                    <p class="chart-note" style="margin-top: 0.5rem;">
+                        All scripts are available on <a href="https://github.com/YOUR_USERNAME/YOUR_REPO"
+                            target="_blank">GitHub</a>.
+                    </p>
+                </div>
+
+                <div class="methodology">
+                    <h3>📚 Citation</h3>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 1rem;">
+                        For attribution, please cite this work as:
+                    </p>
+                    <pre
+                        style="background: var(--color-bg-alt); padding: 1rem; border-radius: 6px; font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap; margin-bottom: 1.5rem;"><code>Garbers, J. (2025, January). The Linguistic Web of Luxembourg. Retrieved from https://juliogarbers.com/posts/website_languages_lux/</code></pre>
+                    <p style="color: var(--color-text-secondary); margin-bottom: 0.75rem;">
+                        BibTeX citation:
+                    </p>
+                    <pre
+                        style="background: var(--color-bg-alt); padding: 1rem; border-radius: 6px; font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap;"><code>@misc{garbers2025linguistic,
+                        author = {Garbers, Julio},
+                        title = {The Linguistic Web of Luxembourg},
+                        url = {https://juliogarbers.com/posts/website_languages_lux/},
+                        year = {2025}
+                    }</code></pre>
                 </div>
             </div>
         </div>
@@ -676,8 +759,8 @@
         // Configuration
         const DATA_URL = 'stats.json';
 
-        const langColors = { fr: '#2563eb', de: '#dc2626', en: '#059669', lb: '#d97706' };
-        const langNames = { fr: 'French', de: 'German', en: 'English', lb: 'Luxembourgish' };
+        const langColors = { fr: '#2563eb', de: '#dc2626', en: '#059669', lb: '#d97706', pt: '#7c3aed', nl: '#0891b2', other: '#6b7280' };
+        const langNames = { fr: 'French', de: 'German', en: 'English', lb: 'Luxembourgish', pt: 'Portuguese', nl: 'Dutch', other: 'Other' };
 
         const lightLayout = {
             paper_bgcolor: 'rgba(0,0,0,0)',
@@ -724,44 +807,127 @@
             const { summary, methodology } = data;
 
             document.getElementById('hero-subtitle').innerHTML =
-                `How a nation of 660,000 people navigates four languages online — an analysis of ${formatNumber(summary.total_website_years)} website observations from ${summary.first_year} to ${summary.last_year}.`;
+                `Using CommonCrawl data, I analyzed ${formatNumber(summary.total_website_years)} pages of Luxembourg websites from ${summary.first_year} 
+                to ${summary.last_year}, detecting which languages each website offers. Below, I explore language trends over time, multilingual patterns, 
+                and the most common language configurations.`
+            document.getElementById('stats-banner-title').textContent =
+                `Website Languages in ${summary.last_year}`;
 
             document.getElementById('stats-banner').innerHTML = `
-        <div class="stat-item"><div class="stat-value accent">${Math.round(summary.fr_last)}%</div><div class="stat-label">Sites offer French</div></div>
-        <div class="stat-item"><div class="stat-value">${Math.round(summary.de_last)}%</div><div class="stat-label">Sites offer German</div></div>
-        <div class="stat-item"><div class="stat-value positive">${formatChange(summary.lb_change)}pp</div><div class="stat-label">Luxembourgish Growth</div></div>
-        <div class="stat-item"><div class="stat-value warning">${Math.round(summary.multilingual_last)}%</div><div class="stat-label">Multilingual Sites</div></div>
-      `;
+                <div class="stat-item"><div class="stat-value fr">${Math.round(summary.fr_last)}%</div><div class="stat-label">French</div></div>
+                <div class="stat-item"><div class="stat-value de">${Math.round(summary.de_last)}%</div><div class="stat-label">German</div></div>
+                <div class="stat-item"><div class="stat-value en">${Math.round(summary.en_last)}%</div><div class="stat-label">English</div></div>
+                <div class="stat-item"><div class="stat-value lb">${Math.round(summary.lb_last)}%</div><div class="stat-label">Luxembourgish</div></div>
+                <div class="stat-item"><div class="stat-value pt">${Math.round(summary.pt_last || 0)}%</div><div class="stat-label">Portuguese</div></div>
+                <div class="stat-item"><div class="stat-value nl">${Math.round(summary.nl_last || 0)}%</div><div class="stat-label">Dutch</div></div>
+                <div class="stat-item"><div class="stat-value other">${Math.round(summary.other_last || 0)}%</div><div class="stat-label">Other</div></div>
+                <div class="stat-item"><div class="stat-value multi">${Math.round(summary.multilingual_last)}%</div><div class="stat-label">Multilingual</div></div>
+            `;
 
-            document.getElementById('insight-1').innerHTML =
-                `French remains the dominant web language at ${Math.round(summary.fr_last)}%, but its lead has narrowed (${formatChange(summary.fr_change)} percentage points since ${summary.first_year}). German has held steady around ${Math.round(summary.de_last)}%, while English has grown to ${Math.round(summary.en_last)}% — reflecting Luxembourg's position as an international financial center and EU hub. The most striking trend is Luxembourgish: from ${summary.lb_first.toFixed(1)}% to ${summary.lb_last.toFixed(1)}%.`;
+            document.getElementById('insight-1').innerHTML = `
+                French dominates at ${Math.round(summary.fr_last)}% and has remained remarkably stable over the decade. 
+                I don't have a good explanation for the sharp 2019 decrease in German, English, and Luxembourgish on websites.
+                <br><br>
+                The increase in websites in Luxembourgish from 2016–2018 coincides with the government's 
+                <em>"Strategie fir d'Promotioun vun der Lëtzebuerger Sprooch"</em>, launched in March 2017. 
+                This plan aimed to increase digital presence and standardization of Luxembourgish, 
+                culminating in the July 2018 law establishing a Language Commissioner and the Centre for the 
+                Luxembourgish Language. 
+                (<a href="https://gouvernement.lu/en/dossiers/2018/langue-luxembourgeoise.html" target="_blank">source</a>)
+                <br><br>
+                Portuguese speakers make up <strong>14.5% of Luxembourg's population</strong> — the largest immigrant community — 
+                but only <strong>${summary.pt_last.toFixed(1)}% of websites</strong> offer Portuguese content. 
+                (<a href="https://statistiques.public.lu/en/recensement/nationalites.html" target="_blank">source</a>)
+            `;
 
-            document.getElementById('insight-2').innerHTML =
-                `In ${summary.first_year}, only ${Math.round(summary.multilingual_first)}% of Luxembourg websites offered multiple languages. By ${summary.last_year}, this had grown to ${Math.round(summary.multilingual_last)}%. The classic FR+DE combination is being supplemented — and sometimes replaced — by FR+DE+EN, reflecting the country's internationalization and the global dominance of English in business.`;
+            document.getElementById('insight-2').innerHTML = `
+                Contrary to what one might expect, the share of multilingual websites has slightly <strong>decreased</strong> — 
+                from ${Math.round(summary.multilingual_first)}% in ${summary.first_year} to ${Math.round(summary.multilingual_last)}% in ${summary.last_year}. 
+                <br><br>
+                The majority of Luxembourg websites (${Math.round(100 - summary.multilingual_last)}%) remain monolingual, 
+                with French-only sites being the most common configuration.
+            `;
+
+            const combos = data.combinations;
+            const getCombo = (name) => combos.find(c => c.combo === name)?.pct || 0;
+
+            document.getElementById('insight-3').innerHTML = `
+                French-only sites dominate at ${getCombo('French')}%, followed by English-only at ${getCombo('English')}%, 
+                even though English isn't an official language. 
+                <br><br>
+                The French + German pairing (${getCombo('French + German')}%) has been overtaken by French + English (${getCombo('English + French')}%).
+                <br><br>
+                The full quadrilingual setup (French + German + English + Luxembourgish) remains rare at just ${getCombo('English + French + German + Luxembourgish')}%.
+                <br><br>
+                Notably, Luxembourgish-only sites sit at the bottom (${getCombo('Luxembourgish')}%) — the national language 
+                rarely stands alone online, almost always appearing alongside French or German.
+            `;
 
             document.getElementById('combinations-description').innerHTML =
-                `Which language combinations do Luxembourg websites actually deploy? The top configurations in ${data.combinations_year}.`;
+                `What are the most common language configurations?`;
 
             document.getElementById('combinations-title').textContent =
-                `Most common language combinations (${data.combinations_year})`;
+                `Most common language configurations (${data.combinations_year})`;
 
             document.getElementById('methodology-steps').innerHTML = `
-        <div class="pipeline-step"><div class="step-number">1</div><div class="step-content"><h4>Data Collection</h4><p>Extracted ${formatNumber(methodology.total_website_years)} website-year observations from CommonCrawl archives (${summary.first_year}–${summary.last_year}), filtering for .lu domains.</p></div></div>
-        <div class="pipeline-step"><div class="step-number">2</div><div class="step-content"><h4>Regex Extraction (Fast Path)</h4><p>Scanned HTML for <code>hreflang</code> tags — the gold standard for multilingual sites. Successfully extracted from ${formatNumber(methodology.regex_extracted)} website-years.</p></div></div>
-        <div class="pipeline-step"><div class="step-number">3</div><div class="step-content"><h4>LLM Detection (Magistral)</h4><p>For sites without hreflang tags, used Mistral's Magistral model to detect language switchers from HTML navigation. Processed ${formatNumber(methodology.llm_extracted)} website-years.</p></div></div>
-        <div class="pipeline-step"><div class="step-number">4</div><div class="step-content"><h4>FastText Fallback</h4><p>Sites where no multilingual signals were found are assumed monolingual. Language determined via FastText classification. Applied to ${formatNumber(methodology.fasttext_applied)} website-years.</p></div></div>
-      `;
+                <div class="pipeline-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h4>Data Collection</h4>
+                        <p>I extracted ${formatNumber(methodology.total_website_years)} website-year observations from 
+                        <a href="https://commoncrawl.org/" target="_blank">CommonCrawl</a> archives (${summary.first_year}–${summary.last_year}), 
+                        filtering for .lu domains. CommonCrawl provides free, publicly available web archives — 
+                        enabling reproducible research without requiring custom crawling infrastructure.</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h4>Hreflang Extraction</h4>
+                        <p>I scanned HTML for <code>hreflang</code> tags — the W3C standard for declaring language alternatives. 
+                        When present, these tags explicitly list all language versions a site offers, making them the most 
+                        reliable signal. Found in ${formatNumber(methodology.regex_extracted)} website-years (${Math.round(methodology.regex_extracted / methodology.total_website_years * 100)}%).</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h4>LLM Detection</h4>
+                        <p>For sites without hreflang tags, I used Mistral's <a href="https://mistral.ai/news/magistral" target="_blank">Magistral</a> 
+                        model to detect language switchers in HTML navigation elements. LLMs can identify patterns like "FR | DE | EN" menus 
+                        that rule-based approaches miss. Applied to ${formatNumber(methodology.llm_extracted)} website-years (${Math.round(methodology.llm_extracted / methodology.total_website_years * 100)}%).</p>
+                    </div>
+                </div>
+                <div class="pipeline-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h4>FastText Fallback</h4>
+                        <p>Sites with no detected language switcher are assumed monolingual. I classified their primary language 
+                        using <a href="https://fasttext.cc/docs/en/language-identification.html" target="_blank">FastText</a>, 
+                        a lightweight model trained on Wikipedia. Applied to ${formatNumber(methodology.fasttext_applied)} website-years (${Math.round(methodology.fasttext_applied / methodology.total_website_years * 100)}%).</p>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('methodology-note').innerHTML =
+                `Note: ${formatNumber(methodology.excluded_unknown)} website-years (${(methodology.excluded_unknown / methodology.total_website_years * 100).toFixed(1)}%) had insufficient text for language classification and were excluded from the analysis.`;
+
+            document.getElementById('note-multilingual').innerHTML =
+                `Note: Based on websites with at least one detected language. ${formatNumber(methodology.excluded_unknown)} sites with insufficient text for classification were excluded.`;
+
+            document.getElementById('note-combinations').innerHTML =
+                `Note: Based on ${formatNumber(summary.total_websites_latest)} websites in ${summary.last_year}. Only the four main languages (French, German, English, Luxembourgish) are shown in combinations.`;
         }
 
         function renderLanguageChart(yearlyData) {
-            const traces = ['fr', 'de', 'en', 'lb'].map(lang => ({
+            const traces = ['fr', 'de', 'en', 'lb', 'pt', 'nl', 'other'].map(lang => ({
                 x: yearlyData.map(d => d.year),
                 y: yearlyData.map(d => d[`${lang}_pct`]),
                 name: langNames[lang],
                 type: 'scatter',
                 mode: 'lines+markers',
                 line: { color: langColors[lang], width: 3, shape: 'spline', smoothing: 0.8 },
-                marker: { size: 7, color: langColors[lang] },
+                marker: { size: 6, color: langColors[lang] },
                 hovertemplate: `<b>${langNames[lang]}</b><br>%{y:.1f}% of websites<br>Year: %{x}<extra></extra>`
             }));
             const maxPct = Math.max(...yearlyData.map(d => Math.max(d.fr_pct, d.de_pct, d.en_pct)));
@@ -774,7 +940,7 @@
         }
 
         function renderMultilingualChart(multilingualData) {
-            const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#d946ef'];
+            const colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444'];
             const names = ['1 Language', '2 Languages', '3 Languages', '4+ Languages'];
             const keys = ['monolingual', 'bilingual', 'trilingual', 'quadlingual_plus'];
             const traces = keys.map((key, i) => ({
@@ -793,26 +959,6 @@
                 yaxis: { ...lightLayout.yaxis, title: { text: '% of websites', standoff: 15 }, range: [0, 100], ticksuffix: '%' },
                 xaxis: { ...lightLayout.xaxis, dtick: 1 },
                 legend: { orientation: 'h', y: -0.15, x: 0.5, xanchor: 'center', font: { size: 12 } }
-            }, plotlyConfig);
-        }
-
-        function renderLuxembourgishChart(yearlyData) {
-            const trace = [{
-                x: yearlyData.map(d => d.year),
-                y: yearlyData.map(d => d.lb_pct),
-                type: 'scatter',
-                mode: 'lines+markers',
-                fill: 'tozeroy',
-                fillcolor: 'rgba(217, 119, 6, 0.15)',
-                line: { color: '#d97706', width: 4, shape: 'spline', smoothing: 0.8 },
-                marker: { size: 10, color: '#d97706', line: { color: '#fff', width: 2 } },
-                hovertemplate: '<b>Luxembourgish</b><br>%{y:.1f}% of websites<br>Year: %{x}<extra></extra>'
-            }];
-            Plotly.newPlot('chart-luxembourgish', trace, {
-                ...lightLayout,
-                yaxis: { ...lightLayout.yaxis, title: { text: '% of websites', standoff: 15 }, ticksuffix: '%' },
-                xaxis: { ...lightLayout.xaxis, dtick: 1 },
-                showlegend: false
             }, plotlyConfig);
         }
 
@@ -839,7 +985,7 @@
                 xaxis: { ...lightLayout.xaxis, title: { text: '% of websites', standoff: 15 }, ticksuffix: '%', range: [0, maxPct + 8] },
                 yaxis: { ...lightLayout.yaxis, tickfont: { size: 11 }, automargin: true },
                 showlegend: false,
-                margin: { ...lightLayout.margin, l: 140 }
+                margin: { ...lightLayout.margin, l: 280 }
             }, plotlyConfig);
         }
 
@@ -848,7 +994,6 @@
             populateContent(data);
             renderLanguageChart(data.yearly);
             renderMultilingualChart(data.multilingual);
-            renderLuxembourgishChart(data.yearly);
             renderCombinationsChart(data.combinations);
             document.getElementById('loading').style.display = 'none';
             document.getElementById('content').classList.add('loaded');
