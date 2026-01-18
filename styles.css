@@ -13,6 +13,25 @@
   --spacing-unit: 1rem;
 }
 
+/* ===== Dark Mode ===== */
+[data-theme="dark"] {
+  --color-bg: #1a1a1a;
+  --color-bg-alt: #252525;
+  --color-text: #e8e8e8;
+  --color-text-muted: #a0a0a0;
+  --color-accent: #4da3bd;
+  --color-accent-hover: #6bb8cf;
+  --color-border: #333;
+}
+
+[data-theme="dark"] header,
+[data-theme="dark"] footer,
+[data-theme="dark"] .paper,
+[data-theme="dark"] .info-section {
+  background: #222;
+}
+
+
 /* ===== Reset & Base ===== */
 *,
 *::before,
@@ -465,6 +484,39 @@ footer a:hover {
   cursor: pointer;
   padding: 0.5rem;
 }
+
+/* ===== Theme Toggle ===== */
+.theme-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--color-text-muted);
+  display: flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+
+.theme-toggle:hover {
+  color: var(--color-accent);
+}
+
+[data-theme="dark"] .theme-toggle .sun-icon {
+  display: block;
+}
+
+[data-theme="dark"] .theme-toggle .moon-icon {
+  display: none;
+}
+
+.theme-toggle .sun-icon {
+  display: none;
+}
+
+.theme-toggle .moon-icon {
+  display: block;
+}
+
 
 @media (max-width: 600px) {
   .menu-toggle {

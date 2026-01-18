@@ -12,154 +12,40 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Source+Sans+3:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="../../styles.css">
     <style>
         :root {
-            --color-bg: #faf9f7;
-            --color-bg-alt: #f0eeea;
-            --color-card: #ffffff;
-            --color-text: #2d2d2d;
-            --color-text-secondary: #555;
-            --color-text-muted: #666;
-            --color-accent: #1a5f7a;
-            --color-accent-hover: #134a5f;
-            --color-border: #e0ddd8;
-            --font-display: 'Playfair Display', Georgia, serif;
-            --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
             --font-mono: 'JetBrains Mono', monospace;
-            --max-width: 900px;
             --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.04);
             --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.06);
-
-            .stats-banner-title {
-                font-size: 1rem;
-                font-weight: 600;
-                color: var(--color-text);
-                text-transform: uppercase;
-                letter-spacing: 0.08em;
-                margin-bottom: 0.75rem;
-                text-align: center;
-            }
+            --color-card: #ffffff;
+            --color-text-secondary: #555;
         }
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        /* Dark mode additions for blog post */
+        [data-theme="dark"] {
+            --color-card: #222;
+            --color-text-secondary: #bbb;
         }
 
-        html {
-            scroll-behavior: smooth;
+        [data-theme="dark"] .chart-wrapper,
+        [data-theme="dark"] .methodology,
+        [data-theme="dark"] .post-header {
+            background: #222;
+            border-color: #333;
         }
 
-        body {
-            font-family: var(--font-body);
-            font-size: 17px;
-            line-height: 1.7;
-            color: var(--color-text);
-            background-color: var(--color-bg);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
+        [data-theme="dark"] .stat-item {
+            background: #222;
         }
 
-        a {
-            color: var(--color-accent);
-            text-decoration: none;
-            transition: color 0.2s ease;
+        [data-theme="dark"] .legend {
+            background: #252525;
         }
 
-        a:hover {
-            color: var(--color-accent-hover);
-            text-decoration: underline;
-        }
-
-        .container {
-            max-width: var(--max-width);
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        /* Header */
-        header {
-            background: white;
-            border-bottom: 1px solid var(--color-border);
-            position: relative;
-            z-index: 100;
-            box-shadow: var(--shadow-sm);
-        }
-
-        header .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .logo {
-            font-family: var(--font-display);
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--color-text);
-        }
-
-        .logo:hover {
-            color: var(--color-accent);
-            text-decoration: none;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--color-text-muted);
-            font-weight: 500;
-            font-size: 0.95rem;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        nav a::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--color-accent);
-            transition: width 0.3s ease;
-        }
-
-        nav a:hover::after,
-        nav a.active::after {
-            width: 100%;
-        }
-
-        nav a:hover,
-        nav a.active {
-            color: var(--color-accent);
-            text-decoration: none;
-        }
-
-        .menu-toggle {
-            display: none;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.5rem;
-        }
-
-        /* Main */
-        main {
-            flex: 1;
-            padding: 3rem 0;
+        [data-theme="dark"] .insight-card {
+            background: linear-gradient(135deg, rgba(77, 163, 189, 0.15) 0%, rgba(77, 163, 189, 0.08) 100%);
+            border-color: rgba(77, 163, 189, 0.3);
         }
 
         /* Back link */
@@ -177,7 +63,7 @@
             text-decoration: none;
         }
 
-        /* Post Header - Updated */
+        /* Post Header */
         .post-header {
             margin-bottom: 2.5rem;
             padding: 2.5rem;
@@ -185,29 +71,6 @@
             border: 1px solid var(--color-border);
             border-radius: 12px;
             box-shadow: var(--shadow-md);
-        }
-
-        .post-meta {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.15em;
-            color: var(--color-accent);
-            margin-bottom: 1.25rem;
-            display: inline-block;
-            background: rgba(26, 95, 122, 0.08);
-            padding: 0.35rem 0.75rem;
-            border-radius: 4px;
-        }
-
-        h1 {
-            font-family: var(--font-display);
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.25;
-            margin-bottom: 1.25rem;
-            letter-spacing: -0.02em;
-            color: var(--color-text);
         }
 
         .post-subtitle {
@@ -218,7 +81,17 @@
             max-width: 650px;
         }
 
-        /* Stats Banner - Updated for 2x4 grid */
+        /* Stats Banner */
+        .stats-banner-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--color-text);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-bottom: 0.75rem;
+            text-align: center;
+        }
+
         .stats-banner {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
@@ -242,7 +115,6 @@
             margin-bottom: 0.25rem;
         }
 
-        /* Language-specific colors */
         .stat-value.fr {
             color: #2563eb;
         }
@@ -291,13 +163,6 @@
             display: none;
         }
 
-        h2 {
-            font-family: var(--font-display);
-            font-size: 1.75rem;
-            font-weight: 600;
-            margin-bottom: 0.75rem;
-        }
-
         .section-description {
             font-size: 1rem;
             color: var(--color-text-secondary);
@@ -325,6 +190,15 @@
             border-bottom: 1px solid var(--color-border);
         }
 
+        .chart-note {
+            font-size: 0.8rem;
+            color: var(--color-text-muted);
+            font-style: italic;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--color-border);
+        }
+
         /* Legend */
         .legend {
             display: flex;
@@ -335,15 +209,6 @@
             padding: 0.75rem;
             background: var(--color-bg-alt);
             border-radius: 8px;
-        }
-
-        .chart-note {
-            font-size: 0.8rem;
-            color: var(--color-text-muted);
-            font-style: italic;
-            margin-top: 1rem;
-            padding-top: 0.75rem;
-            border-top: 1px solid var(--color-border);
         }
 
         .legend-item {
@@ -368,10 +233,6 @@
             border-radius: 8px;
             padding: 1.5rem;
             margin: 1.5rem 0;
-            margin-top: 0;
-        }
-
-        .chart-wrapper+.insight-card {
             margin-top: 0;
         }
 
@@ -453,22 +314,6 @@
             border-radius: 3px;
         }
 
-        /* Footer */
-        footer {
-            background: white;
-            border-top: 1px solid var(--color-border);
-            padding: 1.5rem 0;
-            margin-top: auto;
-        }
-
-        footer .container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.9rem;
-            color: var(--color-text-muted);
-        }
-
         /* Loading */
         .loading {
             min-height: 400px;
@@ -504,68 +349,12 @@
 
         /* Responsive */
         @media (max-width: 768px) {
-            .container {
-                padding: 0 1.25rem;
-            }
-
-            h1 {
-                font-size: 2rem;
-            }
-
             .post-header {
                 padding: 1.5rem;
             }
 
             .stats-banner {
                 grid-template-columns: repeat(2, 1fr);
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            nav a {
-                font-size: 0.85rem;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .menu-toggle {
-                display: block;
-            }
-
-            nav ul {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                right: 0;
-                background: white;
-                flex-direction: column;
-                padding: 1rem 2rem;
-                border-bottom: 1px solid var(--color-border);
-                gap: 0;
-            }
-
-            nav ul.active {
-                display: flex;
-            }
-
-            nav li {
-                border-bottom: 1px solid var(--color-border);
-            }
-
-            nav li:last-child {
-                border-bottom: none;
-            }
-
-            nav a {
-                display: block;
-                padding: 0.75rem 0;
-            }
-
-            header .container {
-                position: relative;
             }
         }
     </style>
@@ -598,6 +387,26 @@
                             </svg>
                         </a>
                     </li>
+                    <li>
+                        <button class="theme-toggle" aria-label="Toggle dark mode">
+                            <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                            </svg>
+                            <svg class="sun-icon" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                                stroke="currentColor" stroke-width="2">
+                                <circle cx="12" cy="12" r="5"></circle>
+                                <line x1="12" y1="1" x2="12" y2="3"></line>
+                                <line x1="12" y1="21" x2="12" y2="23"></line>
+                                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+                                <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+                                <line x1="1" y1="12" x2="3" y2="12"></line>
+                                <line x1="21" y1="12" x2="23" y2="12"></line>
+                                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+                                <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+                            </svg>
+                        </button>
+                    </li>
                 </ul>
             </nav>
         </div>
@@ -621,10 +430,10 @@
 
             <!-- Main Content -->
             <div class="content" id="content">
-                <header class="post-header">
+                <div class="post-header">
                     <h1>The Linguistic Web of Luxembourg</h1>
                     <p class="post-subtitle" id="hero-subtitle"></p>
-                </header>
+                </div>
 
                 <p class="stats-banner-title" id="stats-banner-title"></p>
                 <div class="stats-banner" id="stats-banner"></div>
@@ -765,6 +574,19 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const navUl = document.querySelector('nav ul');
         menuToggle.addEventListener('click', () => navUl.classList.toggle('active'));
+
+        // Dark mode toggle
+        const themeToggle = document.querySelector('.theme-toggle');
+        const savedTheme = localStorage.getItem('theme') || 'light';
+
+        document.documentElement.setAttribute('data-theme', savedTheme);
+
+        themeToggle.addEventListener('click', () => {
+            const currentTheme = document.documentElement.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
 
         // Configuration
         const DATA_URL = 'stats.json';
