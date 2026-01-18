@@ -852,8 +852,29 @@
         }
 
         function renderCombinationsChart(combinationsData) {
+            // Use abbreviations on mobile
+            const isMobile = window.innerWidth < 600;
+
+            const abbreviations = {
+                'French': 'FR',
+                'English': 'EN',
+                'German': 'DE',
+                'Luxembourgish': 'LB',
+                'Portuguese': 'PT',
+                'Dutch': 'NL'
+            };
+
+            function abbreviateLabel(label) {
+                if (!isMobile) return label;
+                let result = label;
+                for (const [full, abbr] of Object.entries(abbreviations)) {
+                    result = result.replace(full, abbr);
+                }
+                return result;
+            }
+
             const trace = [{
-                y: combinationsData.map(d => d.combo).reverse(),
+                y: combinationsData.map(d => abbreviateLabel(d.combo)).reverse(),
                 x: combinationsData.map(d => d.pct).reverse(),
                 type: 'bar',
                 orientation: 'h',
@@ -869,12 +890,16 @@
                 hovertemplate: '<b>%{y}</b><br>%{x:.1f}% of websites<extra></extra>'
             }];
             const maxPct = Math.max(...combinationsData.map(d => d.pct));
+
+            // Smaller left margin on mobile since labels are shorter
+            const leftMargin = isMobile ? 120 : 280;
+
             Plotly.newPlot('chart-combinations', trace, {
                 ...lightLayout,
                 xaxis: { ...lightLayout.xaxis, title: { text: '% of websites', standoff: 15 }, ticksuffix: '%', range: [0, maxPct + 8] },
-                yaxis: { ...lightLayout.yaxis, tickfont: { size: 11 }, automargin: true },
+                yaxis: { ...lightLayout.yaxis, tickfont: { size: isMobile ? 10 : 11 }, automargin: true },
                 showlegend: false,
-                margin: { ...lightLayout.margin, l: 280 }
+                margin: { ...lightLayout.margin, l: leftMargin }
             }, plotlyConfig);
         }
 
