@@ -1,0 +1,114 @@
+[
+  {
+    "objectID": "policy.html",
+    "href": "policy.html",
+    "title": "Policy",
+    "section": "",
+    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
+  },
+  {
+    "objectID": "policy.html#reports",
+    "href": "policy.html#reports",
+    "title": "Policy",
+    "section": "",
+    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html",
+    "href": "posts/website_languages_lux/index.html",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "",
+    "text": "Using CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. Below, I explore language trends over time, multilingual patterns, and the most common language configurations."
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html#the-language-landscape",
+    "href": "posts/website_languages_lux/index.html#the-language-landscape",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "The Language Landscape",
+    "text": "The Language Landscape\nWhich languages do Luxembourg websites make available to visitors?\n\n\nLanguage availability over time (% of websites offering each language)\n\n\n\nShow code\nfig = go.Figure()\n\nfor lang in ['fr', 'de', 'en', 'lb', 'pt', 'nl', 'other']:\n    fig.add_trace(go.Scatter(\n        x=yearly['year'].to_list(),\n        y=yearly[f'{lang}_pct'].to_list(),\n        name=lang_names[lang],\n        mode='lines+markers',\n        line=dict(color=lang_colors[lang], width=3, shape='spline', smoothing=0.8),\n        marker=dict(size=6),\n        hovertemplate=f\"&lt;b&gt;{lang_names[lang]}&lt;/b&gt;&lt;br&gt;%{{y:.1f}}% of websites&lt;br&gt;Year: %{{x}}&lt;extra&gt;&lt;/extra&gt;\"\n    ))\n\nfig.update_layout(\n    height=400,\n    margin=dict(t=20, r=20, b=80, l=60),\n    plot_bgcolor=\"white\",\n    paper_bgcolor=\"white\",\n    xaxis=dict(title=\"Year\", dtick=1, gridcolor=\"#eee\", zerolinecolor=\"#eee\"),\n    yaxis=dict(title=\"% of websites\", ticksuffix=\"%\", gridcolor=\"#eee\", zerolinecolor=\"#eee\"),\n    legend=dict(orientation=\"h\", y=-0.22, x=0.5, xanchor=\"center\"),\n    hovermode=\"x unified\"\n)\n\nfig.show()\n\n\n                            \n                                            \n\n\n\nNote: Percentages indicate share of websites offering each language. Sites can offer multiple languages, so percentages do not sum to 100%.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nFrench dominates at 75% and has remained remarkably stable over the decade. I don’t have a good explanation for the sharp 2019 decrease in German, English, and Luxembourgish on websites.\nThe increase in websites in Luxembourgish from 2016–2018 coincides with the government’s “Strategie fir d’Promotioun vun der Lëtzebuerger Sprooch”, launched in March 2017. This plan aimed to increase digital presence and standardization of Luxembourgish, culminating in the July 2018 law establishing a Language Commissioner and the Centre for the Luxembourgish Language. (source)\nPortuguese speakers make up 14.5% of Luxembourg’s population — the largest immigrant community — but only 2.4% of websites offer Portuguese content. (source)"
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html#beyond-monolingual",
+    "href": "posts/website_languages_lux/index.html#beyond-monolingual",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "Beyond Monolingual",
+    "text": "Beyond Monolingual\nIs Luxembourg’s constitutional trilingualism (French, German, Luxembourgish) reflected online?\n\n\nMultilingual breakdown over time\n\n\n\nShow code\ncolors = ['rgba(59, 130, 246, 0.5)', 'rgba(16, 185, 129, 0.5)', 'rgba(245, 158, 11, 0.5)', 'rgba(239, 68, 68, 0.5)']\nline_colors = ['#3b82f6', '#10b981', '#f59e0b', '#ef4444']\nnames = ['1 Language', '2 Languages', '3 Languages', '4+ Languages']\nkeys = ['monolingual', 'bilingual', 'trilingual', 'quadlingual_plus']\n\nfig = go.Figure()\n\nfor i, (key, name, color, line_color) in enumerate(zip(keys, names, colors, line_colors)):\n    fig.add_trace(go.Scatter(\n        x=multilingual['year'].to_list(),\n        y=multilingual[key].to_list(),\n        name=name,\n        mode='lines',\n        stackgroup='one',\n        fillcolor=color,\n        line=dict(color=line_color, width=0),\n        hovertemplate=f\"&lt;b&gt;{name}&lt;/b&gt;&lt;br&gt;%{{y:.1f}}%&lt;extra&gt;&lt;/extra&gt;\"\n    ))\n\nfig.update_layout(\n    height=400,\n    margin=dict(t=20, r=20, b=80, l=60),\n    plot_bgcolor=\"white\",\n    paper_bgcolor=\"white\",\n    xaxis=dict(title=\"Year\", dtick=1, gridcolor=\"#eee\", zerolinecolor=\"#eee\"),\n    yaxis=dict(title=\"% of websites\", ticksuffix=\"%\", range=[0, 100], gridcolor=\"#eee\", zerolinecolor=\"#eee\", tickvals=[20, 40, 60, 80, 100], ticktext=[\"20%\", \"40%\", \"60%\", \"80%\", \"100%\"]),\n    legend=dict(orientation=\"h\", y=-0.22, x=0.5, xanchor=\"center\"),\n    hovermode=\"x unified\"\n)\n\nfig.show()\n\n\n                            \n                                            \n\n\n\nNote: Stacked area chart shows the percentage of websites offering 1, 2, 3, or 4+ languages.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nContrary to what one might expect, the share of multilingual websites has slightly decreased — from 46% in 2013 to 41% in 2024.\nThe majority of Luxembourg websites (59%) remain monolingual, with French-only sites being the most common configuration."
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html#language-configurations",
+    "href": "posts/website_languages_lux/index.html#language-configurations",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "Language Configurations",
+    "text": "Language Configurations\nWhat are the most common language configurations?\n\n\nMost common language configurations (2024)\n\n\n\nShow code\n# Reverse for horizontal bar chart\ncombos_reversed = combinations.reverse()\n\ncolors_gradient = [\n    f'hsl({200 + i * 10}, 60%, {45 + i * 3}%)'\n    for i in range(len(combos_reversed))\n]\n\nfig = go.Figure()\n\nfig.add_trace(go.Bar(\n    y=combos_reversed['combo'].to_list(),\n    x=combos_reversed['pct'].to_list(),\n    orientation='h',\n    marker=dict(color=colors_gradient),\n    text=[f\"{p}%\" for p in combos_reversed['pct'].to_list()],\n    textposition='outside',\n    hovertemplate=\"&lt;b&gt;%{y}&lt;/b&gt;&lt;br&gt;%{x:.1f}% of websites&lt;extra&gt;&lt;/extra&gt;\"\n))\n\nfig.update_layout(\n    height=450,\n    margin=dict(t=20, r=60, b=50, l=260),\n    plot_bgcolor=\"white\",\n    paper_bgcolor=\"white\",\n    xaxis=dict(title=\"% of websites\", ticksuffix=\"%\", range=[0, 45], gridcolor=\"#eee\", zerolinecolor=\"#eee\"),\n    yaxis=dict(tickfont=dict(size=11), gridcolor=\"#eee\"),\n    showlegend=False\n)\n\nfig.show()\n\n\n                            \n                                            \n\n\n\nNote: Based on 8,061 websites in 2024. Only the four main languages (French, German, English, Luxembourgish) are shown.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nFrench-only sites dominate at 38.1%, followed by English-only at 12.9%, even though English isn’t an official language.\nThe French + German pairing (8.6%) has been overtaken by French + English (10.8%).\nThe full quadrilingual setup (French + German + English + Luxembourgish) remains rare at just 2.4%.\nNotably, Luxembourgish-only sites sit at the bottom (1.2%) — the national language rarely stands alone online, almost always appearing alongside French or German."
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html#methodology",
+    "href": "posts/website_languages_lux/index.html#methodology",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "Methodology",
+    "text": "Methodology\nThis analysis detects language availability — which languages a website offers to visitors — rather than just language content (what language a page happens to be written in). This distinction matters because analyzing page content alone only reveals the language of that specific page, not the full set of languages a site offers. By detecting language switchers and hreflang tags, I can identify multilingual sites even when only one language version was archived.\nI use a three-tier detection pipeline, prioritizing the most reliable signals first:\n\n\n1. Data Collection\n\nI extracted 83,728 website-year observations from CommonCrawl archives (2013–2024), filtering for .lu domains. CommonCrawl provides free, publicly available web archives — enabling reproducible research without requiring custom crawling infrastructure.\n\n2. Hreflang Extraction\n\nI scanned HTML for hreflang tags — the W3C standard for declaring language alternatives. When present, these tags explicitly list all language versions a site offers, making them the most reliable signal. Found in 15,808 website-years (19%).\n\n3. LLM Detection\n\nFor sites without hreflang tags, I used Mistral’s Magistral model to detect language switchers in HTML navigation elements. LLMs can identify patterns like “FR | DE | EN” menus that rule-based approaches miss. Applied to 67,774 website-years (81%).\n\n4. FastText Fallback\n\nSites with no detected language switcher are assumed monolingual. I classified their primary language using FastText, a lightweight model trained on Wikipedia. Applied to 4,995 website-years (6%).\n\n\n\n\nNote: 1,134 website-years (1.4%) had insufficient text for language classification and were excluded from the analysis."
+  },
+  {
+    "objectID": "posts/website_languages_lux/index.html#citation",
+    "href": "posts/website_languages_lux/index.html#citation",
+    "title": "The Linguistic Web of Luxembourg",
+    "section": "Citation",
+    "text": "Citation\nFor attribution, please cite this work as:\nGarbers, J. (2026, January). The Linguistic Web of Luxembourg.\nRetrieved from https://github.com/julio-garbers/blog/tree/main/website_languages_lux\nBibTeX:\n@misc{garbers2026linguistic,\n  author = {Garbers, Julio},\n  title = {The Linguistic Web of Luxembourg},\n  url = {https://github.com/julio-garbers/blog/tree/main/website_languages_lux},\n  year = {2026}\n}\n\n\n\n\n\nAll scripts available on GitHub"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "View CV (PDF)"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "The Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Julio Garbers",
+    "section": "",
+    "text": "Contact: julio.garbers@liser.lu\n\nLuxembourg Institute of Socio-Economic Research (LISER) 11, Porte des Sciences Campus Belval L-4366 Esch-sur-Alzette www.liser.lu"
+  },
+  {
+    "objectID": "index.html#research-interests",
+    "href": "index.html#research-interests",
+    "title": "Julio Garbers",
+    "section": "Research Interests",
+    "text": "Research Interests\n\nMigration\nDiscrimination\nPolicy Evaluation\nLabor Economics"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Julio Garbers",
+    "section": "Education",
+    "text": "Education\n\nPhD in Economics (2021 – 2025) LISER and University of Luxembourg\n\n\nMaster’s Degree in Economics (2018 – 2021) University of Heidelberg\n\n\nBachelor’s Degree in Economics (2015 – 2018) University of Heidelberg"
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
+  },
+  {
+    "objectID": "research.html#publications",
+    "href": "research.html#publications",
+    "title": "Research",
+    "section": "",
+    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
+  },
+  {
+    "objectID": "research.html#working-papers-work-in-progress",
+    "href": "research.html#working-papers-work-in-progress",
+    "title": "Research",
+    "section": "Working Papers / Work in Progress",
+    "text": "Working Papers / Work in Progress\n\nArriving LATE: Access to Citizenship and Economic Integration\n\nwith Christina Gathmann (LISER)\n\n\nWe analyze whether faster access to citizenship fosters the economic integration of immigrants. Our empirical setting is Germany, which went from a strict concept of citizenship based on ‘jus sanguinis’ to a more open citizenship policy. We make use of discontinuities in residency requirements faced by first-generation immigrants to estimate LATEs based on Local Randomization and Fuzzy RDD approaches. We find that a more liberal citizenship policy acts as a catalyst for integration, especially for immigrant women. Women’s labor force participation increases by 8.9 percentage points and their earnings by 21.3%. We do not find any significant effects on immigrant men.\n\n\n\nSmall Pictures, Big Biases: The Adverse Effect of an Airbnb Design Intervention\n\nwith Carlotta Montorsi (LISER)\n\n\nUsing scraped data from the Airbnb platform in New York City and face classification algorithms, we first show that Black minority hosts have 6 percentage points lower occupancy rates than their white counterparts. For Asians and Hispanics, we find no significant difference. Second, relying on difference-in-differences design and event-study plots, we examine the effect of an Airbnb anti-discrimination design change, which reduces the prominence of profile pictures. This design intervention does not effectively close the ethnicity gap in occupancy rates. On the contrary, in the short run, it intensifies the White-Black disparity by 4 percentage points. We delve into the underlying mechanism showing that bias and uncertainty in detecting facial cues, like smiling, increase significantly after the design change. Moreover, negatively affected by the anti-discrimination policy, only Black hosts reacted by offering more basic amenities for their listings."
+  }
+]
