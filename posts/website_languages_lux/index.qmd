@@ -19,18 +19,16 @@ execute:
 
 import json
 import plotly.graph_objects as go
-import plotly.io as pio
-from plotly.subplots import make_subplots
-import pandas as pd
+import polars as pl
 
 # Load data
 with open('stats.json', 'r') as f:
     data = json.load(f)
 
 summary = data['summary']
-yearly = pd.DataFrame(data['yearly'])
-multilingual = pd.DataFrame(data['multilingual'])
-combinations = pd.DataFrame(data['combinations'])
+yearly = pl.DataFrame(data['yearly'])
+multilingual = pl.DataFrame(data['multilingual'])
+combinations = pl.DataFrame(data['combinations'])
 methodology = data['methodology']
 
 # Color scheme
@@ -55,8 +53,8 @@ lang_names = {
 
 # Helper to get combo percentage
 def get_combo(name):
-    match = combinations[combinations['combo'] == name]
-    return match['pct'].values[0] if len(match) > 0 else 0
+    match = combinations.filter(pl.col('combo') == name)
+    return match['pct'][0] if len(match) > 0 else 0
 ```
 
 Using CommonCrawl data, I analyzed **83,728** pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. Below, I explore language trends over time, multilingual patterns, and the most common language configurations.
@@ -85,8 +83,8 @@ fig = go.Figure()
 
 for lang in ['fr', 'de', 'en', 'lb', 'pt', 'nl', 'other']:
     fig.add_trace(go.Scatter(
-        x=yearly['year'],
-        y=yearly[f'{lang}_pct'],
+        x=yearly['year'].to_list(),
+        y=yearly[f'{lang}_pct'].to_list(),
         name=lang_names[lang],
         mode='lines+markers',
         line=dict(color=lang_colors[lang], width=3, shape='spline', smoothing=0.8),
@@ -142,8 +140,8 @@ fig = go.Figure()
 
 for i, (key, name, color, line_color) in enumerate(zip(keys, names, colors, line_colors)):
     fig.add_trace(go.Scatter(
-        x=multilingual['year'],
-        y=multilingual[key],
+        x=multilingual['year'].to_list(),
+        y=multilingual[key].to_list(),
         name=name,
         mode='lines',
         stackgroup='one',
@@ -190,7 +188,7 @@ Most common language configurations (2024)
 
 ```{python}
 # Reverse for horizontal bar chart
-combos_reversed = combinations.iloc[::-1].reset_index(drop=True)
+combos_reversed = combinations.reverse()
 
 colors_gradient = [
     f'hsl({200 + i * 10}, 60%, {45 + i * 3}%)'
@@ -200,11 +198,11 @@ colors_gradient = [
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
-    y=combos_reversed['combo'],
-    x=combos_reversed['pct'],
+    y=combos_reversed['combo'].to_list(),
+    x=combos_reversed['pct'].to_list(),
     orientation='h',
     marker=dict(color=colors_gradient),
-    text=[f"{p}%" for p in combos_reversed['pct']],
+    text=[f"{p}%" for p in combos_reversed['pct'].to_list()],
     textposition='outside',
     hovertemplate="<b>%{y}</b><br>%{x:.1f}% of websites<extra></extra>"
 ))
