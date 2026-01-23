@@ -1,0 +1,12 @@
+---
+title: "Blog"
+pagetitle: "Blog - Julio Garbers"
+listing:
+  contents: posts
+  sort: "date desc"
+  type: default
+  categories: false
+  fields: [date, title, description, image]
+  date-format: "MMMM D, YYYY"
+body-classes: wide-page
+---
