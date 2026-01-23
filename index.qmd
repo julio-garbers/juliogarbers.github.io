@@ -1,0 +1,56 @@
+---
+title: "Julio Garbers"
+pagetitle: "Julio Garbers"
+---
+
+::: {.contact-box}
+![](assets/picture.png){.hero-image fig-alt="Julio Garbers"}
+
+::: {.contact-details}
+**Contact:** [julio.garbers@liser.lu](mailto:julio.garbers@liser.lu)
+
+<address>
+Luxembourg Institute of Socio-Economic Research (LISER)<br>
+11, Porte des Sciences<br>
+Campus Belval<br>
+L-4366 Esch-sur-Alzette<br>
+[www.liser.lu](http://www.liser.lu){target="_blank"}
+</address>
+:::
+:::
+
+::: {.bio-section}
+I am a Research Associate at the [Luxembourg Institute of Socio-Economic Research](https://www.liser.lu/){target="_blank"} (LISER), working at the [Labour Market Department](https://www.liser.lu/labour-market){target="_blank"}.
+
+I have recently obtained a PhD in Economics from the University of Luxembourg as part of the [Doctoral Team Unit ACROSS](https://sites.google.com/view/fredericdocquier/xingb-blog/across){target="_blank"} at LISER and was a visiting scholar at [ETH Zürich (Public Policy Group)](https://pp.ethz.ch/){target="_blank"}. I co-organize the [DSS Seminar Series](https://www.liser.lu/data-science-and-simulation){target="_blank"}.
+:::
+
+::: {.info-grid}
+::: {.info-section}
+## Research Interests
+
+- Migration
+- Discrimination
+- Policy Evaluation
+- Labor Economics
+:::
+
+::: {.info-section}
+## Education
+
+::: {.education-item}
+**PhD in Economics** [(2021 – 2025)]{.education-date}<br>
+LISER and University of Luxembourg
+:::
+
+::: {.education-item}
+**Master's Degree in Economics** [(2018 – 2021)]{.education-date}<br>
+University of Heidelberg
+:::
+
+::: {.education-item}
+**Bachelor's Degree in Economics** [(2015 – 2018)]{.education-date}<br>
+University of Heidelberg
+:::
+:::
+:::
