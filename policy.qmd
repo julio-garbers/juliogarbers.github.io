@@ -1,0 +1,23 @@
+---
+title: "Policy"
+pagetitle: "Policy - Julio Garbers"
+---
+
+## Reports
+
+::: {.paper}
+### Welche Kompetenzen bringen internationale Fachkräfte nach Deutschland? {.paper-title}
+
+::: {.paper-meta}
+with [Christina Gathmann](https://sites.google.com/view/christina-gathmann/start){target="_blank"} and [Felix Stips](https://felixstips.github.io/){target="_blank"}<br>
+*Wirtschaftsdienst*, 2025
+:::
+
+::: {.paper-abstract}
+Deutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.
+:::
+
+::: {.paper-links}
+[Report (PDF)](assets/wirtschaftsdienst.pdf){.paper-link target="_blank"}
+:::
+:::
