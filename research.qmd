@@ -1,0 +1,50 @@
+---
+title: "Research"
+pagetitle: "Research - Julio Garbers"
+---
+
+## Publications
+
+::: {.paper}
+### Citizenship and Integration {.paper-title}
+
+::: {.paper-meta}
+with [Christina Gathmann (LISER)](https://sites.google.com/view/christina-gathmann/start){target="_blank"}<br>
+*Labour Economics*, Vol. 82, June 2023, 102343
+:::
+
+::: {.paper-abstract}
+Several European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.
+:::
+
+::: {.paper-links}
+[Published Version](https://www.sciencedirect.com/science/article/pii/S0927537123000180){.paper-link target="_blank"}
+[Working Paper](https://www.iza.org/publications/dp/15786/citizenship-and-integration){.paper-link target="_blank"}
+:::
+:::
+
+## Working Papers / Work in Progress
+
+::: {.paper}
+### Arriving LATE: Access to Citizenship and Economic Integration {.paper-title}
+
+::: {.paper-meta}
+with [Christina Gathmann (LISER)](https://sites.google.com/view/christina-gathmann/start){target="_blank"}
+:::
+
+::: {.paper-abstract}
+We analyze whether faster access to citizenship fosters the economic integration of immigrants. Our empirical setting is Germany, which went from a strict concept of citizenship based on 'jus sanguinis' to a more open citizenship policy. We make use of discontinuities in residency requirements faced by first-generation immigrants to estimate LATEs based on Local Randomization and Fuzzy RDD approaches. We find that a more liberal citizenship policy acts as a catalyst for integration, especially for immigrant women. Women's labor force participation increases by 8.9 percentage points and their earnings by 21.3%. We do not find any significant effects on immigrant men.
+:::
+:::
+
+::: {.paper}
+### Small Pictures, Big Biases: The Adverse Effect of an Airbnb Design Intervention {.paper-title}
+
+::: {.paper-meta}
+with [Carlotta Montorsi (LISER)](https://carlottamnt.github.io/){target="_blank"}
+:::
+
+::: {.paper-abstract}
+Using scraped data from the Airbnb platform in New York City and face classification algorithms, we first show that Black minority hosts have 6 percentage points lower occupancy rates than their white counterparts. For Asians and Hispanics, we find no significant difference. Second, relying on difference-in-differences design and event-study plots, we examine the effect of an Airbnb anti-discrimination design change, which reduces the prominence of profile pictures. This design intervention does not effectively close the ethnicity gap in occupancy rates. On the contrary, in the short run, it intensifies the White-Black disparity by 4 percentage points. We delve into the underlying mechanism showing that bias and uncertainty in detecting facial cues, like smiling, increase significantly after the design change. Moreover, negatively affected by the anti-discrimination policy, only Black hosts reacted by offering more basic amenities for their listings.
+:::
+:::
