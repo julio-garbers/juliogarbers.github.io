@@ -1,0 +1,43 @@
+project:
+  type: website
+  output-dir: _site
+
+website:
+  title: "Julio Garbers"
+  description: "PhD in Economics - LISER and University of Luxembourg"
+  site-url: "https://juliogarbers.github.io"
+
+  navbar:
+    background: light
+    search: false
+    left:
+      - text: "Home"
+        href: index.qmd
+      - text: "Research"
+        href: research.qmd
+      - text: "Policy"
+        href: policy.qmd
+      - text: "Blog"
+        href: blog.qmd
+      - text: "CV"
+        href: cv.qmd
+      - icon: github
+        href: https://github.com/julio-garbers
+        aria-label: GitHub
+
+  page-footer:
+    left: "&copy; 2026 Julio Garbers"
+    right: "[julio.garbers@liser.lu](mailto:julio.garbers@liser.lu)"
+
+format:
+  html:
+    theme:
+      - flatly
+      - styles/custom.scss
+    mainfont: "Source Sans 3"
+    anchor-sections: false
+
+execute:
+  freeze: auto
+
+jupyter: python3
