@@ -2,4 +2,14 @@
 *.parquet
 
 # Folders
-dashboard
+dashboard/
+_site/
+.quarto/
+_freeze/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+/.quarto/
+**/*.quarto_ipynb
