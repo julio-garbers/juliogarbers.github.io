@@ -1,0 +1,978 @@
+/*-- scss:defaults --*/
+
+// Import Google Fonts
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap');
+
+// Typography
+$font-family-sans-serif: 'Source Sans 3', 'Segoe UI', sans-serif !default;
+$headings-font-family: 'Playfair Display', Georgia, serif !default;
+$font-size-base: 1.0625rem !default;
+
+// Light theme colors
+$body-bg: #faf9f7 !default;
+$body-color: #2d2d2d !default;
+$link-color: #1a5f7a !default;
+$link-hover-color: #134a5f !default;
+
+// Navbar
+$navbar-light-color: #666 !default;
+$navbar-light-hover-color: #1a5f7a !default;
+$navbar-light-active-color: #1a5f7a !default;
+$navbar-bg: white !default;
+
+/*-- scss:rules --*/
+
+// CSS Variables
+:root {
+  --color-bg: #faf9f7;
+  --color-bg-alt: #f0eeea;
+  --color-text: #2d2d2d;
+  --color-text-muted: #666;
+  --color-accent: #1a5f7a;
+  --color-accent-hover: #134a5f;
+  --color-border: #e0ddd8;
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'Source Sans 3', 'Segoe UI', sans-serif;
+  --max-width: 1600px;
+}
+
+
+// Base styles
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--color-bg) !important;
+  color: var(--color-text);
+}
+
+// Typography
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+h1, .h1 {
+  font-size: 2.75rem;
+  letter-spacing: -0.02em;
+  margin-bottom: 1.5rem;
+}
+
+h2, .h2 {
+  font-size: 1.75rem;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  display: inline-block;
+}
+
+a {
+  color: var(--color-accent);
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: var(--color-accent-hover);
+  text-decoration: underline;
+}
+
+// Main content width
+#quarto-content {
+  max-width: 1600px;
+  margin: 0 auto;
+}
+
+// Wide page (for blog)
+body.wide-page .quarto-container,
+body.wide-page #quarto-content,
+body.wide-page #quarto-content.quarto-container,
+body.wide-page main.content,
+body.wide-page .quarto-listing,
+body.wide-page .page-layout-article {
+  max-width: none !important;
+  width: auto !important;
+  margin-left: 10% !important;
+  margin-right: 10% !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+
+body.wide-page .page-columns {
+  display: block !important;
+}
+
+body.wide-page h1.title {
+  margin-left: 8rem !important;
+}
+
+
+.quarto-title {
+  margin-bottom: 1.5rem;
+}
+
+// Navbar styling
+.navbar {
+  background: white !important;
+  border-bottom: 1px solid var(--color-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+}
+
+.quarto-dark .navbar {
+  background: #222 !important;
+  border-color: #333;
+}
+
+.navbar-brand {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--color-text) !important;
+}
+
+.navbar-brand:hover {
+  color: var(--color-accent) !important;
+}
+
+.navbar-nav .nav-link {
+  color: var(--color-text-muted) !important;
+  font-weight: 500;
+  font-size: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+// Center navbar items
+.navbar > .container-fluid {
+  display: flex;
+  justify-content: center;
+  position: relative;
+}
+
+.navbar-brand {
+  position: absolute;
+  left: 1rem;
+}
+
+.navbar-collapse {
+  flex-grow: 0;
+}
+
+.quarto-navbar-tools {
+  position: absolute;
+  right: 1rem;
+}
+
+
+// Navbar item spacing
+.navbar-nav .nav-item {
+  margin: 0 0.5rem;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+  color: var(--color-accent) !important;
+}
+
+// Contact Box (Home page)
+.contact-box {
+  display: flex;
+  align-items: stretch;
+  gap: 3rem;
+  background: var(--color-bg-alt);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.contact-box p {
+  margin-bottom: 0;
+}
+
+.contact-box img,
+.contact-box .hero-image {
+  height: auto;
+  width: auto;
+  max-height: 260px;
+  max-width: 260px;
+  object-fit: cover;
+  border-radius: 6px;
+  aspect-ratio: 1;
+}
+
+.contact-box .contact-details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.contact-box .contact-details a {
+  font-weight: 500;
+}
+
+.contact-box address {
+  font-style: normal;
+  margin-top: 0.75rem;
+  line-height: 1.5;
+  color: var(--color-text-muted);
+}
+
+@media (max-width: 600px) {
+  .contact-box {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .contact-box img,
+  .contact-box .hero-image {
+    max-height: 150px;
+    max-width: 150px;
+  }
+}
+
+// Bio Section
+.bio-section {
+  margin-bottom: 2rem;
+}
+
+.bio-section p {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+}
+
+// Info Grid (Research Interests + Education)
+.info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.info-section {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+}
+
+.quarto-dark .info-section {
+  background: #222;
+  border-color: #333;
+}
+
+.info-section h2 {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid var(--color-accent);
+  display: block;
+  width: fit-content;
+}
+
+.info-section ul {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.info-section li {
+  padding: 0.5rem 0;
+  padding-left: 1.25rem;
+  position: relative;
+  color: var(--color-text-muted);
+}
+
+.info-section li::before {
+  content: '\2192';
+  position: absolute;
+  left: 0;
+  color: var(--color-accent);
+}
+
+.education-item {
+  margin-bottom: 1rem;
+  color: var(--color-text-muted);
+}
+
+.education-item:last-child {
+  margin-bottom: 0;
+}
+
+.education-item strong {
+  display: inline;
+  color: var(--color-text);
+}
+
+.education-date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  font-weight: 400;
+}
+
+@media (max-width: 768px) {
+  .info-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+// Paper Cards (Research & Policy pages)
+section.paper,
+.paper {
+  background: white;
+  padding: 1.75rem !important;
+  border-radius: 8px;
+  border: 1px solid var(--color-border) !important;
+  margin-bottom: 2rem !important;
+  transition: box-shadow 0.2s ease;
+  overflow: visible;
+  display: block;
+  font-family: var(--font-body);
+}
+
+section.paper p,
+.paper p {
+  font-family: var(--font-body);
+}
+
+.paper > *:last-child,
+.paper .paper-abstract:last-child,
+.paper .paper-abstract:last-child p,
+.paper .paper-links:last-child,
+.paper .paper-links:last-child p {
+  margin-bottom: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+// Ensure nested sections don't break the border
+section.paper > section {
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  background: transparent !important;
+}
+
+.quarto-dark .paper {
+  background: #222;
+  border-color: #333;
+}
+
+.paper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.paper h3.paper-title,
+.paper-title {
+  font-family: var(--font-display);
+  font-size: 1.2rem !important;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+  border-bottom: none !important;
+  padding-bottom: 0 !important;
+  display: block !important;
+}
+
+// Hide anchor links on paper titles
+.paper h3 .anchor-section-link,
+.paper h3 a.anchor-section-link {
+  display: none !important;
+}
+
+.paper-meta {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  margin-bottom: 1rem;
+}
+
+.paper-meta a {
+  font-weight: 500;
+}
+
+.paper-abstract {
+  font-size: 0.95rem;
+  font-weight: 400 !important;
+  color: var(--color-text-muted);
+  line-height: 1.65;
+}
+
+.paper-abstract p {
+  font-weight: 400 !important;
+  margin-bottom: 0;
+}
+
+.paper-links {
+  margin-top: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.paper-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-accent);
+  padding: 0.4rem 0.8rem;
+  background: var(--color-bg-alt);
+  border-radius: 4px;
+  transition: background 0.2s ease;
+}
+
+.paper-link::before {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%231a5f7a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6'%3E%3C/path%3E%3Cpolyline points='15 3 21 3 21 9'%3E%3C/polyline%3E%3Cline x1='10' y1='14' x2='21' y2='3'%3E%3C/line%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: contain;
+  pointer-events: none;
+}
+
+.paper-link:hover {
+  background: var(--color-border);
+  text-decoration: none;
+}
+
+// CV Page
+.cv-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-accent);
+  color: white !important;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: background 0.2s ease;
+  margin-bottom: 2rem;
+}
+
+.cv-download:hover {
+  background: var(--color-accent-hover);
+  color: white !important;
+  text-decoration: none;
+}
+
+.cv-download svg {
+  stroke: white;
+}
+
+// Blog listing
+.quarto-listing {
+  margin-top: 1.5rem;
+}
+
+.quarto-post {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  grid-template-areas:
+    "date thumbnail"
+    "content thumbnail";
+  gap: 0 2rem;
+  align-items: start;
+  padding: 1.75rem !important;
+  background: white !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: 8px;
+  margin-bottom: 2rem !important;
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+  overflow: visible;
+}
+
+.quarto-post:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transform: translateY(-2px);
+}
+
+.quarto-dark .quarto-post {
+  background: #222;
+  border-color: #333;
+}
+
+.quarto-post .metadata {
+  grid-area: date;
+}
+
+.quarto-post .body {
+  grid-area: content;
+}
+
+.quarto-post .thumbnail {
+  grid-area: thumbnail;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  overflow: visible;
+}
+
+.quarto-post .thumbnail-image {
+  width: 320px;
+  height: auto;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border-radius: 6px;
+}
+
+.quarto-post .listing-date {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.quarto-post .listing-title {
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--color-text);
+  margin-bottom: 0.75rem !important;
+  padding-bottom: 0.75rem !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  line-height: 1.3;
+}
+
+.quarto-post:hover .listing-title a {
+  color: var(--color-accent);
+}
+
+.quarto-post .listing-description {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-top: 0.5rem;
+}
+
+.quarto-post .listing-description p {
+  margin-bottom: 0;
+}
+
+@media (max-width: 600px) {
+  .quarto-post {
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "date"
+      "content"
+      "thumbnail";
+  }
+
+  .quarto-post .thumbnail {
+    margin-top: 1rem;
+    justify-content: flex-start;
+  }
+
+  .quarto-post .thumbnail-image {
+    width: 100%;
+    height: 160px;
+  }
+}
+
+// Footer
+.nav-footer {
+  background: white;
+  border-top: 1px solid var(--color-border);
+  color: var(--color-text-muted);
+}
+
+.quarto-dark .nav-footer {
+  background: #222;
+  border-color: #333;
+}
+
+.nav-footer a {
+  color: var(--color-text-muted);
+}
+
+.nav-footer a:hover {
+  color: var(--color-accent);
+}
+
+// Callouts for blog post
+.callout {
+  border-radius: 8px;
+}
+
+.callout-note .callout-body-container {
+  padding-bottom: 0.5rem;
+}
+
+.callout-note {
+  border-left-color: var(--color-accent);
+}
+
+.callout-tip {
+  border-left-color: var(--color-accent);
+}
+
+// Code blocks
+pre {
+  background: var(--color-bg-alt) !important;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+}
+
+.quarto-dark pre {
+  background: #252525 !important;
+  border-color: #333;
+}
+
+// Tables
+.table {
+  --bs-table-bg: transparent;
+}
+
+// Blog post title block - hide description (shown in body instead)
+.quarto-title-block .description {
+  display: none;
+}
+
+// Figure container with title and note
+.figure-container {
+  background: white;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1.25rem;
+  margin: 1.5rem 0;
+}
+
+.quarto-dark .figure-container {
+  background: #222;
+  border-color: #333;
+}
+
+.figure-title {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-text);
+  padding-bottom: 0.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.figure-note {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: var(--color-text-muted);
+  padding-top: 0.75rem;
+  margin-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.figure-container .cell {
+  margin: 0;
+}
+
+.figure-container .cell-output {
+  margin: 0;
+}
+
+// Move Plotly modebar above the plot
+.figure-container .modebar {
+  top: -30px !important;
+}
+
+// Move "Show code" button below figures
+.cell {
+  display: flex;
+  flex-direction: column;
+}
+
+.cell > details.code-fold {
+  order: 2;
+  margin-top: 0.5rem;
+}
+
+.cell > .cell-output {
+  order: 1;
+}
+
+// Pipeline steps (methodology section)
+.pipeline-steps {
+  margin: 1.5rem 0;
+}
+
+.pipeline-steps dl {
+  margin: 0;
+}
+
+.pipeline-steps dt {
+  font-weight: 600;
+  color: var(--color-text);
+  margin-top: 1rem;
+}
+
+.pipeline-steps dt:first-child {
+  margin-top: 0;
+}
+
+.pipeline-steps dd {
+  margin-left: 1.5rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--color-accent);
+  color: var(--color-text-muted);
+  line-height: 1.65;
+  margin-bottom: 0.5rem;
+}
+
+// GitHub link styling
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: var(--color-bg-alt);
+  padding: 0.75rem 1.25rem;
+  border-radius: 6px;
+  margin-top: 1.5rem;
+  border: 1px solid var(--color-border);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.github-link:hover {
+  background: var(--color-border);
+  border-color: var(--color-accent);
+}
+
+.github-link svg {
+  flex-shrink: 0;
+  color: var(--color-text);
+}
+
+.github-link p {
+  margin: 0;
+  line-height: 1;
+}
+
+.github-link a {
+  font-weight: 500;
+}
+
+// Responsive adjustments
+
+// Tablet
+@media (max-width: 992px) {
+  // Reset navbar centering for tablet/mobile
+  .navbar > .container-fluid {
+    justify-content: space-between;
+  }
+
+  .navbar-brand {
+    position: relative;
+    left: auto;
+  }
+
+  .navbar-collapse {
+    position: relative;
+    left: auto;
+    transform: none;
+  }
+
+  .quarto-navbar-tools {
+    position: relative;
+    right: auto;
+  }
+
+  // Wide page adjustments
+  body.wide-page .quarto-container,
+  body.wide-page #quarto-content,
+  body.wide-page #quarto-content.quarto-container,
+  body.wide-page main.content,
+  body.wide-page .quarto-listing,
+  body.wide-page .page-layout-article {
+    margin-left: 5% !important;
+    margin-right: 5% !important;
+  }
+
+  body.wide-page h1.title {
+    margin-left: 0 !important;
+  }
+}
+
+// Mobile
+@media (max-width: 768px) {
+  h1, .h1 {
+    font-size: 2rem;
+  }
+
+  h2, .h2 {
+    font-size: 1.4rem;
+  }
+
+  #quarto-content {
+    padding: 0 1rem;
+  }
+
+  // Wide page mobile
+  body.wide-page .quarto-container,
+  body.wide-page #quarto-content,
+  body.wide-page #quarto-content.quarto-container,
+  body.wide-page main.content,
+  body.wide-page .quarto-listing,
+  body.wide-page .page-layout-article {
+    margin-left: 1rem !important;
+    margin-right: 1rem !important;
+  }
+
+  // Paper cards
+  section.paper,
+  .paper {
+    padding: 1.25rem !important;
+  }
+
+  .paper h3.paper-title,
+  .paper-title {
+    font-size: 1.1rem !important;
+  }
+
+  .paper-links {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .paper-link {
+    justify-content: center;
+  }
+
+  // Figure containers
+  .figure-container {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
+
+  .figure-title {
+    font-size: 0.9rem;
+  }
+
+  .figure-note {
+    font-size: 0.8rem;
+  }
+
+  // Plotly charts - make modebar inline on mobile
+  .figure-container .modebar {
+    top: 0 !important;
+    position: relative !important;
+  }
+
+  // Pipeline steps
+  .pipeline-steps dd {
+    margin-left: 0.5rem;
+    padding-left: 0.75rem;
+  }
+
+  // GitHub link
+  .github-link {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  // Callouts
+  .callout {
+    padding: 0.75rem;
+  }
+
+  // Navbar items
+  .navbar-nav .nav-item {
+    margin: 0;
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.75rem;
+  }
+}
+
+// Small mobile
+@media (max-width: 480px) {
+  h1, .h1 {
+    font-size: 1.75rem;
+  }
+
+  h2, .h2 {
+    font-size: 1.25rem;
+  }
+
+  body {
+    font-size: 0.95rem;
+  }
+
+  // Contact box
+  .contact-box {
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .contact-box img,
+  .contact-box .hero-image {
+    max-height: 120px;
+    max-width: 120px;
+  }
+
+  .contact-box address {
+    font-size: 0.9rem;
+  }
+
+  // Info sections
+  .info-section {
+    padding: 1rem;
+  }
+
+  .info-section h2 {
+    font-size: 1.1rem;
+  }
+
+  // Blog listing
+  .quarto-post {
+    padding: 1.25rem !important;
+  }
+
+  .quarto-post .listing-title {
+    font-size: 1.15rem;
+  }
+
+  .quarto-post .listing-description {
+    font-size: 0.9rem;
+  }
+
+  .quarto-post .thumbnail-image {
+    height: 140px;
+  }
+
+  // Paper cards
+  section.paper,
+  .paper {
+    padding: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .paper-meta {
+    font-size: 0.85rem;
+  }
+
+  .paper-abstract {
+    font-size: 0.9rem;
+  }
+
+  // CV download button
+  .cv-download {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem 1rem;
+  }
+
+  // Footer
+  .nav-footer {
+    font-size: 0.85rem;
+    padding: 1rem;
+  }
+
+  .nav-footer-center {
+    flex-direction: column;
+    gap: 0.5rem;
+    text-align: center;
+  }
+}
