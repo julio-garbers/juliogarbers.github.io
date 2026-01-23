@@ -76,5 +76,5 @@ The site uses Google Fonts (Playfair Display + Source Sans 3). To change fonts, 
 - [Quarto](https://quarto.org/) - Document publishing system
 - Python packages (managed via uv):
   - `plotly` - Interactive charts
-  - `pandas` - Data manipulation
+  - `polars` - Data manipulation
   - `jupyter` - Notebook execution
