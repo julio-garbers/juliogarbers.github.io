@@ -259,9 +259,10 @@ print(f"""```{{=html}}
         'yaxis.tickvals': [...Array(labels.length).keys()],
         'margin.l': 110,
         'margin.r': 50,
+        'margin.b': 70,
         'xaxis.range': [0, 50],
         'xaxis.dtick': 10,
-        'height': 550
+        'height': 580
       }});
     }} else {{
       Plotly.relayout(fig3, {{
