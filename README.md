@@ -41,6 +41,13 @@ QUARTO_PYTHON=.venv/bin/python quarto render
 
 Then visit `http://localhost:4200`
 
+## Publish
+
+```bash
+# Publish the website
+QUARTO_PYTHON=.venv/bin/python quarto publish gh-pages
+```
+
 ## Customization
 
 ### Colors
