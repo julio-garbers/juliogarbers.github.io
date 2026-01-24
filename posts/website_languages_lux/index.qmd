@@ -190,17 +190,17 @@ Most common language configurations (2024)
 # Reverse for horizontal bar chart
 combos_reversed = combinations.reverse()
 
-# Create abbreviated labels for mobile
+# Create abbreviated labels for mobile (single letter, no spaces)
 abbrev_map = {
-    'French': 'FR', 'German': 'DE', 'English': 'EN',
-    'Luxembourgish': 'LB', 'Portuguese': 'PT', 'Dutch': 'NL'
+    'French': 'F', 'German': 'D', 'English': 'E',
+    'Luxembourgish': 'L', 'Portuguese': 'P', 'Dutch': 'N'
 }
 
 def abbreviate(combo):
     result = combo
     for full, short in abbrev_map.items():
         result = result.replace(full, short)
-    return result
+    return result.replace(' + ', '+')
 
 full_labels = combos_reversed['combo'].to_list()
 short_labels = [abbreviate(c) for c in full_labels]
@@ -257,8 +257,8 @@ print(f"""```{{=html}}
       Plotly.relayout(fig3, {{
         'yaxis.ticktext': labels,
         'yaxis.tickvals': [...Array(labels.length).keys()],
-        'margin.l': 110,
-        'margin.r': 50,
+        'margin.l': 70,
+        'margin.r': 45,
         'margin.t': 10,
         'xaxis.range': [0, 50],
         'xaxis.dtick': 10
