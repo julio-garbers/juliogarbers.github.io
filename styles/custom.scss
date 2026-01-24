@@ -627,6 +627,26 @@ pre {
   --bs-table-bg: transparent;
 }
 
+// Responsive tables - horizontal scroll on mobile
+.callout table {
+  display: block;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+@media (max-width: 768px) {
+  .callout table {
+    font-size: 0.75rem;
+  }
+
+  .callout table th,
+  .callout table td {
+    padding: 0.3rem 0.4rem;
+    white-space: nowrap;
+  }
+}
+
 // Blog post title block - hide description (shown in body instead)
 .quarto-title-block .description {
   display: none;
