@@ -224,10 +224,10 @@ fig.add_trace(go.Bar(
 
 fig.update_layout(
     height=500,
-    margin=dict(t=20, r=60, b=50, l=200),
+    margin=dict(t=20, r=80, b=50, l=200),
     plot_bgcolor="white",
     paper_bgcolor="white",
-    xaxis=dict(title="% of websites", ticksuffix="%", range=[0, 45], gridcolor="#eee", zerolinecolor="#eee"),
+    xaxis=dict(title="% of websites", ticksuffix="%", range=[0, 48], gridcolor="#eee", zerolinecolor="#eee"),
     yaxis=dict(tickfont=dict(size=10), gridcolor="#eee"),
     showlegend=False
 )
