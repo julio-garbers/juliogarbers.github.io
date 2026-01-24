@@ -190,6 +190,21 @@ Most common language configurations (2024)
 # Reverse for horizontal bar chart
 combos_reversed = combinations.reverse()
 
+# Create abbreviated labels for mobile
+abbrev_map = {
+    'French': 'FR', 'German': 'DE', 'English': 'EN',
+    'Luxembourgish': 'LB', 'Portuguese': 'PT', 'Dutch': 'NL'
+}
+
+def abbreviate(combo):
+    result = combo
+    for full, short in abbrev_map.items():
+        result = result.replace(full, short)
+    return result
+
+full_labels = combos_reversed['combo'].to_list()
+short_labels = [abbreviate(c) for c in full_labels]
+
 colors_gradient = [
     f'hsl({200 + i * 10}, 60%, {45 + i * 3}%)'
     for i in range(len(combos_reversed))
@@ -198,7 +213,7 @@ colors_gradient = [
 fig = go.Figure()
 
 fig.add_trace(go.Bar(
-    y=combos_reversed['combo'].to_list(),
+    y=full_labels,
     x=combos_reversed['pct'].to_list(),
     orientation='h',
     marker=dict(color=colors_gradient),
@@ -218,6 +233,39 @@ fig.update_layout(
 )
 
 fig.show(config={'displayModeBar': False})
+```
+
+```{python}
+#| echo: false
+#| output: asis
+import json as _json
+print(f"""```{{=html}}
+<script>
+(function() {{
+  const fullLabels = {_json.dumps(full_labels)};
+  const shortLabels = {_json.dumps(short_labels)};
+
+  function updateFigure3Labels() {{
+    const plots = document.querySelectorAll('.js-plotly-plot');
+    const fig3 = plots[plots.length - 1];
+    if (!fig3) return;
+
+    const isMobile = window.innerWidth < 768;
+    const labels = isMobile ? shortLabels : fullLabels;
+    const margin = isMobile ? 100 : 200;
+
+    Plotly.relayout(fig3, {{
+      'yaxis.ticktext': labels,
+      'yaxis.tickvals': [...Array(labels.length).keys()],
+      'margin.l': margin
+    }});
+  }}
+
+  setTimeout(updateFigure3Labels, 100);
+  window.addEventListener('resize', updateFigure3Labels);
+}})();
+</script>
+```""")
 ```
 
 ::: {.figure-note}
