@@ -259,10 +259,9 @@ print(f"""```{{=html}}
         'yaxis.tickvals': [...Array(labels.length).keys()],
         'margin.l': 110,
         'margin.r': 50,
-        'margin.b': 70,
+        'margin.t': 10,
         'xaxis.range': [0, 50],
-        'xaxis.dtick': 10,
-        'height': 580
+        'xaxis.dtick': 10
       }});
     }} else {{
       Plotly.relayout(fig3, {{
@@ -270,8 +269,7 @@ print(f"""```{{=html}}
         'yaxis.tickvals': [...Array(labels.length).keys()],
         'margin.l': 200,
         'margin.r': 80,
-        'xaxis.range': [0, 48],
-        'height': 500
+        'xaxis.range': [0, 48]
       }});
     }}
   }}
