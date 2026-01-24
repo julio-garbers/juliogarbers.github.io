@@ -252,13 +252,27 @@ print(f"""```{{=html}}
 
     const isMobile = window.innerWidth < 768;
     const labels = isMobile ? shortLabels : fullLabels;
-    const margin = isMobile ? 100 : 200;
 
-    Plotly.relayout(fig3, {{
-      'yaxis.ticktext': labels,
-      'yaxis.tickvals': [...Array(labels.length).keys()],
-      'margin.l': margin
-    }});
+    if (isMobile) {{
+      Plotly.relayout(fig3, {{
+        'yaxis.ticktext': labels,
+        'yaxis.tickvals': [...Array(labels.length).keys()],
+        'margin.l': 110,
+        'margin.r': 50,
+        'xaxis.range': [0, 50],
+        'xaxis.dtick': 10,
+        'height': 550
+      }});
+    }} else {{
+      Plotly.relayout(fig3, {{
+        'yaxis.ticktext': labels,
+        'yaxis.tickvals': [...Array(labels.length).keys()],
+        'margin.l': 200,
+        'margin.r': 80,
+        'xaxis.range': [0, 48],
+        'height': 500
+      }});
+    }}
   }}
 
   setTimeout(updateFigure3Labels, 100);
