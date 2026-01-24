@@ -692,9 +692,15 @@ pre {
   margin: 0;
 }
 
-// Move Plotly modebar above the plot
+// Hide Plotly modebar completely
 .figure-container .modebar {
-  top: -30px !important;
+  display: none !important;
+}
+
+// Plotly figures responsive
+.figure-container .js-plotly-plot,
+.figure-container .plotly {
+  width: 100% !important;
 }
 
 // Move "Show code" button below figures
@@ -870,12 +876,6 @@ pre {
 
   .figure-note {
     font-size: 0.8rem;
-  }
-
-  // Plotly charts - make modebar inline on mobile
-  .figure-container .modebar {
-    top: 0 !important;
-    position: relative !important;
   }
 
   // Pipeline steps
