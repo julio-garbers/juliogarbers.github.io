@@ -6,6 +6,7 @@ website:
   title: "Julio Garbers"
   description: "PhD in Economics - LISER and University of Luxembourg"
   site-url: "https://juliogarbers.github.io"
+  google-analytics: "G-QJCJTE5KDX"
 
   navbar:
     background: light
