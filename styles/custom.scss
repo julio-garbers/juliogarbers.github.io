@@ -906,6 +906,88 @@ pre {
   }
 }
 
+// Experiments page
+.experiments-intro {
+  font-size: 1.05rem;
+  color: var(--color-text-muted);
+  margin-bottom: 2rem;
+}
+
+.experiments-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  margin-top: 1.5rem;
+}
+
+.experiment-card {
+  background: white;
+  padding: 1.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--color-border);
+  transition: box-shadow 0.2s ease;
+}
+
+.quarto-dark .experiment-card {
+  background: #222;
+  border-color: #333;
+}
+
+.experiment-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+}
+
+.experiment-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+  color: var(--color-text);
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.experiment-card p {
+  font-size: 0.95rem;
+  color: var(--color-text-muted);
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+}
+
+.experiment-card strong {
+  color: var(--color-text);
+}
+
+.experiment-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: white !important;
+  padding: 0.5rem 1rem;
+  background: var(--color-accent);
+  border-radius: 4px;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease;
+}
+
+.experiment-link:hover {
+  background: var(--color-accent-hover);
+  text-decoration: none;
+  color: white !important;
+}
+
+@media (max-width: 768px) {
+  .experiments-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .experiment-card {
+    padding: 1.25rem;
+  }
+}
+
 // Small mobile
 @media (max-width: 480px) {
   h1, .h1 {

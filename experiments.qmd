@@ -1,0 +1,32 @@
+---
+title: "Experiments"
+pagetitle: "Experiments | Julio Garbers"
+---
+
+::: {.experiments-intro}
+These online experiments are part of ongoing research on face perception. Each experiment is password protected.
+:::
+
+::: {.experiments-grid}
+
+::: {.experiment-card}
+### Face Perception Study
+
+Measures how accurately people identify race and facial expressions when viewing individual faces at different sizes.
+
+**Duration:** ~10 minutes
+
+[Start Experiment](experiments/exp_1_attention_accuracy/){.experiment-link}
+:::
+
+::: {.experiment-card}
+### Face Memory Study
+
+Tests how well people remember the racial composition and expressions of faces shown in groups.
+
+**Duration:** ~15 minutes
+
+[Start Experiment](experiments/exp_2_memory/){.experiment-link}
+:::
+
+:::
