@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
+    <loc>https://juliogarbers.github.io/experiments/exp_1_attention_accuracy/GOOGLE_SHEETS_SETUP.html</loc>
+    <lastmod>2026-01-31T23:29:20.976Z</lastmod>
+  </url>
+  <url>
     <loc>https://juliogarbers.github.io/policy.html</loc>
     <lastmod>2026-01-23T19:15:31.491Z</lastmod>
   </url>
@@ -13,6 +17,10 @@
     <lastmod>2026-01-23T19:15:31.488Z</lastmod>
   </url>
   <url>
+    <loc>https://juliogarbers.github.io/experiments.html</loc>
+    <lastmod>2026-01-31T23:30:21.903Z</lastmod>
+  </url>
+  <url>
     <loc>https://juliogarbers.github.io/blog.html</loc>
     <lastmod>2026-01-23T19:15:31.488Z</lastmod>
   </url>
@@ -23,5 +31,9 @@
   <url>
     <loc>https://juliogarbers.github.io/research.html</loc>
     <lastmod>2026-01-23T19:15:31.495Z</lastmod>
+  </url>
+  <url>
+    <loc>https://juliogarbers.github.io/experiments/exp_2_memory/GOOGLE_SHEETS_SETUP.html</loc>
+    <lastmod>2026-01-31T23:29:22.912Z</lastmod>
   </url>
 </urlset>
