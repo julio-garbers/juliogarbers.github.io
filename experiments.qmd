@@ -4,7 +4,7 @@ pagetitle: "Experiments | Julio Garbers"
 ---
 
 ::: {.experiments-intro}
-These online experiments are part of ongoing research on face perception. Each experiment is password protected.
+These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.
 :::
 
 ::: {.experiments-grid}
