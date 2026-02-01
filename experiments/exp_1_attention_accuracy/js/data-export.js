@@ -56,11 +56,15 @@ async function sendToGoogleSheets(jsPsych, participantId) {
     const demographics = demographicsEntry ? demographicsEntry.response : {};
     console.log('Demographics:', demographics);
 
+    // Get zoom tracking data
+    const zoomTracking = typeof getZoomTrackingData === 'function' ? getZoomTrackingData() : {};
+
     // Prepare payload - check if data is in 'value' property (call-function plugin)
     const payload = {
         participant_id: participantId,
         timestamp: new Date().toISOString(),
         demographics: demographics,
+        zoom_tracking: zoomTracking,
         trials: trialData.map(trial => {
             // Data from call-function plugin is stored in 'value' property
             const data = trial.value || trial;

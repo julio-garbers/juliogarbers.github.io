@@ -46,12 +46,16 @@ async function sendToGoogleSheets(jsPsych, participantId) {
     );
     const demographics = demographicsEntry ? demographicsEntry.response : {};
 
+    // Get zoom tracking data
+    const zoomTracking = typeof getZoomTrackingData === 'function' ? getZoomTrackingData() : {};
+
     // Prepare payload
     const payload = {
         experiment: 'memory',  // Tells the script to use the "Memory" sheet
         participant_id: participantId,
         timestamp: new Date().toISOString(),
         demographics: demographics,
+        zoom_tracking: zoomTracking,
         rounds: roundData.map(round => {
             const data = round.value || round;
             return {

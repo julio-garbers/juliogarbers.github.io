@@ -47,6 +47,232 @@ const jsPsych = initJsPsych({
 // DISPLAY REQUIREMENTS (FULLSCREEN & ZOOM)
 // ============================================================================
 
+// Track zoom check attempts and bypass
+let zoomCheckAttempts = 0;
+let zoomCheckBypassed = false;
+
+// Track zoom changes during experiment
+let initialDPR = null;
+let zoomChanges = [];
+let zoomCheckInterval = null;
+let experimentTerminatedDueToZoom = false;
+let zoomTrackingActive = false;
+let inPracticeMode = true; // Start in practice mode
+
+// Store the approved DPR from display check
+let approvedDPR = null;
+
+/**
+ * Initialize zoom tracking - call this after zoom check passes
+ * Saves the approved DPR and monitors for changes
+ */
+function initZoomTracking() {
+    if (zoomTrackingActive) return;
+
+    zoomTrackingActive = true;
+    // Save the DPR that was approved during display check
+    approvedDPR = window.devicePixelRatio;
+    initialDPR = approvedDPR;
+
+    // Method 1: Listen for resize events
+    window.addEventListener('resize', checkForZoomChange);
+
+    // Method 2: Use matchMedia to detect DPR changes (more reliable)
+    setupMatchMediaListener();
+
+    // Method 3: Poll every 500ms as backup (most reliable)
+    zoomCheckInterval = setInterval(checkForZoomChange, 500);
+
+    console.log('Zoom tracking initialized. Approved DPR:', approvedDPR);
+}
+
+/**
+ * Mark practice as complete - zoom changes will now terminate instead of warn
+ */
+function endPracticeMode() {
+    inPracticeMode = false;
+    console.log('Practice mode ended. Zoom changes will now terminate the experiment.');
+}
+
+/**
+ * Setup matchMedia listener for DPR changes
+ */
+function setupMatchMediaListener() {
+    // Create a media query that matches the current DPR
+    const updateDPRQuery = () => {
+        const dpr = window.devicePixelRatio;
+        const query = `(resolution: ${dpr}dppx)`;
+        const mql = window.matchMedia(query);
+
+        const handler = () => {
+            checkForZoomChange();
+            // Re-setup with new DPR
+            mql.removeEventListener('change', handler);
+            setupMatchMediaListener();
+        };
+
+        mql.addEventListener('change', handler);
+    };
+
+    updateDPRQuery();
+}
+
+// Track last warned DPR to avoid repeated warnings for same zoom level
+let lastWarnedDPR = null;
+
+/**
+ * Check for zoom change and handle accordingly
+ * Compares against the approved DPR from display check
+ */
+function checkForZoomChange() {
+    if (!zoomTrackingActive || experimentEnded || experimentTerminatedDueToZoom) return;
+
+    const currentDPR = window.devicePixelRatio;
+    // Compare against the approved DPR from display check (NEVER changes after being set)
+    if (approvedDPR !== null && Math.abs(currentDPR - approvedDPR) > 0.01) {
+        const timestamp = new Date().toISOString();
+        zoomChanges.push({
+            timestamp: timestamp,
+            approved_dpr: approvedDPR,
+            current_dpr: currentDPR,
+            detected_zoom: Math.round(currentDPR * 100)
+        });
+        console.log(`Zoom change detected: Approved DPR ${approvedDPR} -> Current ${currentDPR}`);
+
+        // During practice: show warning (but don't update approvedDPR!)
+        // After practice: terminate immediately
+        if (inPracticeMode) {
+            // Only show warning if this is a different zoom level than last warned
+            if (lastWarnedDPR === null || Math.abs(currentDPR - lastWarnedDPR) > 0.01) {
+                showZoomWarning();
+                lastWarnedDPR = currentDPR;
+            }
+        } else {
+            // Main experiment - terminate!
+            terminateExperimentDueToZoom();
+        }
+    }
+}
+
+/**
+ * Show zoom warning during practice (doesn't terminate)
+ */
+function showZoomWarning() {
+    // Remove any existing warning
+    const existing = document.getElementById('zoom-warning-overlay');
+    if (existing) existing.remove();
+
+    const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+    const zoomResetKey = isMac ? 'Cmd + 0' : 'Ctrl + 0';
+
+    const overlay = document.createElement('div');
+    overlay.id = 'zoom-warning-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.8);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    `;
+    overlay.innerHTML = `
+        <div style="background: white; padding: 40px; border-radius: 10px; max-width: 500px; text-align: center;">
+            <h2 style="color: #ffc107; margin-top: 0;">Warning: Zoom Change Detected</h2>
+            <p style="font-size: 16px; line-height: 1.6;">
+                A change in your browser zoom level was detected.
+            </p>
+            <p style="font-size: 14px; color: #dc3545; font-weight: bold;">
+                Please reset your zoom to 100% by pressing <kbd>${zoomResetKey}</kbd> before continuing.
+            </p>
+            <p style="font-size: 14px; color: #666;">
+                This is just a practice round, so you can continue. However, during the main experiment,
+                <strong>any zoom change from the approved level will immediately terminate the experiment</strong>.
+            </p>
+            <button id="zoom-warning-continue" style="
+                margin-top: 15px;
+                padding: 12px 30px;
+                font-size: 16px;
+                background: #007bff;
+                color: white;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            ">I Understand - Continue</button>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    document.getElementById('zoom-warning-continue').addEventListener('click', () => {
+        overlay.remove();
+    });
+}
+
+/**
+ * Terminate experiment due to zoom change
+ */
+function terminateExperimentDueToZoom() {
+    if (experimentTerminatedDueToZoom) return;
+    experimentTerminatedDueToZoom = true;
+
+    // Stop the polling
+    if (zoomCheckInterval) {
+        clearInterval(zoomCheckInterval);
+    }
+
+    // Show termination message
+    const overlay = document.createElement('div');
+    overlay.id = 'zoom-termination-overlay';
+    overlay.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 10000;
+    `;
+    overlay.innerHTML = `
+        <div style="background: white; padding: 40px; border-radius: 10px; max-width: 500px; text-align: center;">
+            <h2 style="color: #dc3545; margin-top: 0;">Experiment Terminated</h2>
+            <p style="font-size: 16px; line-height: 1.6;">
+                The experiment has been terminated because a <strong>zoom level change</strong> was detected.
+            </p>
+            <p style="font-size: 14px; color: #666;">
+                As stated in the instructions, changing your browser zoom during the experiment invalidates the results.
+            </p>
+            <p style="font-size: 14px; color: #666;">
+                Please close this tab. If you believe this was an error, you may try again with a new session.
+            </p>
+        </div>
+    `;
+    document.body.appendChild(overlay);
+
+    // End the jsPsych experiment
+    jsPsych.endExperiment('Experiment terminated: Zoom level changed during experiment.');
+}
+
+/**
+ * Get zoom tracking data for export
+ */
+function getZoomTrackingData() {
+    return {
+        zoom_check_bypassed: zoomCheckBypassed,
+        zoom_check_attempts: zoomCheckAttempts,
+        approved_dpr: approvedDPR,
+        initial_dpr: initialDPR,
+        zoom_changes_count: zoomChanges.length,
+        zoom_changes: zoomChanges,
+        terminated_due_to_zoom: experimentTerminatedDueToZoom
+    };
+}
+
 /**
  * Detect browser zoom level
  * Returns the zoom level as a percentage (100 = no zoom)
@@ -206,7 +432,12 @@ const displayRequirementsIntro = {
             </ol>
             <h3>How to set zoom to 100%:</h3>
             <p>Press ${getZoomInstructions()} to reset your browser zoom to 100%.</p>
-            <p>Click "Check Display Settings" when ready.</p>
+
+            <div style="margin-top: 20px; padding: 15px; background: #f8d7da; border: 1px solid #f5c6cb; border-radius: 8px;">
+                <p style="margin: 0; color: #721c24;"><strong>Important:</strong> Do NOT change your browser zoom after this check. If a zoom change is detected during the experiment, <strong>the experiment will be terminated immediately</strong>.</p>
+            </div>
+
+            <p style="margin-top: 20px;">Click "Check Display Settings" when ready.</p>
         </div>
     `,
     choices: ['Check Display Settings'],
@@ -228,16 +459,21 @@ const enterFullscreen = {
     on_finish: function() {
         // Start monitoring for fullscreen exit
         setupFullscreenMonitoring();
+        // Note: zoom tracking starts after display check passes
     }
 };
 
-// Check zoom level (loops until correct)
+// Check zoom level (loops until correct or bypassed)
 const zoomCheck = {
     type: jsPsychHtmlButtonResponse,
     stimulus: function() {
+        // Increment attempt counter
+        zoomCheckAttempts++;
+
         const zoomLevel = detectZoomLevel();
         const zoomOk = isZoomAt100();
         const fullscreenOk = isFullscreen();
+        const showBypass = zoomCheckAttempts >= 3 && !zoomOk && fullscreenOk;
 
         let statusHtml = `
             <div class="instruction-container">
@@ -259,7 +495,6 @@ const zoomCheck = {
         }
 
         // Zoom status
-        // Get debug info
         const debugInfo = {
             innerWidth: window.innerWidth,
             innerHeight: window.innerHeight,
@@ -281,7 +516,7 @@ const zoomCheck = {
                 </p>`;
         }
 
-        // Debug info (can be removed in production)
+        // Debug info
         const baseDPR = debugInfo.devicePixelRatio >= 1.9 ? 2 : 1;
         statusHtml += `
             <details style="margin-top: 15px; font-size: 12px; color: #666;">
@@ -316,6 +551,15 @@ screen.width: ${debugInfo.screenWidth}
                     </ul>
                     <p>Then click "Check Again" to verify.</p>
                 </div>`;
+
+            // Show bypass option after 2 failed attempts (only if fullscreen is OK)
+            if (showBypass) {
+                statusHtml += `
+                    <div style="margin-top: 20px; padding: 15px; background: #fff3cd; border-radius: 8px; border: 1px solid #ffc107;">
+                        <p style="margin: 0 0 10px 0;"><strong>Having trouble?</strong></p>
+                        <p style="margin: 0; font-size: 14px;">If your browser zoom is actually at 100% but our detection isn't working correctly (e.g., due to display scaling), you can proceed anyway.</p>
+                    </div>`;
+            }
         } else {
             statusHtml += `
                 <div class="display-ready">
@@ -330,11 +574,14 @@ screen.width: ${debugInfo.screenWidth}
     choices: function() {
         const zoomOk = isZoomAt100();
         const fullscreenOk = isFullscreen();
+        const showBypass = zoomCheckAttempts >= 3 && !zoomOk && fullscreenOk;
 
         if (zoomOk && fullscreenOk) {
             return ['Continue'];
         } else if (!fullscreenOk) {
             return ['Re-enter Fullscreen', 'Check Again'];
+        } else if (showBypass) {
+            return ['Check Again', 'Proceed Anyway'];
         } else {
             return ['Check Again'];
         }
@@ -348,6 +595,14 @@ screen.width: ${debugInfo.screenWidth}
         data.zoom_level = detectZoomLevel();
         data.zoom_ok = zoomOk;
         data.fullscreen_ok = fullscreenOk;
+        data.attempt_number = zoomCheckAttempts;
+
+        // Check if user clicked "Proceed Anyway" (index 1 when bypass is shown)
+        const showBypass = zoomCheckAttempts >= 3 && !zoomOk && fullscreenOk;
+        if (showBypass && data.response === 1) {
+            zoomCheckBypassed = true;
+            data.zoom_bypassed = true;
+        }
 
         // If user clicked "Re-enter Fullscreen"
         if (data.response === 0 && !fullscreenOk) {
@@ -360,12 +615,15 @@ screen.width: ${debugInfo.screenWidth}
     }
 };
 
-// Loop the zoom check until requirements are met
+// Loop the zoom check until requirements are met or bypassed
 const displayCheckLoop = {
     timeline: [zoomCheck],
     loop_function: function(data) {
         const lastTrial = data.values()[0];
-        // Continue looping if requirements not met
+        // Continue looping if requirements not met AND not bypassed
+        if (lastTrial.zoom_bypassed) {
+            return false; // Stop looping - user bypassed
+        }
         return !(lastTrial.zoom_ok && lastTrial.fullscreen_ok);
     }
 };
@@ -526,6 +784,7 @@ const instructions = {
                 <li>Please respond as <strong>quickly and accurately</strong> as possible</li>
                 <li>You will have <strong>10 seconds</strong> to answer each question</li>
                 <li>Pay close attention to the image, as it only appears briefly</li>
+                <li style="color: #dc3545;"><strong>Do NOT change your browser zoom</strong> during the experiment. If zoom changes are detected, the experiment will be terminated immediately.</li>
             </ul>
 
             <p>Click "Continue" to begin a practice trial.</p>
@@ -850,13 +1109,29 @@ const timeline = [
     displayRequirementsIntro,
     enterFullscreen,
     displayCheckLoop,
+    // Start zoom tracking after display check passes
+    {
+        type: jsPsychCallFunction,
+        func: function() {
+            initZoomTracking();
+            console.log('Display check passed. Zoom tracking active - changes will show warning until experiment starts.');
+        }
+    },
     welcome,
     consent,
     demographics,
     instructions,
     practiceIntro,
     practiceTrial,
-    practiceFeedback
+    practiceFeedback,
+    // Transition from practice to main experiment - start zoom monitoring
+    {
+        type: jsPsychCallFunction,
+        func: function() {
+            endPracticeMode();
+            console.log('Practice complete. Zoom monitoring now active - zoom changes will terminate experiment.');
+        }
+    }
 ];
 
 // Add main experiment trials
