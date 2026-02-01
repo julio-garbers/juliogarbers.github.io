@@ -10,6 +10,7 @@ website/
 ├── index.qmd                           # Home page
 ├── research.qmd                        # Research publications & working papers
 ├── policy.qmd                          # Policy reports
+├── experiments.qmd                     # Experiments landing page
 ├── blog.qmd                            # Blog listing page
 ├── cv.qmd                              # Curriculum Vitae
 ├── styles/
@@ -23,6 +24,9 @@ website/
 │       ├── index.qmd                   # Post with Plotly visualizations
 │       ├── stats.json                  # Data file
 │       └── thumbnail.png               # Post thumbnail
+├── experiments/                        # Password-protected experiments
+│   ├── exp_1_attention_accuracy/       # Face perception study
+│   └── exp_2_memory/                   # Face memory study
 └── _site/                              # Generated output (gitignored)
 ```
 
@@ -77,6 +81,12 @@ The site uses Google Fonts (Playfair Display + Source Sans 3). To change fonts, 
    ```
 3. Add a `thumbnail.png` for the blog listing
 4. Run `quarto render` - the post will automatically appear in the blog listing
+
+## Experiments
+
+The `experiments/` folder contains password-protected jsPsych experiments. Password: `airbnb`
+
+To change the password, edit the `CORRECT_PASSWORD` variable in each experiment's `index.html`.
 
 ## Dependencies
 
