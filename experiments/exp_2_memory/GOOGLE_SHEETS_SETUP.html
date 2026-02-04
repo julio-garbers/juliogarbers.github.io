@@ -212,6 +212,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="att_acc-sheet-experiment-1" class="level3">
 <h3 data-anchor-id="att_acc-sheet-experiment-1">att_acc Sheet (Experiment 1)</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Column</th>
@@ -228,38 +232,58 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Unique ID</td>
 </tr>
 <tr class="odd">
-<td>demo_*</td>
-<td>Demographics</td>
+<td>demo_age</td>
+<td>Participant age</td>
 </tr>
 <tr class="even">
+<td>demo_gender</td>
+<td>Participant gender</td>
+</tr>
+<tr class="odd">
+<td>demo_race</td>
+<td>Participant race/ethnicity</td>
+</tr>
+<tr class="even">
+<td>demo_education</td>
+<td>Education level</td>
+</tr>
+<tr class="odd">
 <td>trial_number</td>
 <td>1-16 or “practice”</td>
 </tr>
-<tr class="odd">
-<td>individual_id</td>
-<td>Which face was shown</td>
-</tr>
 <tr class="even">
+<td>image_name</td>
+<td>Full image filename without extension (e.g., “black_male_smile_01_big”)</td>
+</tr>
+<tr class="odd">
 <td>true_race / true_gender</td>
 <td>Ground truth</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>size_condition</td>
 <td>“big” or “small”</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>smile_condition</td>
 <td>“smile” or “nosmile”</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>question_order</td>
 <td>“race_first” or “smile_first”</td>
 </tr>
+<tr class="odd">
+<td>race_options_order</td>
+<td>Order of race buttons (e.g., “asian,black,hispanic,white”)</td>
+</tr>
 <tr class="even">
+<td>smile_options_order</td>
+<td>Order of smile buttons (e.g., “yes,no”)</td>
+</tr>
+<tr class="odd">
 <td>race_response / race_rt / race_correct</td>
 <td>Race question data</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>smile_response / smile_rt / smile_correct</td>
 <td>Smile question data</td>
 </tr>
@@ -269,6 +293,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="memory-sheet-experiment-2" class="level3">
 <h3 data-anchor-id="memory-sheet-experiment-2">memory Sheet (Experiment 2)</h3>
 <table class="caption-top table">
+<colgroup>
+<col style="width: 38%">
+<col style="width: 61%">
+</colgroup>
 <thead>
 <tr class="header">
 <th>Column</th>
@@ -285,20 +313,44 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Unique ID</td>
 </tr>
 <tr class="odd">
-<td>demo_*</td>
-<td>Demographics</td>
+<td>demo_age</td>
+<td>Participant age</td>
 </tr>
 <tr class="even">
+<td>demo_gender</td>
+<td>Participant gender</td>
+</tr>
+<tr class="odd">
+<td>demo_race</td>
+<td>Participant race/ethnicity</td>
+</tr>
+<tr class="even">
+<td>demo_education</td>
+<td>Education level</td>
+</tr>
+<tr class="odd">
 <td>round_number</td>
 <td>1-12 or “practice”</td>
 </tr>
-<tr class="odd">
+<tr class="even">
 <td>size_condition</td>
 <td>“big” or “small”</td>
 </tr>
-<tr class="even">
+<tr class="odd">
 <td>question_type</td>
 <td>“race” or “smile”</td>
+</tr>
+<tr class="even">
+<td>grid_order</td>
+<td>Order of images in grid positions 1-8 (e.g., “black_male_01:smile,asian_female_02:nosmile,…”)</td>
+</tr>
+<tr class="odd">
+<td>input_order</td>
+<td>Order of input fields shown (e.g., “hispanic,black,white,asian”)</td>
+</tr>
+<tr class="even">
+<td>response_order</td>
+<td>Order participant filled in inputs (e.g., “black,white,hispanic,asian”)</td>
 </tr>
 <tr class="odd">
 <td>actual_*</td>
@@ -313,6 +365,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <td>Response minus actual (negative = undercount)</td>
 </tr>
 <tr class="even">
+<td>*_correct</td>
+<td>TRUE/FALSE whether response matches actual</td>
+</tr>
+<tr class="odd">
 <td>response_rt</td>
 <td>Response time in ms</td>
 </tr>
@@ -461,288 +517,321 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Demographics</span></span>
 <span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_age'</span><span class="op">,</span></span>
 <span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_gender'</span><span class="op">,</span></span>
-<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_education'</span><span class="op">,</span></span>
-<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_asian'</span><span class="op">,</span></span>
-<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_black'</span><span class="op">,</span></span>
-<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_hispanic'</span><span class="op">,</span></span>
-<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_white'</span><span class="op">,</span></span>
-<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_native'</span><span class="op">,</span></span>
-<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_pacific'</span><span class="op">,</span></span>
-<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_other'</span><span class="op">,</span></span>
-<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_prefer_not'</span><span class="op">,</span></span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race'</span><span class="op">,</span></span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_education'</span><span class="op">,</span></span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Zoom tracking</span></span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_check_bypassed'</span><span class="op">,</span></span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_check_attempts'</span><span class="op">,</span></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a>        <span class="st">'approved_dpr'</span><span class="op">,</span></span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_changes_count'</span><span class="op">,</span></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_changes'</span><span class="op">,</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a>        <span class="st">'terminated_due_to_zoom'</span><span class="op">,</span></span>
 <span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Trial data</span></span>
 <span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>        <span class="st">'trial_number'</span><span class="op">,</span></span>
-<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>        <span class="st">'individual_id'</span><span class="op">,</span></span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>        <span class="st">'image_name'</span><span class="op">,</span></span>
 <span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>        <span class="st">'true_race'</span><span class="op">,</span></span>
 <span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>        <span class="st">'true_gender'</span><span class="op">,</span></span>
 <span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>        <span class="st">'size_condition'</span><span class="op">,</span></span>
 <span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_condition'</span><span class="op">,</span></span>
 <span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>        <span class="st">'question_order'</span><span class="op">,</span></span>
-<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_response'</span><span class="op">,</span></span>
-<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_rt'</span><span class="op">,</span></span>
-<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_correct'</span><span class="op">,</span></span>
-<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_response'</span><span class="op">,</span></span>
-<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_rt'</span><span class="op">,</span></span>
-<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_correct'</span><span class="op">,</span></span>
-<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>        <span class="st">'is_practice'</span></span>
-<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
-<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setValues</span>([headers])<span class="op">;</span></span>
-<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setFontWeight</span>(<span class="st">'bold'</span>)<span class="op">;</span></span>
-<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">setFrozenRows</span>(<span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a><span class="co"> * Append data from Experiment 1</span></span>
-<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">appendAttentionData</span>(sheet<span class="op">,</span> data) {</span>
-<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> timestamp <span class="op">=</span> data<span class="op">.</span><span class="at">timestamp</span> <span class="op">||</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">;</span></span>
-<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> participantId <span class="op">=</span> data<span class="op">.</span><span class="at">participant_id</span> <span class="op">||</span> <span class="st">''</span><span class="op">;</span></span>
-<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> demographics <span class="op">=</span> data<span class="op">.</span><span class="at">demographics</span> <span class="op">||</span> {}<span class="op">;</span></span>
-<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> trials <span class="op">=</span> data<span class="op">.</span><span class="at">trials</span> <span class="op">||</span> []<span class="op">;</span></span>
-<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>    trials<span class="op">.</span><span class="fu">forEach</span>(trial <span class="kw">=&gt;</span> {</span>
-<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> row <span class="op">=</span> [</span>
-<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a>            timestamp<span class="op">,</span></span>
-<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>            participantId<span class="op">,</span></span>
-<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Demographics</span></span>
-<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">age</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">gender</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">education</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_asian</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_black</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_hispanic</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_white</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_native</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_pacific</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_other</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_prefer_not</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Trial data</span></span>
-<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">trial_number</span><span class="op">,</span></span>
-<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">individual_id</span><span class="op">,</span></span>
-<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">true_race</span><span class="op">,</span></span>
-<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">true_gender</span><span class="op">,</span></span>
-<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">size_condition</span><span class="op">,</span></span>
-<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_condition</span><span class="op">,</span></span>
-<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">question_order</span><span class="op">,</span></span>
-<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_response</span><span class="op">,</span></span>
-<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_rt</span><span class="op">,</span></span>
-<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_correct</span><span class="op">,</span></span>
-<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_response</span><span class="op">,</span></span>
-<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_rt</span><span class="op">,</span></span>
-<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_correct</span><span class="op">,</span></span>
-<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">is_practice</span></span>
-<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">;</span></span>
-<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>        sheet<span class="op">.</span><span class="fu">appendRow</span>(row)<span class="op">;</span></span>
-<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
-<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a><span class="co">// EXPERIMENT 2: MEMORY</span></span>
-<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
-<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co"> * Add headers for the memory sheet</span></span>
-<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">addMemoryHeaders</span>(sheet) {</span>
-<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> headers <span class="op">=</span> [</span>
-<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a>        <span class="st">'timestamp'</span><span class="op">,</span></span>
-<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a>        <span class="st">'participant_id'</span><span class="op">,</span></span>
-<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Demographics</span></span>
-<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_age'</span><span class="op">,</span></span>
-<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_gender'</span><span class="op">,</span></span>
-<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_education'</span><span class="op">,</span></span>
-<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_asian'</span><span class="op">,</span></span>
-<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_black'</span><span class="op">,</span></span>
-<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_hispanic'</span><span class="op">,</span></span>
-<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_white'</span><span class="op">,</span></span>
-<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_native'</span><span class="op">,</span></span>
-<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_pacific'</span><span class="op">,</span></span>
-<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_other'</span><span class="op">,</span></span>
-<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race_prefer_not'</span><span class="op">,</span></span>
-<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Round info</span></span>
-<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>        <span class="st">'round_number'</span><span class="op">,</span></span>
-<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>        <span class="st">'size_condition'</span><span class="op">,</span></span>
-<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>        <span class="st">'question_type'</span><span class="op">,</span></span>
-<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>        <span class="st">'is_practice'</span><span class="op">,</span></span>
-<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Actual composition (ground truth)</span></span>
-<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_asian'</span><span class="op">,</span></span>
-<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_black'</span><span class="op">,</span></span>
-<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_hispanic'</span><span class="op">,</span></span>
-<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_white'</span><span class="op">,</span></span>
-<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_smiling'</span><span class="op">,</span></span>
-<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_not_smiling'</span><span class="op">,</span></span>
-<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Race question responses</span></span>
-<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>        <span class="st">'asian_response'</span><span class="op">,</span></span>
-<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>        <span class="st">'black_response'</span><span class="op">,</span></span>
-<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hispanic_response'</span><span class="op">,</span></span>
-<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>        <span class="st">'white_response'</span><span class="op">,</span></span>
-<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>        <span class="st">'asian_error'</span><span class="op">,</span></span>
-<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>        <span class="st">'black_error'</span><span class="op">,</span></span>
-<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hispanic_error'</span><span class="op">,</span></span>
-<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>        <span class="st">'white_error'</span><span class="op">,</span></span>
-<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Smile question responses</span></span>
-<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smiling_response'</span><span class="op">,</span></span>
-<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>        <span class="st">'not_smiling_response'</span><span class="op">,</span></span>
-<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smiling_error'</span><span class="op">,</span></span>
-<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>        <span class="st">'not_smiling_error'</span><span class="op">,</span></span>
-<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Timing</span></span>
-<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>        <span class="st">'response_rt'</span></span>
-<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
-<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setValues</span>([headers])<span class="op">;</span></span>
-<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setFontWeight</span>(<span class="st">'bold'</span>)<span class="op">;</span></span>
-<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">setFrozenRows</span>(<span class="dv">1</span>)<span class="op">;</span></span>
-<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a><span class="co"> * Append data from Experiment 2</span></span>
-<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">appendMemoryData</span>(sheet<span class="op">,</span> data) {</span>
-<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> timestamp <span class="op">=</span> data<span class="op">.</span><span class="at">timestamp</span> <span class="op">||</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">;</span></span>
-<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> participantId <span class="op">=</span> data<span class="op">.</span><span class="at">participant_id</span> <span class="op">||</span> <span class="st">''</span><span class="op">;</span></span>
-<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> demographics <span class="op">=</span> data<span class="op">.</span><span class="at">demographics</span> <span class="op">||</span> {}<span class="op">;</span></span>
-<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> rounds <span class="op">=</span> data<span class="op">.</span><span class="at">rounds</span> <span class="op">||</span> []<span class="op">;</span></span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_options_order'</span><span class="op">,</span></span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_options_order'</span><span class="op">,</span></span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_response'</span><span class="op">,</span></span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_rt'</span><span class="op">,</span></span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>        <span class="st">'race_correct'</span><span class="op">,</span></span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_response'</span><span class="op">,</span></span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_rt'</span><span class="op">,</span></span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smile_correct'</span><span class="op">,</span></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>        <span class="st">'is_practice'</span></span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setValues</span>([headers])<span class="op">;</span></span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setFontWeight</span>(<span class="st">'bold'</span>)<span class="op">;</span></span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">setFrozenRows</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a><span class="co"> * Append data from Experiment 1</span></span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">appendAttentionData</span>(sheet<span class="op">,</span> data) {</span>
+<span id="cb1-175"><a href="#cb1-175" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> timestamp <span class="op">=</span> data<span class="op">.</span><span class="at">timestamp</span> <span class="op">||</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">;</span></span>
+<span id="cb1-176"><a href="#cb1-176" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> participantId <span class="op">=</span> data<span class="op">.</span><span class="at">participant_id</span> <span class="op">||</span> <span class="st">''</span><span class="op">;</span></span>
+<span id="cb1-177"><a href="#cb1-177" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> demographics <span class="op">=</span> data<span class="op">.</span><span class="at">demographics</span> <span class="op">||</span> {}<span class="op">;</span></span>
+<span id="cb1-178"><a href="#cb1-178" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> zoomTracking <span class="op">=</span> data<span class="op">.</span><span class="at">zoom_tracking</span> <span class="op">||</span> {}<span class="op">;</span></span>
+<span id="cb1-179"><a href="#cb1-179" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> trials <span class="op">=</span> data<span class="op">.</span><span class="at">trials</span> <span class="op">||</span> []<span class="op">;</span></span>
+<span id="cb1-180"><a href="#cb1-180" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-181"><a href="#cb1-181" aria-hidden="true" tabindex="-1"></a>    trials<span class="op">.</span><span class="fu">forEach</span>(trial <span class="kw">=&gt;</span> {</span>
+<span id="cb1-182"><a href="#cb1-182" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> row <span class="op">=</span> [</span>
+<span id="cb1-183"><a href="#cb1-183" aria-hidden="true" tabindex="-1"></a>            timestamp<span class="op">,</span></span>
+<span id="cb1-184"><a href="#cb1-184" aria-hidden="true" tabindex="-1"></a>            participantId<span class="op">,</span></span>
+<span id="cb1-185"><a href="#cb1-185" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Demographics</span></span>
+<span id="cb1-186"><a href="#cb1-186" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">age</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-187"><a href="#cb1-187" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">gender</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-188"><a href="#cb1-188" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-189"><a href="#cb1-189" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">education</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-190"><a href="#cb1-190" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Zoom tracking</span></span>
+<span id="cb1-191"><a href="#cb1-191" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_check_bypassed</span> <span class="op">||</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-192"><a href="#cb1-192" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_check_attempts</span> <span class="op">||</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-193"><a href="#cb1-193" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">approved_dpr</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-194"><a href="#cb1-194" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_changes_count</span> <span class="op">||</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-195"><a href="#cb1-195" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_changes</span> <span class="op">?</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(zoomTracking<span class="op">.</span><span class="at">zoom_changes</span>) <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-196"><a href="#cb1-196" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">terminated_due_to_zoom</span> <span class="op">||</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-197"><a href="#cb1-197" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Trial data</span></span>
+<span id="cb1-198"><a href="#cb1-198" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">trial_number</span><span class="op">,</span></span>
+<span id="cb1-199"><a href="#cb1-199" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">image_name</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-200"><a href="#cb1-200" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">true_race</span><span class="op">,</span></span>
+<span id="cb1-201"><a href="#cb1-201" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">true_gender</span><span class="op">,</span></span>
+<span id="cb1-202"><a href="#cb1-202" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">size_condition</span><span class="op">,</span></span>
+<span id="cb1-203"><a href="#cb1-203" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_condition</span><span class="op">,</span></span>
+<span id="cb1-204"><a href="#cb1-204" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">question_order</span><span class="op">,</span></span>
+<span id="cb1-205"><a href="#cb1-205" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_options_order</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-206"><a href="#cb1-206" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_options_order</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-207"><a href="#cb1-207" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_response</span><span class="op">,</span></span>
+<span id="cb1-208"><a href="#cb1-208" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_rt</span><span class="op">,</span></span>
+<span id="cb1-209"><a href="#cb1-209" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">race_correct</span><span class="op">,</span></span>
+<span id="cb1-210"><a href="#cb1-210" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_response</span><span class="op">,</span></span>
+<span id="cb1-211"><a href="#cb1-211" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_rt</span><span class="op">,</span></span>
+<span id="cb1-212"><a href="#cb1-212" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">smile_correct</span><span class="op">,</span></span>
+<span id="cb1-213"><a href="#cb1-213" aria-hidden="true" tabindex="-1"></a>            trial<span class="op">.</span><span class="at">is_practice</span></span>
+<span id="cb1-214"><a href="#cb1-214" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">;</span></span>
+<span id="cb1-215"><a href="#cb1-215" aria-hidden="true" tabindex="-1"></a>        sheet<span class="op">.</span><span class="fu">appendRow</span>(row)<span class="op">;</span></span>
+<span id="cb1-216"><a href="#cb1-216" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-217"><a href="#cb1-217" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-218"><a href="#cb1-218" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-219"><a href="#cb1-219" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
+<span id="cb1-220"><a href="#cb1-220" aria-hidden="true" tabindex="-1"></a><span class="co">// EXPERIMENT 2: MEMORY</span></span>
+<span id="cb1-221"><a href="#cb1-221" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
+<span id="cb1-222"><a href="#cb1-222" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-223"><a href="#cb1-223" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-224"><a href="#cb1-224" aria-hidden="true" tabindex="-1"></a><span class="co"> * Add headers for the memory sheet</span></span>
+<span id="cb1-225"><a href="#cb1-225" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb1-226"><a href="#cb1-226" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">addMemoryHeaders</span>(sheet) {</span>
+<span id="cb1-227"><a href="#cb1-227" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> headers <span class="op">=</span> [</span>
+<span id="cb1-228"><a href="#cb1-228" aria-hidden="true" tabindex="-1"></a>        <span class="st">'timestamp'</span><span class="op">,</span></span>
+<span id="cb1-229"><a href="#cb1-229" aria-hidden="true" tabindex="-1"></a>        <span class="st">'participant_id'</span><span class="op">,</span></span>
+<span id="cb1-230"><a href="#cb1-230" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Demographics</span></span>
+<span id="cb1-231"><a href="#cb1-231" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_age'</span><span class="op">,</span></span>
+<span id="cb1-232"><a href="#cb1-232" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_gender'</span><span class="op">,</span></span>
+<span id="cb1-233"><a href="#cb1-233" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_race'</span><span class="op">,</span></span>
+<span id="cb1-234"><a href="#cb1-234" aria-hidden="true" tabindex="-1"></a>        <span class="st">'demo_education'</span><span class="op">,</span></span>
+<span id="cb1-235"><a href="#cb1-235" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Zoom tracking</span></span>
+<span id="cb1-236"><a href="#cb1-236" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_check_bypassed'</span><span class="op">,</span></span>
+<span id="cb1-237"><a href="#cb1-237" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_check_attempts'</span><span class="op">,</span></span>
+<span id="cb1-238"><a href="#cb1-238" aria-hidden="true" tabindex="-1"></a>        <span class="st">'approved_dpr'</span><span class="op">,</span></span>
+<span id="cb1-239"><a href="#cb1-239" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_changes_count'</span><span class="op">,</span></span>
+<span id="cb1-240"><a href="#cb1-240" aria-hidden="true" tabindex="-1"></a>        <span class="st">'zoom_changes'</span><span class="op">,</span></span>
+<span id="cb1-241"><a href="#cb1-241" aria-hidden="true" tabindex="-1"></a>        <span class="st">'terminated_due_to_zoom'</span><span class="op">,</span></span>
+<span id="cb1-242"><a href="#cb1-242" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Round info</span></span>
+<span id="cb1-243"><a href="#cb1-243" aria-hidden="true" tabindex="-1"></a>        <span class="st">'round_number'</span><span class="op">,</span></span>
+<span id="cb1-244"><a href="#cb1-244" aria-hidden="true" tabindex="-1"></a>        <span class="st">'size_condition'</span><span class="op">,</span></span>
+<span id="cb1-245"><a href="#cb1-245" aria-hidden="true" tabindex="-1"></a>        <span class="st">'question_type'</span><span class="op">,</span></span>
+<span id="cb1-246"><a href="#cb1-246" aria-hidden="true" tabindex="-1"></a>        <span class="st">'is_practice'</span><span class="op">,</span></span>
+<span id="cb1-247"><a href="#cb1-247" aria-hidden="true" tabindex="-1"></a>        <span class="st">'grid_order'</span><span class="op">,</span></span>
+<span id="cb1-248"><a href="#cb1-248" aria-hidden="true" tabindex="-1"></a>        <span class="st">'input_order'</span><span class="op">,</span></span>
+<span id="cb1-249"><a href="#cb1-249" aria-hidden="true" tabindex="-1"></a>        <span class="st">'response_order'</span><span class="op">,</span></span>
+<span id="cb1-250"><a href="#cb1-250" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Actual composition (ground truth)</span></span>
+<span id="cb1-251"><a href="#cb1-251" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_asian'</span><span class="op">,</span></span>
+<span id="cb1-252"><a href="#cb1-252" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_black'</span><span class="op">,</span></span>
+<span id="cb1-253"><a href="#cb1-253" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_hispanic'</span><span class="op">,</span></span>
+<span id="cb1-254"><a href="#cb1-254" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_white'</span><span class="op">,</span></span>
+<span id="cb1-255"><a href="#cb1-255" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_smiling'</span><span class="op">,</span></span>
+<span id="cb1-256"><a href="#cb1-256" aria-hidden="true" tabindex="-1"></a>        <span class="st">'actual_not_smiling'</span><span class="op">,</span></span>
+<span id="cb1-257"><a href="#cb1-257" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Race question responses</span></span>
+<span id="cb1-258"><a href="#cb1-258" aria-hidden="true" tabindex="-1"></a>        <span class="st">'asian_response'</span><span class="op">,</span></span>
+<span id="cb1-259"><a href="#cb1-259" aria-hidden="true" tabindex="-1"></a>        <span class="st">'black_response'</span><span class="op">,</span></span>
+<span id="cb1-260"><a href="#cb1-260" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hispanic_response'</span><span class="op">,</span></span>
+<span id="cb1-261"><a href="#cb1-261" aria-hidden="true" tabindex="-1"></a>        <span class="st">'white_response'</span><span class="op">,</span></span>
+<span id="cb1-262"><a href="#cb1-262" aria-hidden="true" tabindex="-1"></a>        <span class="st">'asian_error'</span><span class="op">,</span></span>
+<span id="cb1-263"><a href="#cb1-263" aria-hidden="true" tabindex="-1"></a>        <span class="st">'black_error'</span><span class="op">,</span></span>
+<span id="cb1-264"><a href="#cb1-264" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hispanic_error'</span><span class="op">,</span></span>
+<span id="cb1-265"><a href="#cb1-265" aria-hidden="true" tabindex="-1"></a>        <span class="st">'white_error'</span><span class="op">,</span></span>
+<span id="cb1-266"><a href="#cb1-266" aria-hidden="true" tabindex="-1"></a>        <span class="st">'asian_correct'</span><span class="op">,</span></span>
+<span id="cb1-267"><a href="#cb1-267" aria-hidden="true" tabindex="-1"></a>        <span class="st">'black_correct'</span><span class="op">,</span></span>
+<span id="cb1-268"><a href="#cb1-268" aria-hidden="true" tabindex="-1"></a>        <span class="st">'hispanic_correct'</span><span class="op">,</span></span>
+<span id="cb1-269"><a href="#cb1-269" aria-hidden="true" tabindex="-1"></a>        <span class="st">'white_correct'</span><span class="op">,</span></span>
+<span id="cb1-270"><a href="#cb1-270" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Smile question responses</span></span>
+<span id="cb1-271"><a href="#cb1-271" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smiling_response'</span><span class="op">,</span></span>
+<span id="cb1-272"><a href="#cb1-272" aria-hidden="true" tabindex="-1"></a>        <span class="st">'not_smiling_response'</span><span class="op">,</span></span>
+<span id="cb1-273"><a href="#cb1-273" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smiling_error'</span><span class="op">,</span></span>
+<span id="cb1-274"><a href="#cb1-274" aria-hidden="true" tabindex="-1"></a>        <span class="st">'not_smiling_error'</span><span class="op">,</span></span>
+<span id="cb1-275"><a href="#cb1-275" aria-hidden="true" tabindex="-1"></a>        <span class="st">'smiling_correct'</span><span class="op">,</span></span>
+<span id="cb1-276"><a href="#cb1-276" aria-hidden="true" tabindex="-1"></a>        <span class="st">'not_smiling_correct'</span><span class="op">,</span></span>
+<span id="cb1-277"><a href="#cb1-277" aria-hidden="true" tabindex="-1"></a>        <span class="co">// Timing</span></span>
+<span id="cb1-278"><a href="#cb1-278" aria-hidden="true" tabindex="-1"></a>        <span class="st">'response_rt'</span></span>
+<span id="cb1-279"><a href="#cb1-279" aria-hidden="true" tabindex="-1"></a>    ]<span class="op">;</span></span>
 <span id="cb1-280"><a href="#cb1-280" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>    rounds<span class="op">.</span><span class="fu">forEach</span>(round <span class="kw">=&gt;</span> {</span>
-<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> row <span class="op">=</span> [</span>
-<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>            timestamp<span class="op">,</span></span>
-<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>            participantId<span class="op">,</span></span>
-<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Demographics</span></span>
-<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">age</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">gender</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">education</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_asian</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_black</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_hispanic</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_white</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_native</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_pacific</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_other</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race_prefer_not</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Round info</span></span>
-<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">round_number</span><span class="op">,</span></span>
-<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">size_condition</span><span class="op">,</span></span>
-<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">question_type</span><span class="op">,</span></span>
-<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">is_practice</span><span class="op">,</span></span>
-<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Actual composition</span></span>
-<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_asian</span><span class="op">,</span></span>
-<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_black</span><span class="op">,</span></span>
-<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_hispanic</span><span class="op">,</span></span>
-<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_white</span><span class="op">,</span></span>
-<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_smiling</span><span class="op">,</span></span>
-<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_not_smiling</span><span class="op">,</span></span>
-<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Race responses (empty if smile question)</span></span>
-<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">asian_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">asian_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">black_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">black_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">hispanic_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">hispanic_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">white_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">white_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">asian_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">asian_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">black_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">black_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">hispanic_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">hispanic_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">white_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">white_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Smile responses (empty if race question)</span></span>
-<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">smiling_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">smiling_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">not_smiling_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">not_smiling_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">smiling_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">smiling_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">not_smiling_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">not_smiling_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
-<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Timing</span></span>
-<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">response_rt</span></span>
-<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">;</span></span>
-<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a>        sheet<span class="op">.</span><span class="fu">appendRow</span>(row)<span class="op">;</span></span>
-<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
-<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
-<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TEST</span><span class="co"> FUNCTIONS</span></span>
-<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
-<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a><span class="co"> * Test Experiment 1 (Attention/Accuracy)</span></span>
-<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">testAttentionExperiment</span>() {</span>
-<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> testData <span class="op">=</span> {</span>
-<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a>        <span class="dt">experiment</span><span class="op">:</span> <span class="st">'attention'</span><span class="op">,</span></span>
-<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a>        <span class="dt">participant_id</span><span class="op">:</span> <span class="st">'TEST_ATT_'</span> <span class="op">+</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">getTime</span>()<span class="op">,</span></span>
-<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a>        <span class="dt">timestamp</span><span class="op">:</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">,</span></span>
-<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a>        <span class="dt">demographics</span><span class="op">:</span> {</span>
-<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a>            <span class="dt">age</span><span class="op">:</span> <span class="st">'25'</span><span class="op">,</span></span>
-<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a>            <span class="dt">gender</span><span class="op">:</span> <span class="st">'female'</span><span class="op">,</span></span>
-<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a>            <span class="dt">education</span><span class="op">:</span> <span class="st">'bachelors'</span></span>
-<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
-<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a>        <span class="dt">trials</span><span class="op">:</span> [</span>
-<span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a>            {</span>
-<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a>                <span class="dt">trial_number</span><span class="op">:</span> <span class="st">'practice'</span><span class="op">,</span></span>
-<span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a>                <span class="dt">individual_id</span><span class="op">:</span> <span class="st">'white_female_01'</span><span class="op">,</span></span>
-<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a>                <span class="dt">true_race</span><span class="op">:</span> <span class="st">'white'</span><span class="op">,</span></span>
-<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a>                <span class="dt">true_gender</span><span class="op">:</span> <span class="st">'female'</span><span class="op">,</span></span>
-<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a>                <span class="dt">size_condition</span><span class="op">:</span> <span class="st">'big'</span><span class="op">,</span></span>
-<span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_condition</span><span class="op">:</span> <span class="st">'smile'</span><span class="op">,</span></span>
-<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a>                <span class="dt">question_order</span><span class="op">:</span> <span class="st">'race_first'</span><span class="op">,</span></span>
-<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_response</span><span class="op">:</span> <span class="st">'white'</span><span class="op">,</span></span>
-<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_rt</span><span class="op">:</span> <span class="dv">1500</span><span class="op">,</span></span>
-<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_response</span><span class="op">:</span> <span class="st">'yes'</span><span class="op">,</span></span>
-<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_rt</span><span class="op">:</span> <span class="dv">1200</span><span class="op">,</span></span>
-<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>                <span class="dt">is_practice</span><span class="op">:</span> <span class="kw">true</span></span>
-<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> mockEvent <span class="op">=</span> {</span>
-<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>        <span class="dt">postData</span><span class="op">:</span> { <span class="dt">contents</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(testData) }</span>
-<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> result <span class="op">=</span> <span class="fu">doPost</span>(mockEvent)<span class="op">;</span></span>
-<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'Attention Test Result:'</span><span class="op">,</span> result<span class="op">.</span><span class="fu">getContent</span>())<span class="op">;</span></span>
-<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a>}</span>
-<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
-<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a><span class="co"> * Test Experiment 2 (Memory)</span></span>
-<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
-<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">testMemoryExperiment</span>() {</span>
-<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> testData <span class="op">=</span> {</span>
-<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a>        <span class="dt">experiment</span><span class="op">:</span> <span class="st">'memory'</span><span class="op">,</span></span>
-<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a>        <span class="dt">participant_id</span><span class="op">:</span> <span class="st">'TEST_MEM_'</span> <span class="op">+</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">getTime</span>()<span class="op">,</span></span>
-<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a>        <span class="dt">timestamp</span><span class="op">:</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">,</span></span>
-<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>        <span class="dt">demographics</span><span class="op">:</span> {</span>
-<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a>            <span class="dt">age</span><span class="op">:</span> <span class="st">'28'</span><span class="op">,</span></span>
-<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a>            <span class="dt">gender</span><span class="op">:</span> <span class="st">'male'</span><span class="op">,</span></span>
-<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a>            <span class="dt">education</span><span class="op">:</span> <span class="st">'masters'</span></span>
-<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
-<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a>        <span class="dt">rounds</span><span class="op">:</span> [</span>
-<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>            {</span>
-<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a>                <span class="dt">round_number</span><span class="op">:</span> <span class="st">'practice'</span><span class="op">,</span></span>
-<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>                <span class="dt">size_condition</span><span class="op">:</span> <span class="st">'big'</span><span class="op">,</span></span>
-<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a>                <span class="dt">question_type</span><span class="op">:</span> <span class="st">'race'</span><span class="op">,</span></span>
-<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>                <span class="dt">is_practice</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
-<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_asian</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_black</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_hispanic</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_white</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_smiling</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_not_smiling</span><span class="op">:</span> <span class="dv">6</span><span class="op">,</span></span>
-<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a>                <span class="dt">asian_response</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
-<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a>                <span class="dt">black_response</span><span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
-<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a>                <span class="dt">hispanic_response</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a>                <span class="dt">white_response</span><span class="op">:</span> <span class="dv">3</span><span class="op">,</span></span>
-<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a>                <span class="dt">asian_error</span><span class="op">:</span> <span class="op">-</span><span class="dv">1</span><span class="op">,</span></span>
-<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>                <span class="dt">black_error</span><span class="op">:</span> <span class="dv">1</span><span class="op">,</span></span>
-<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a>                <span class="dt">hispanic_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a>                <span class="dt">white_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
-<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a>                <span class="dt">response_rt</span><span class="op">:</span> <span class="dv">15000</span></span>
-<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a>            }</span>
-<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a>        ]</span>
-<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> mockEvent <span class="op">=</span> {</span>
-<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a>        <span class="dt">postData</span><span class="op">:</span> { <span class="dt">contents</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(testData) }</span>
-<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
-<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> result <span class="op">=</span> <span class="fu">doPost</span>(mockEvent)<span class="op">;</span></span>
-<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'Memory Test Result:'</span><span class="op">,</span> result<span class="op">.</span><span class="fu">getContent</span>())<span class="op">;</span></span>
-<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb1-281"><a href="#cb1-281" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setValues</span>([headers])<span class="op">;</span></span>
+<span id="cb1-282"><a href="#cb1-282" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">getRange</span>(<span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> <span class="dv">1</span><span class="op">,</span> headers<span class="op">.</span><span class="at">length</span>)<span class="op">.</span><span class="fu">setFontWeight</span>(<span class="st">'bold'</span>)<span class="op">;</span></span>
+<span id="cb1-283"><a href="#cb1-283" aria-hidden="true" tabindex="-1"></a>    sheet<span class="op">.</span><span class="fu">setFrozenRows</span>(<span class="dv">1</span>)<span class="op">;</span></span>
+<span id="cb1-284"><a href="#cb1-284" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-285"><a href="#cb1-285" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-286"><a href="#cb1-286" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-287"><a href="#cb1-287" aria-hidden="true" tabindex="-1"></a><span class="co"> * Append data from Experiment 2</span></span>
+<span id="cb1-288"><a href="#cb1-288" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb1-289"><a href="#cb1-289" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">appendMemoryData</span>(sheet<span class="op">,</span> data) {</span>
+<span id="cb1-290"><a href="#cb1-290" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> timestamp <span class="op">=</span> data<span class="op">.</span><span class="at">timestamp</span> <span class="op">||</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">;</span></span>
+<span id="cb1-291"><a href="#cb1-291" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> participantId <span class="op">=</span> data<span class="op">.</span><span class="at">participant_id</span> <span class="op">||</span> <span class="st">''</span><span class="op">;</span></span>
+<span id="cb1-292"><a href="#cb1-292" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> demographics <span class="op">=</span> data<span class="op">.</span><span class="at">demographics</span> <span class="op">||</span> {}<span class="op">;</span></span>
+<span id="cb1-293"><a href="#cb1-293" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> zoomTracking <span class="op">=</span> data<span class="op">.</span><span class="at">zoom_tracking</span> <span class="op">||</span> {}<span class="op">;</span></span>
+<span id="cb1-294"><a href="#cb1-294" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> rounds <span class="op">=</span> data<span class="op">.</span><span class="at">rounds</span> <span class="op">||</span> []<span class="op">;</span></span>
+<span id="cb1-295"><a href="#cb1-295" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-296"><a href="#cb1-296" aria-hidden="true" tabindex="-1"></a>    rounds<span class="op">.</span><span class="fu">forEach</span>(round <span class="kw">=&gt;</span> {</span>
+<span id="cb1-297"><a href="#cb1-297" aria-hidden="true" tabindex="-1"></a>        <span class="kw">const</span> row <span class="op">=</span> [</span>
+<span id="cb1-298"><a href="#cb1-298" aria-hidden="true" tabindex="-1"></a>            timestamp<span class="op">,</span></span>
+<span id="cb1-299"><a href="#cb1-299" aria-hidden="true" tabindex="-1"></a>            participantId<span class="op">,</span></span>
+<span id="cb1-300"><a href="#cb1-300" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Demographics</span></span>
+<span id="cb1-301"><a href="#cb1-301" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">age</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-302"><a href="#cb1-302" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">gender</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-303"><a href="#cb1-303" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">race</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-304"><a href="#cb1-304" aria-hidden="true" tabindex="-1"></a>            demographics<span class="op">.</span><span class="at">education</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-305"><a href="#cb1-305" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Zoom tracking</span></span>
+<span id="cb1-306"><a href="#cb1-306" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_check_bypassed</span> <span class="op">||</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-307"><a href="#cb1-307" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_check_attempts</span> <span class="op">||</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-308"><a href="#cb1-308" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">approved_dpr</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-309"><a href="#cb1-309" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_changes_count</span> <span class="op">||</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-310"><a href="#cb1-310" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">zoom_changes</span> <span class="op">?</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(zoomTracking<span class="op">.</span><span class="at">zoom_changes</span>) <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-311"><a href="#cb1-311" aria-hidden="true" tabindex="-1"></a>            zoomTracking<span class="op">.</span><span class="at">terminated_due_to_zoom</span> <span class="op">||</span> <span class="kw">false</span><span class="op">,</span></span>
+<span id="cb1-312"><a href="#cb1-312" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Round info</span></span>
+<span id="cb1-313"><a href="#cb1-313" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">round_number</span><span class="op">,</span></span>
+<span id="cb1-314"><a href="#cb1-314" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">size_condition</span><span class="op">,</span></span>
+<span id="cb1-315"><a href="#cb1-315" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">question_type</span><span class="op">,</span></span>
+<span id="cb1-316"><a href="#cb1-316" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">is_practice</span><span class="op">,</span></span>
+<span id="cb1-317"><a href="#cb1-317" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">grid_order</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-318"><a href="#cb1-318" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">input_order</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-319"><a href="#cb1-319" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">response_order</span> <span class="op">||</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-320"><a href="#cb1-320" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Actual composition</span></span>
+<span id="cb1-321"><a href="#cb1-321" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_asian</span><span class="op">,</span></span>
+<span id="cb1-322"><a href="#cb1-322" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_black</span><span class="op">,</span></span>
+<span id="cb1-323"><a href="#cb1-323" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_hispanic</span><span class="op">,</span></span>
+<span id="cb1-324"><a href="#cb1-324" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_white</span><span class="op">,</span></span>
+<span id="cb1-325"><a href="#cb1-325" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_smiling</span><span class="op">,</span></span>
+<span id="cb1-326"><a href="#cb1-326" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">actual_not_smiling</span><span class="op">,</span></span>
+<span id="cb1-327"><a href="#cb1-327" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Race responses (empty if smile question)</span></span>
+<span id="cb1-328"><a href="#cb1-328" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">asian_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">asian_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-329"><a href="#cb1-329" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">black_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">black_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-330"><a href="#cb1-330" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">hispanic_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">hispanic_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-331"><a href="#cb1-331" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">white_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">white_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-332"><a href="#cb1-332" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">asian_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">asian_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-333"><a href="#cb1-333" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">black_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">black_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-334"><a href="#cb1-334" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">hispanic_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">hispanic_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-335"><a href="#cb1-335" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">white_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">white_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-336"><a href="#cb1-336" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">asian_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">asian_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-337"><a href="#cb1-337" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">black_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">black_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-338"><a href="#cb1-338" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">hispanic_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">hispanic_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-339"><a href="#cb1-339" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">white_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">white_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-340"><a href="#cb1-340" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Smile responses (empty if race question)</span></span>
+<span id="cb1-341"><a href="#cb1-341" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">smiling_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">smiling_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-342"><a href="#cb1-342" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">not_smiling_response</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">not_smiling_response</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-343"><a href="#cb1-343" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">smiling_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">smiling_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-344"><a href="#cb1-344" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">not_smiling_error</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">not_smiling_error</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-345"><a href="#cb1-345" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">smiling_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">smiling_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-346"><a href="#cb1-346" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">not_smiling_correct</span> <span class="op">!==</span> <span class="kw">undefined</span> <span class="op">?</span> round<span class="op">.</span><span class="at">not_smiling_correct</span> <span class="op">:</span> <span class="st">''</span><span class="op">,</span></span>
+<span id="cb1-347"><a href="#cb1-347" aria-hidden="true" tabindex="-1"></a>            <span class="co">// Timing</span></span>
+<span id="cb1-348"><a href="#cb1-348" aria-hidden="true" tabindex="-1"></a>            round<span class="op">.</span><span class="at">response_rt</span></span>
+<span id="cb1-349"><a href="#cb1-349" aria-hidden="true" tabindex="-1"></a>        ]<span class="op">;</span></span>
+<span id="cb1-350"><a href="#cb1-350" aria-hidden="true" tabindex="-1"></a>        sheet<span class="op">.</span><span class="fu">appendRow</span>(row)<span class="op">;</span></span>
+<span id="cb1-351"><a href="#cb1-351" aria-hidden="true" tabindex="-1"></a>    })<span class="op">;</span></span>
+<span id="cb1-352"><a href="#cb1-352" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-353"><a href="#cb1-353" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-354"><a href="#cb1-354" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
+<span id="cb1-355"><a href="#cb1-355" aria-hidden="true" tabindex="-1"></a><span class="co">// </span><span class="al">TEST</span><span class="co"> FUNCTIONS</span></span>
+<span id="cb1-356"><a href="#cb1-356" aria-hidden="true" tabindex="-1"></a><span class="co">// ============================================================================</span></span>
+<span id="cb1-357"><a href="#cb1-357" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-358"><a href="#cb1-358" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-359"><a href="#cb1-359" aria-hidden="true" tabindex="-1"></a><span class="co"> * Test Experiment 1 (Attention/Accuracy)</span></span>
+<span id="cb1-360"><a href="#cb1-360" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb1-361"><a href="#cb1-361" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">testAttentionExperiment</span>() {</span>
+<span id="cb1-362"><a href="#cb1-362" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> testData <span class="op">=</span> {</span>
+<span id="cb1-363"><a href="#cb1-363" aria-hidden="true" tabindex="-1"></a>        <span class="dt">experiment</span><span class="op">:</span> <span class="st">'attention'</span><span class="op">,</span></span>
+<span id="cb1-364"><a href="#cb1-364" aria-hidden="true" tabindex="-1"></a>        <span class="dt">participant_id</span><span class="op">:</span> <span class="st">'TEST_ATT_'</span> <span class="op">+</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">getTime</span>()<span class="op">,</span></span>
+<span id="cb1-365"><a href="#cb1-365" aria-hidden="true" tabindex="-1"></a>        <span class="dt">timestamp</span><span class="op">:</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">,</span></span>
+<span id="cb1-366"><a href="#cb1-366" aria-hidden="true" tabindex="-1"></a>        <span class="dt">demographics</span><span class="op">:</span> {</span>
+<span id="cb1-367"><a href="#cb1-367" aria-hidden="true" tabindex="-1"></a>            <span class="dt">age</span><span class="op">:</span> <span class="st">'25'</span><span class="op">,</span></span>
+<span id="cb1-368"><a href="#cb1-368" aria-hidden="true" tabindex="-1"></a>            <span class="dt">gender</span><span class="op">:</span> <span class="st">'female'</span><span class="op">,</span></span>
+<span id="cb1-369"><a href="#cb1-369" aria-hidden="true" tabindex="-1"></a>            <span class="dt">education</span><span class="op">:</span> <span class="st">'bachelors'</span></span>
+<span id="cb1-370"><a href="#cb1-370" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb1-371"><a href="#cb1-371" aria-hidden="true" tabindex="-1"></a>        <span class="dt">trials</span><span class="op">:</span> [</span>
+<span id="cb1-372"><a href="#cb1-372" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb1-373"><a href="#cb1-373" aria-hidden="true" tabindex="-1"></a>                <span class="dt">trial_number</span><span class="op">:</span> <span class="st">'practice'</span><span class="op">,</span></span>
+<span id="cb1-374"><a href="#cb1-374" aria-hidden="true" tabindex="-1"></a>                <span class="dt">image_name</span><span class="op">:</span> <span class="st">'white_female_smile_01_big'</span><span class="op">,</span></span>
+<span id="cb1-375"><a href="#cb1-375" aria-hidden="true" tabindex="-1"></a>                <span class="dt">true_race</span><span class="op">:</span> <span class="st">'white'</span><span class="op">,</span></span>
+<span id="cb1-376"><a href="#cb1-376" aria-hidden="true" tabindex="-1"></a>                <span class="dt">true_gender</span><span class="op">:</span> <span class="st">'female'</span><span class="op">,</span></span>
+<span id="cb1-377"><a href="#cb1-377" aria-hidden="true" tabindex="-1"></a>                <span class="dt">size_condition</span><span class="op">:</span> <span class="st">'big'</span><span class="op">,</span></span>
+<span id="cb1-378"><a href="#cb1-378" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_condition</span><span class="op">:</span> <span class="st">'smile'</span><span class="op">,</span></span>
+<span id="cb1-379"><a href="#cb1-379" aria-hidden="true" tabindex="-1"></a>                <span class="dt">question_order</span><span class="op">:</span> <span class="st">'race_first'</span><span class="op">,</span></span>
+<span id="cb1-380"><a href="#cb1-380" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_options_order</span><span class="op">:</span> <span class="st">'white,black,asian,hispanic'</span><span class="op">,</span></span>
+<span id="cb1-381"><a href="#cb1-381" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_options_order</span><span class="op">:</span> <span class="st">'yes,no'</span><span class="op">,</span></span>
+<span id="cb1-382"><a href="#cb1-382" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_response</span><span class="op">:</span> <span class="st">'white'</span><span class="op">,</span></span>
+<span id="cb1-383"><a href="#cb1-383" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_rt</span><span class="op">:</span> <span class="dv">1500</span><span class="op">,</span></span>
+<span id="cb1-384"><a href="#cb1-384" aria-hidden="true" tabindex="-1"></a>                <span class="dt">race_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-385"><a href="#cb1-385" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_response</span><span class="op">:</span> <span class="st">'yes'</span><span class="op">,</span></span>
+<span id="cb1-386"><a href="#cb1-386" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_rt</span><span class="op">:</span> <span class="dv">1200</span><span class="op">,</span></span>
+<span id="cb1-387"><a href="#cb1-387" aria-hidden="true" tabindex="-1"></a>                <span class="dt">smile_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-388"><a href="#cb1-388" aria-hidden="true" tabindex="-1"></a>                <span class="dt">is_practice</span><span class="op">:</span> <span class="kw">true</span></span>
+<span id="cb1-389"><a href="#cb1-389" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-390"><a href="#cb1-390" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb1-391"><a href="#cb1-391" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb1-392"><a href="#cb1-392" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-393"><a href="#cb1-393" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> mockEvent <span class="op">=</span> {</span>
+<span id="cb1-394"><a href="#cb1-394" aria-hidden="true" tabindex="-1"></a>        <span class="dt">postData</span><span class="op">:</span> { <span class="dt">contents</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(testData) }</span>
+<span id="cb1-395"><a href="#cb1-395" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb1-396"><a href="#cb1-396" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-397"><a href="#cb1-397" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> result <span class="op">=</span> <span class="fu">doPost</span>(mockEvent)<span class="op">;</span></span>
+<span id="cb1-398"><a href="#cb1-398" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'Attention Test Result:'</span><span class="op">,</span> result<span class="op">.</span><span class="fu">getContent</span>())<span class="op">;</span></span>
+<span id="cb1-399"><a href="#cb1-399" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-400"><a href="#cb1-400" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-401"><a href="#cb1-401" aria-hidden="true" tabindex="-1"></a><span class="co">/**</span></span>
+<span id="cb1-402"><a href="#cb1-402" aria-hidden="true" tabindex="-1"></a><span class="co"> * Test Experiment 2 (Memory)</span></span>
+<span id="cb1-403"><a href="#cb1-403" aria-hidden="true" tabindex="-1"></a><span class="co"> */</span></span>
+<span id="cb1-404"><a href="#cb1-404" aria-hidden="true" tabindex="-1"></a><span class="kw">function</span> <span class="fu">testMemoryExperiment</span>() {</span>
+<span id="cb1-405"><a href="#cb1-405" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> testData <span class="op">=</span> {</span>
+<span id="cb1-406"><a href="#cb1-406" aria-hidden="true" tabindex="-1"></a>        <span class="dt">experiment</span><span class="op">:</span> <span class="st">'memory'</span><span class="op">,</span></span>
+<span id="cb1-407"><a href="#cb1-407" aria-hidden="true" tabindex="-1"></a>        <span class="dt">participant_id</span><span class="op">:</span> <span class="st">'TEST_MEM_'</span> <span class="op">+</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">getTime</span>()<span class="op">,</span></span>
+<span id="cb1-408"><a href="#cb1-408" aria-hidden="true" tabindex="-1"></a>        <span class="dt">timestamp</span><span class="op">:</span> <span class="kw">new</span> <span class="bu">Date</span>()<span class="op">.</span><span class="fu">toISOString</span>()<span class="op">,</span></span>
+<span id="cb1-409"><a href="#cb1-409" aria-hidden="true" tabindex="-1"></a>        <span class="dt">demographics</span><span class="op">:</span> {</span>
+<span id="cb1-410"><a href="#cb1-410" aria-hidden="true" tabindex="-1"></a>            <span class="dt">age</span><span class="op">:</span> <span class="st">'28'</span><span class="op">,</span></span>
+<span id="cb1-411"><a href="#cb1-411" aria-hidden="true" tabindex="-1"></a>            <span class="dt">gender</span><span class="op">:</span> <span class="st">'male'</span><span class="op">,</span></span>
+<span id="cb1-412"><a href="#cb1-412" aria-hidden="true" tabindex="-1"></a>            <span class="dt">education</span><span class="op">:</span> <span class="st">'masters'</span></span>
+<span id="cb1-413"><a href="#cb1-413" aria-hidden="true" tabindex="-1"></a>        }<span class="op">,</span></span>
+<span id="cb1-414"><a href="#cb1-414" aria-hidden="true" tabindex="-1"></a>        <span class="dt">rounds</span><span class="op">:</span> [</span>
+<span id="cb1-415"><a href="#cb1-415" aria-hidden="true" tabindex="-1"></a>            {</span>
+<span id="cb1-416"><a href="#cb1-416" aria-hidden="true" tabindex="-1"></a>                <span class="dt">round_number</span><span class="op">:</span> <span class="st">'practice'</span><span class="op">,</span></span>
+<span id="cb1-417"><a href="#cb1-417" aria-hidden="true" tabindex="-1"></a>                <span class="dt">size_condition</span><span class="op">:</span> <span class="st">'big'</span><span class="op">,</span></span>
+<span id="cb1-418"><a href="#cb1-418" aria-hidden="true" tabindex="-1"></a>                <span class="dt">question_type</span><span class="op">:</span> <span class="st">'race'</span><span class="op">,</span></span>
+<span id="cb1-419"><a href="#cb1-419" aria-hidden="true" tabindex="-1"></a>                <span class="dt">is_practice</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-420"><a href="#cb1-420" aria-hidden="true" tabindex="-1"></a>                <span class="dt">grid_order</span><span class="op">:</span> <span class="st">'black_male_01:smile,asian_female_01:nosmile,white_male_01:smile,hispanic_female_01:nosmile,black_female_01:smile,asian_male_01:nosmile,white_female_01:smile,hispanic_male_01:nosmile'</span><span class="op">,</span></span>
+<span id="cb1-421"><a href="#cb1-421" aria-hidden="true" tabindex="-1"></a>                <span class="dt">input_order</span><span class="op">:</span> <span class="st">'hispanic,black,white,asian'</span><span class="op">,</span></span>
+<span id="cb1-422"><a href="#cb1-422" aria-hidden="true" tabindex="-1"></a>                <span class="dt">response_order</span><span class="op">:</span> <span class="st">'black,hispanic,white,asian'</span><span class="op">,</span></span>
+<span id="cb1-423"><a href="#cb1-423" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_asian</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-424"><a href="#cb1-424" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_black</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-425"><a href="#cb1-425" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_hispanic</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-426"><a href="#cb1-426" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_white</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-427"><a href="#cb1-427" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_smiling</span><span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb1-428"><a href="#cb1-428" aria-hidden="true" tabindex="-1"></a>                <span class="dt">actual_not_smiling</span><span class="op">:</span> <span class="dv">4</span><span class="op">,</span></span>
+<span id="cb1-429"><a href="#cb1-429" aria-hidden="true" tabindex="-1"></a>                <span class="dt">asian_response</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-430"><a href="#cb1-430" aria-hidden="true" tabindex="-1"></a>                <span class="dt">black_response</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-431"><a href="#cb1-431" aria-hidden="true" tabindex="-1"></a>                <span class="dt">hispanic_response</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-432"><a href="#cb1-432" aria-hidden="true" tabindex="-1"></a>                <span class="dt">white_response</span><span class="op">:</span> <span class="dv">2</span><span class="op">,</span></span>
+<span id="cb1-433"><a href="#cb1-433" aria-hidden="true" tabindex="-1"></a>                <span class="dt">asian_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-434"><a href="#cb1-434" aria-hidden="true" tabindex="-1"></a>                <span class="dt">black_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-435"><a href="#cb1-435" aria-hidden="true" tabindex="-1"></a>                <span class="dt">hispanic_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-436"><a href="#cb1-436" aria-hidden="true" tabindex="-1"></a>                <span class="dt">white_error</span><span class="op">:</span> <span class="dv">0</span><span class="op">,</span></span>
+<span id="cb1-437"><a href="#cb1-437" aria-hidden="true" tabindex="-1"></a>                <span class="dt">asian_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-438"><a href="#cb1-438" aria-hidden="true" tabindex="-1"></a>                <span class="dt">black_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-439"><a href="#cb1-439" aria-hidden="true" tabindex="-1"></a>                <span class="dt">hispanic_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-440"><a href="#cb1-440" aria-hidden="true" tabindex="-1"></a>                <span class="dt">white_correct</span><span class="op">:</span> <span class="kw">true</span><span class="op">,</span></span>
+<span id="cb1-441"><a href="#cb1-441" aria-hidden="true" tabindex="-1"></a>                <span class="dt">response_rt</span><span class="op">:</span> <span class="dv">15000</span></span>
+<span id="cb1-442"><a href="#cb1-442" aria-hidden="true" tabindex="-1"></a>            }</span>
+<span id="cb1-443"><a href="#cb1-443" aria-hidden="true" tabindex="-1"></a>        ]</span>
+<span id="cb1-444"><a href="#cb1-444" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb1-445"><a href="#cb1-445" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-446"><a href="#cb1-446" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> mockEvent <span class="op">=</span> {</span>
+<span id="cb1-447"><a href="#cb1-447" aria-hidden="true" tabindex="-1"></a>        <span class="dt">postData</span><span class="op">:</span> { <span class="dt">contents</span><span class="op">:</span> <span class="bu">JSON</span><span class="op">.</span><span class="fu">stringify</span>(testData) }</span>
+<span id="cb1-448"><a href="#cb1-448" aria-hidden="true" tabindex="-1"></a>    }<span class="op">;</span></span>
+<span id="cb1-449"><a href="#cb1-449" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-450"><a href="#cb1-450" aria-hidden="true" tabindex="-1"></a>    <span class="kw">const</span> result <span class="op">=</span> <span class="fu">doPost</span>(mockEvent)<span class="op">;</span></span>
+<span id="cb1-451"><a href="#cb1-451" aria-hidden="true" tabindex="-1"></a>    <span class="bu">console</span><span class="op">.</span><span class="fu">log</span>(<span class="st">'Memory Test Result:'</span><span class="op">,</span> result<span class="op">.</span><span class="fu">getContent</span>())<span class="op">;</span></span>
+<span id="cb1-452"><a href="#cb1-452" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <hr>
 </section>
 <section id="troubleshooting" class="level2">

@@ -4,13 +4,13 @@ An online experiment measuring race and smile detection accuracy across differen
 
 ## Quick Start
 
-```bash
-cd /home/julio/Documents/airbnb/experiments/exp_1_attention_accuracy
-python3 -m http.server 8000
-# Open http://localhost:8000/index.html
-```
+Run the server from the `experiments` folder:
 
-Requires all 64 images in the `images/` folder.
+```bash
+cd /home/julio/Documents/airbnb/experiments
+python3 -m http.server 8000
+# Open http://localhost:8000/exp_1_attention_accuracy/index.html
+```
 
 ## Experiment Design
 
@@ -58,13 +58,13 @@ Each participant sees all 16 individuals:
 
 ### Flow
 
-1. Welcome
-2. Consent
-3. Demographics
-4. Display Check (fullscreen + 100% zoom)
+1. Display Check (fullscreen + 100% zoom)
+2. Welcome
+3. Consent
+4. Demographics
 5. Instructions
-6. Practice Trial (with feedback)
-7. Main Experiment (16 trials, no feedback)
+6. Practice Trial (uses practice images)
+7. Main Experiment (16 trials)
 8. Debrief
 
 ## File Structure
@@ -76,16 +76,17 @@ exp_1_attention_accuracy/
 ├── GOOGLE_SHEETS_SETUP.md # Google Sheets reference
 ├── css/
 │   └── experiment.css   # Styling
-├── js/
-│   ├── stimuli.js       # Stimulus configuration
-│   ├── experiment.js    # Main experiment logic
-│   └── data-export.js   # Google Sheets export
-└── images/
-    ├── README.md        # Image naming instructions
-    └── *.jpeg/*.png     # Stimulus images (64 total)
+└── js/
+    ├── stimuli.js       # Stimulus configuration
+    ├── experiment.js    # Main experiment logic
+    └── data-export.js   # Google Sheets export
 ```
 
 ## Image Requirements
+
+Images are stored in shared folders at the `experiments` level:
+- `../images/` - Main experiment images (64 total)
+- `../practice_images/` - Practice trial images (32 total)
 
 ### Naming Convention
 
@@ -102,8 +103,6 @@ exp_1_attention_accuracy/
 
 Example: `black_male_smile_01_big.jpeg`
 
-64 images total (16 individuals × 2 sizes × 2 expressions). See `images/README.md` for the complete list.
-
 ## Data Output
 
 Data is sent to the **`att_acc`** sheet in Google Sheets.
@@ -114,10 +113,12 @@ Data is sent to the **`att_acc`** sheet in Google Sheets.
 |----------|-------------|
 | `participant_id` | Unique ID for each participant |
 | `trial_number` | 1-16 for main trials, "practice" for practice |
-| `individual_id` | Which individual was shown |
+| `image_name` | Full image filename without extension (e.g., "black_male_smile_01_big") |
 | `size_condition` | "big" or "small" |
 | `smile_condition` | "smile" or "nosmile" |
 | `question_order` | "race_first" or "smile_first" |
+| `race_options_order` | Order of race answer buttons (e.g., "asian,black,hispanic,white") |
+| `smile_options_order` | Order of smile answer buttons (e.g., "yes,no") |
 | `race_response` | Participant's race answer |
 | `race_rt` | Response time (ms) |
 | `race_correct` | Boolean |

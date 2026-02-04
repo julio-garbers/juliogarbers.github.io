@@ -6,7 +6,7 @@
  *
  * Design:
  * - 12 rounds total
- * - Each round: 12 images in 3x4 grid shown for 10 seconds
+ * - Each round: 8 images in 2x4 grid shown for 5 seconds
  * - One question per round (race count OR smile count)
  * - 6 big rounds, 6 small rounds
  * - 6 race questions, 6 smile questions
@@ -15,8 +15,7 @@
 
 // Initialize jsPsych
 const jsPsych = initJsPsych({
-    show_progress_bar: true,
-    auto_update_progress_bar: false,
+    show_progress_bar: false,
     on_finish: async function() {
         // Mark experiment as ended to disable fullscreen monitoring
         experimentEnded = true;
@@ -48,6 +47,55 @@ const jsPsych = initJsPsych({
         }, 1000);
     }
 });
+
+// ============================================================================
+// CUSTOM PROGRESS BAR
+// ============================================================================
+
+let progressBarCreated = false;
+
+/**
+ * Create and inject custom progress bar into the page
+ */
+function createCustomProgressBar() {
+    if (progressBarCreated) return;
+
+    const progressBar = document.createElement('div');
+    progressBar.id = 'custom-progress-bar';
+    progressBar.innerHTML = `
+        <span class="progress-label">Progress</span>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+    `;
+    document.body.appendChild(progressBar);
+    progressBarCreated = true;
+}
+
+/**
+ * Update custom progress bar
+ * @param {number} fraction - Progress fraction between 0 and 1
+ */
+function updateProgressBar(fraction) {
+    if (!progressBarCreated) {
+        createCustomProgressBar();
+    }
+    const fill = document.querySelector('#custom-progress-bar .progress-fill');
+    if (fill) {
+        fill.style.width = `${Math.round(fraction * 100)}%`;
+    }
+}
+
+/**
+ * Show or hide the progress bar
+ * @param {boolean} visible - Whether to show the progress bar
+ */
+function setProgressBarVisible(visible) {
+    const bar = document.getElementById('custom-progress-bar');
+    if (bar) {
+        bar.style.display = visible ? 'flex' : 'none';
+    }
+}
 
 // ============================================================================
 // DISPLAY REQUIREMENTS (FULLSCREEN & ZOOM)
@@ -576,24 +624,20 @@ const consent = {
         <div class="instruction-container consent-form">
             <h2>Informed Consent</h2>
 
-            <p><strong>Purpose:</strong> This study examines how people remember facial features in profile pictures of varying sizes.</p>
+            <p><strong>What you'll do:</strong> View grids of face images and answer questions about what you remember.</p>
 
-            <p><strong>Procedure:</strong> You will view grids of face images and answer questions about what you remember. The entire study takes approximately 10-15 minutes.</p>
+            <p><strong>Risks & Benefits:</strong> No known risks. Your participation contributes to face memory research.</p>
 
-            <p><strong>Risks:</strong> There are no known risks associated with this study beyond those of everyday life.</p>
+            <p><strong>Privacy:</strong> Responses are anonymous. No identifying information is collected.</p>
 
-            <p><strong>Benefits:</strong> While there are no direct benefits to you, your participation will contribute to scientific understanding of face memory.</p>
-
-            <p><strong>Confidentiality:</strong> Your responses are anonymous. No personally identifying information is collected.</p>
-
-            <p><strong>Voluntary Participation:</strong> Your participation is entirely voluntary. You may withdraw at any time by closing your browser window.</p>
+            <p><strong>Voluntary:</strong> You may withdraw anytime by closing your browser.</p>
 
             <div class="consent-checkbox">
-                <p><strong>By clicking "I Agree" below, you confirm that:</strong></p>
+                <p><strong>By clicking "I Agree", you confirm:</strong></p>
                 <ul>
-                    <li>You have read and understood the above information</li>
-                    <li>You are 18 years of age or older</li>
-                    <li>You voluntarily agree to participate in this study</li>
+                    <li>You have read and understood the above</li>
+                    <li>You are 18 years or older</li>
+                    <li>You agree to participate voluntarily</li>
                 </ul>
             </div>
         </div>
@@ -616,7 +660,6 @@ const demographics = {
     preamble: `
         <div class="instruction-container">
             <h2>Demographic Information</h2>
-            <p>Please provide the following information. All responses are anonymous.</p>
         </div>
     `,
     html: `
@@ -627,33 +670,36 @@ const demographics = {
             </div>
 
             <div class="form-group">
-                <label>Gender:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="gender" value="male" required> Male</label>
-                    <label><input type="radio" name="gender" value="female"> Female</label>
-                    <label><input type="radio" name="gender" value="non-binary"> Non-binary</label>
-                    <label><input type="radio" name="gender" value="other"> Other</label>
-                    <label><input type="radio" name="gender" value="prefer_not_to_say"> Prefer not to say</label>
-                </div>
+                <label for="gender">Gender:</label>
+                <select name="gender" id="gender" required>
+                    <option value="">-- Select --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label>Race/Ethnicity (select all that apply):</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="race_asian" value="asian"> Asian</label>
-                    <label><input type="checkbox" name="race_black" value="black"> Black or African American</label>
-                    <label><input type="checkbox" name="race_hispanic" value="hispanic"> Hispanic or Latino</label>
-                    <label><input type="checkbox" name="race_white" value="white"> White</label>
-                    <label><input type="checkbox" name="race_native" value="native"> Native American or Alaska Native</label>
-                    <label><input type="checkbox" name="race_pacific" value="pacific"> Native Hawaiian or Pacific Islander</label>
-                    <label><input type="checkbox" name="race_other" value="other"> Other</label>
-                    <label><input type="checkbox" name="race_prefer_not" value="prefer_not_to_say"> Prefer not to say</label>
-                </div>
+                <label for="race">Race/Ethnicity:</label>
+                <select name="race" id="race" required>
+                    <option value="">-- Select --</option>
+                    <option value="asian">Asian</option>
+                    <option value="black">Black or African American</option>
+                    <option value="hispanic">Hispanic or Latino</option>
+                    <option value="white">White</option>
+                    <option value="native">Native American or Alaska Native</option>
+                    <option value="pacific">Native Hawaiian or Pacific Islander</option>
+                    <option value="multiracial">Multiracial / Mixed</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label>Highest level of education completed:</label>
-                <select name="education" required>
+                <label for="education">Education:</label>
+                <select name="education" id="education" required>
                     <option value="">-- Select --</option>
                     <option value="less_than_high_school">Less than high school</option>
                     <option value="high_school">High school diploma or equivalent</option>
@@ -684,28 +730,18 @@ const instructions = {
         <div class="instruction-container">
             <h2>Task Instructions</h2>
 
-            <p>In this study, you will view grids of <strong>profile pictures</strong> and answer questions about what you remember.</p>
-
-            <h3>How each round works:</h3>
-            <ol>
-                <li>You will see a grid of <strong>12 face images</strong> for <strong>10 seconds</strong></li>
-                <li>The images will disappear</li>
-                <li>You will answer <strong>one question</strong> about what you remember</li>
-            </ol>
-
-            <h3>The questions will ask about:</h3>
+            <p>You will view grids of <strong>8 face images</strong> for 5 seconds, then answer a question about what you remember:</p>
             <ul>
-                <li><strong>Race:</strong> How many faces of each race did you see?</li>
-                <li><strong>Expression:</strong> How many smiling/non-smiling faces did you see?</li>
+                <li>How many faces of each race did you see?</li>
+                <li>How many smiling/non-smiling faces did you see?</li>
             </ul>
 
-            <h3>Important:</h3>
+            <p>You will complete <strong>12 rounds</strong> in total.</p>
+
+            <p><strong>Important:</strong></p>
             <ul>
-                <li>Pay close attention to all the faces in the grid</li>
-                <li>You will have <strong>30 seconds</strong> to answer each question</li>
-                <li>You will complete <strong>12 rounds</strong> in total</li>
-                <li>Try to remember as accurately as possible</li>
-                <li style="color: #dc3545;"><strong>Do NOT change your browser zoom</strong> during the experiment. If zoom changes are detected, the experiment will be terminated immediately.</li>
+                <li>Pay close attention - images appear briefly</li>
+                <li style="color: #dc3545;">Do NOT change browser zoom (experiment will terminate)</li>
             </ul>
 
             <p>Click "Continue" to begin a practice round.</p>
@@ -726,16 +762,34 @@ const instructions = {
  * @returns {Object} jsPsych timeline object
  */
 function createRound(roundConfig, isPractice = false) {
-    // Generate the grid for this round
-    const grid = generateGridForRound(roundConfig.size);
+    // Generate the grid for this round (use practice images for practice round)
+    const grid = isPractice
+        ? generatePracticeGridForRound(roundConfig.size)
+        : generateGridForRound(roundConfig.size);
 
-    // Store round data
+    // Create grid order string: "individual_id:smile,individual_id:smile,..." for positions 1-8
+    const gridOrder = grid.images.map(img =>
+        `${img.individual_id}:${img.smile ? 'smile' : 'nosmile'}`
+    ).join(',');
+
+    // Randomize the order of input fields for questions
+    const raceInputOrder = jsPsych.randomization.shuffle(['asian', 'black', 'hispanic', 'white']);
+    const smileInputOrder = jsPsych.randomization.shuffle(['smiling', 'not_smiling']);
+
+    // Track input order based on question type
+    const inputOrder = roundConfig.questionType === 'race'
+        ? raceInputOrder.join(',')
+        : smileInputOrder.join(',');
+
+    // Store round data - include all order information here so it's passed through jsPsych data chain
     const baseRoundData = {
         participant_id: participantId,
         round_number: isPractice ? 'practice' : null,  // Will be set during trial
         size_condition: roundConfig.size,
         question_type: roundConfig.questionType,
         is_practice: isPractice,
+        grid_order: gridOrder,
+        input_order: inputOrder,
         // Actual composition
         actual_asian: grid.composition.asian,
         actual_black: grid.composition.black,
@@ -748,6 +802,7 @@ function createRound(roundConfig, isPractice = false) {
     // Variables to store responses
     let responseData = {};
     let responseRT = null;
+    let responseOrderArray = [];  // Track order in which inputs were filled
 
     // 0. Pre-round instruction - tell participant what question type to expect
     const questionTypeText = roundConfig.questionType === 'race'
@@ -761,7 +816,7 @@ function createRound(roundConfig, isPractice = false) {
                 <h2>${isPractice ? 'Practice Round' : 'Next Round'}</h2>
                 <p>In this round, you will be asked about:</p>
                 <p class="question-preview">${questionTypeText}</p>
-                <p>You will see <strong>12 faces</strong> for <strong>10 seconds</strong>.</p>
+                <p>You will see <strong>8 faces</strong> for <strong>5 seconds</strong>.</p>
                 <p>Click "Start" when you're ready.</p>
             </div>
         `,
@@ -769,7 +824,7 @@ function createRound(roundConfig, isPractice = false) {
         data: { trial_part: 'pre_round_instruction', ...baseRoundData }
     };
 
-    // 1. Display grid for 10 seconds
+    // 1. Display grid for 5 seconds
     const gridDisplay = {
         type: jsPsychHtmlKeyboardResponse,
         stimulus: function() {
@@ -813,7 +868,19 @@ function createRound(roundConfig, isPractice = false) {
     const QUESTION_TIMEOUT = 30000;  // 30 seconds
     let question;
 
+    // Labels for display
+    const raceLabels = { asian: 'Asian', black: 'Black', hispanic: 'Hispanic', white: 'White' };
+    const smileLabels = { smiling: 'Smiling', not_smiling: 'Not Smiling' };
+
     if (roundConfig.questionType === 'race') {
+        // Build race inputs in randomized order
+        const raceInputsHtml = raceInputOrder.map(race => `
+            <div class="count-input-row">
+                <span class="count-label">${raceLabels[race]}</span>
+                <input type="number" name="${race}" class="count-input" min="0" max="8" value="0" required>
+            </div>
+        `).join('');
+
         question = {
             type: jsPsychSurveyHtmlForm,
             preamble: `
@@ -823,23 +890,8 @@ function createRound(roundConfig, isPractice = false) {
             `,
             html: `
                 <div class="count-input-group">
-                    <div class="count-input-row">
-                        <span class="count-label">Asian</span>
-                        <input type="number" name="asian" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="count-input-row">
-                        <span class="count-label">Black</span>
-                        <input type="number" name="black" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="count-input-row">
-                        <span class="count-label">Hispanic</span>
-                        <input type="number" name="hispanic" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="count-input-row">
-                        <span class="count-label">White</span>
-                        <input type="number" name="white" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="running-total" id="race-total">Total: 0 / 12</div>
+                    ${raceInputsHtml}
+                    <div class="running-total" id="race-total">Total: 0 / 8</div>
                 </div>
             `,
             button_label: 'Submit',
@@ -850,12 +902,23 @@ function createRound(roundConfig, isPractice = false) {
                     document.querySelector('#jspsych-survey-html-form-next').click();
                 }, 30000);
 
+                // Track response order - record when each input is first changed
+                responseOrderArray.length = 0;  // Clear without reassigning
+                document.querySelectorAll('.count-input').forEach(input => {
+                    input.addEventListener('input', function handler() {
+                        const inputName = this.getAttribute('name');
+                        if (!responseOrderArray.includes(inputName)) {
+                            responseOrderArray.push(inputName);
+                        }
+                    });
+                });
+
                 // Update running total
                 document.querySelectorAll('.count-input').forEach(input => {
                     input.addEventListener('input', () => {
                         const total = Array.from(document.querySelectorAll('.count-input'))
                             .reduce((sum, el) => sum + (parseInt(el.value) || 0), 0);
-                        document.getElementById('race-total').textContent = 'Total: ' + total + ' / 12';
+                        document.getElementById('race-total').textContent = 'Total: ' + total + ' / 8';
                     });
                 });
 
@@ -868,9 +931,19 @@ function createRound(roundConfig, isPractice = false) {
                 }
                 responseData = data.response;
                 responseRT = data.rt;
+                // Store response order in data for later access
+                data.response_order = responseOrderArray.join(',');
             }
         };
     } else {
+        // Build smile inputs in randomized order
+        const smileInputsHtml = smileInputOrder.map(smile => `
+            <div class="count-input-row">
+                <span class="count-label">${smileLabels[smile]}</span>
+                <input type="number" name="${smile}" class="count-input" min="0" max="8" value="0" required>
+            </div>
+        `).join('');
+
         question = {
             type: jsPsychSurveyHtmlForm,
             preamble: `
@@ -880,15 +953,8 @@ function createRound(roundConfig, isPractice = false) {
             `,
             html: `
                 <div class="count-input-group">
-                    <div class="count-input-row">
-                        <span class="count-label">Smiling</span>
-                        <input type="number" name="smiling" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="count-input-row">
-                        <span class="count-label">Not Smiling</span>
-                        <input type="number" name="not_smiling" class="count-input" min="0" max="12" value="0" required>
-                    </div>
-                    <div class="running-total" id="smile-total">Total: 0 / 12</div>
+                    ${smileInputsHtml}
+                    <div class="running-total" id="smile-total">Total: 0 / 8</div>
                 </div>
             `,
             button_label: 'Submit',
@@ -899,12 +965,23 @@ function createRound(roundConfig, isPractice = false) {
                     document.querySelector('#jspsych-survey-html-form-next').click();
                 }, 30000);
 
+                // Track response order - record when each input is first changed
+                responseOrderArray.length = 0;  // Clear without reassigning
+                document.querySelectorAll('.count-input').forEach(input => {
+                    input.addEventListener('input', function handler() {
+                        const inputName = this.getAttribute('name');
+                        if (!responseOrderArray.includes(inputName)) {
+                            responseOrderArray.push(inputName);
+                        }
+                    });
+                });
+
                 // Update running total
                 document.querySelectorAll('.count-input').forEach(input => {
                     input.addEventListener('input', () => {
                         const total = Array.from(document.querySelectorAll('.count-input'))
                             .reduce((sum, el) => sum + (parseInt(el.value) || 0), 0);
-                        document.getElementById('smile-total').textContent = 'Total: ' + total + ' / 12';
+                        document.getElementById('smile-total').textContent = 'Total: ' + total + ' / 8';
                     });
                 });
 
@@ -917,58 +994,113 @@ function createRound(roundConfig, isPractice = false) {
                 }
                 responseData = data.response;
                 responseRT = data.rt;
+                // Store response order in data for later access
+                data.response_order = responseOrderArray.join(',');
             }
         };
     }
 
     // 4. Record complete round data
+    // Note: We retrieve data from jsPsych data chain rather than closures to avoid capture issues
     const recordData = {
         type: jsPsychCallFunction,
         func: function() {
             if (!isPractice) {
                 roundNumber++;
-                jsPsych.setProgressBar(roundNumber / 12);
+                updateProgressBar(roundNumber / 12);
             }
 
-            // Calculate accuracy metrics
+            // Get all data from the last question trial (which has baseRoundData spread into it)
+            const questionTrialPart = roundConfig.questionType + '_question';
+            const lastQuestionData = jsPsych.data.get().filter({trial_part: questionTrialPart}).last(1).values()[0];
+
+            // DEBUG: Log what we're getting from the question trial
+            console.log('=== DEBUG recordData ===');
+            console.log('questionTrialPart:', questionTrialPart);
+            console.log('lastQuestionData:', lastQuestionData);
+            console.log('lastQuestionData.grid_order:', lastQuestionData ? lastQuestionData.grid_order : 'NO DATA');
+            console.log('lastQuestionData.input_order:', lastQuestionData ? lastQuestionData.input_order : 'NO DATA');
+            console.log('lastQuestionData.response_order:', lastQuestionData ? lastQuestionData.response_order : 'NO DATA');
+
+            // Extract values from question trial data (more reliable than closures)
+            const gridOrderFromData = lastQuestionData ? (lastQuestionData.grid_order || '') : '';
+            const inputOrderFromData = lastQuestionData ? (lastQuestionData.input_order || '') : '';
+            const responseOrderStr = lastQuestionData ? (lastQuestionData.response_order || '') : '';
+            const questionResponse = lastQuestionData ? (lastQuestionData.response || {}) : {};
+            const questionRT = lastQuestionData ? lastQuestionData.rt : null;
+
+            // Get actual composition from the question trial data
+            const actualAsian = lastQuestionData ? lastQuestionData.actual_asian : 0;
+            const actualBlack = lastQuestionData ? lastQuestionData.actual_black : 0;
+            const actualHispanic = lastQuestionData ? lastQuestionData.actual_hispanic : 0;
+            const actualWhite = lastQuestionData ? lastQuestionData.actual_white : 0;
+            const actualSmiling = lastQuestionData ? lastQuestionData.actual_smiling : 0;
+            const actualNotSmiling = lastQuestionData ? lastQuestionData.actual_not_smiling : 0;
+
+            // Calculate accuracy metrics using data from jsPsych data chain
             let accuracy = {};
             if (roundConfig.questionType === 'race') {
+                const asianResp = parseInt(questionResponse.asian) || 0;
+                const blackResp = parseInt(questionResponse.black) || 0;
+                const hispanicResp = parseInt(questionResponse.hispanic) || 0;
+                const whiteResp = parseInt(questionResponse.white) || 0;
                 accuracy = {
-                    asian_response: parseInt(responseData.asian) || 0,
-                    black_response: parseInt(responseData.black) || 0,
-                    hispanic_response: parseInt(responseData.hispanic) || 0,
-                    white_response: parseInt(responseData.white) || 0,
-                    asian_error: (parseInt(responseData.asian) || 0) - grid.composition.asian,
-                    black_error: (parseInt(responseData.black) || 0) - grid.composition.black,
-                    hispanic_error: (parseInt(responseData.hispanic) || 0) - grid.composition.hispanic,
-                    white_error: (parseInt(responseData.white) || 0) - grid.composition.white
+                    asian_response: asianResp,
+                    black_response: blackResp,
+                    hispanic_response: hispanicResp,
+                    white_response: whiteResp,
+                    asian_error: asianResp - actualAsian,
+                    black_error: blackResp - actualBlack,
+                    hispanic_error: hispanicResp - actualHispanic,
+                    white_error: whiteResp - actualWhite,
+                    asian_correct: asianResp === actualAsian,
+                    black_correct: blackResp === actualBlack,
+                    hispanic_correct: hispanicResp === actualHispanic,
+                    white_correct: whiteResp === actualWhite
                 };
             } else {
+                const smilingResp = parseInt(questionResponse.smiling) || 0;
+                const notSmilingResp = parseInt(questionResponse.not_smiling) || 0;
                 accuracy = {
-                    smiling_response: parseInt(responseData.smiling) || 0,
-                    not_smiling_response: parseInt(responseData.not_smiling) || 0,
-                    smiling_error: (parseInt(responseData.smiling) || 0) - grid.composition.smiling,
-                    not_smiling_error: (parseInt(responseData.not_smiling) || 0) - grid.composition.not_smiling
+                    smiling_response: smilingResp,
+                    not_smiling_response: notSmilingResp,
+                    smiling_error: smilingResp - actualSmiling,
+                    not_smiling_error: notSmilingResp - actualNotSmiling,
+                    smiling_correct: smilingResp === actualSmiling,
+                    not_smiling_correct: notSmilingResp === actualNotSmiling
                 };
             }
 
-            return {
+            const result = {
                 participant_id: participantId,
                 round_number: isPractice ? 'practice' : roundNumber,
                 size_condition: roundConfig.size,
                 question_type: roundConfig.questionType,
                 is_practice: isPractice,
+                grid_order: gridOrderFromData,
+                input_order: inputOrderFromData,
+                response_order: responseOrderStr,
                 // Actual composition
-                actual_asian: grid.composition.asian,
-                actual_black: grid.composition.black,
-                actual_hispanic: grid.composition.hispanic,
-                actual_white: grid.composition.white,
-                actual_smiling: grid.composition.smiling,
-                actual_not_smiling: grid.composition.not_smiling,
+                actual_asian: actualAsian,
+                actual_black: actualBlack,
+                actual_hispanic: actualHispanic,
+                actual_white: actualWhite,
+                actual_smiling: actualSmiling,
+                actual_not_smiling: actualNotSmiling,
                 // Responses and accuracy
                 ...accuracy,
-                response_rt: responseRT
+                response_rt: questionRT
             };
+
+            // DEBUG: Log what we're returning
+            console.log('=== DEBUG recordData RESULT ===');
+            console.log('grid_order:', result.grid_order);
+            console.log('input_order:', result.input_order);
+            console.log('response_order:', result.response_order);
+            console.log('asian_correct:', result.asian_correct);
+            console.log('Full result:', result);
+
+            return result;
         },
         data: { trial_type: 'round_complete' }
     };
@@ -1102,6 +1234,8 @@ const timeline = [
         type: jsPsychCallFunction,
         func: function() {
             endPracticeMode();
+            createCustomProgressBar();
+            updateProgressBar(0);
             console.log('Practice complete. Zoom monitoring now active - zoom changes will terminate experiment.');
         }
     }
