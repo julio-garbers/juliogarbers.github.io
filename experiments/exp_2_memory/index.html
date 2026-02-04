@@ -26,8 +26,139 @@
 
     <!-- Custom styles -->
     <link href="css/experiment.css" rel="stylesheet">
+
+    <!-- Password gate styles -->
+    <style id="password-gate-styles">
+        #password-gate {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .password-container {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .password-container h1 {
+            color: #333;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+
+        .password-container .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .password-container label {
+            display: block;
+            text-align: left;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 500;
+        }
+
+        .password-container input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .password-container input[type="password"]:focus {
+            border-color: #667eea;
+            outline: none;
+        }
+
+        .password-container button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .password-container button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .password-container .error {
+            color: #e74c3c;
+            margin-top: 15px;
+            display: none;
+            font-size: 14px;
+        }
+
+        .password-container .back-link {
+            display: block;
+            margin-top: 20px;
+            color: #667eea;
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+        .password-container .back-link:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
+    <!-- Password Gate -->
+    <div id="password-gate" class="password-container">
+        <h1>Face Memory Study</h1>
+        <p class="subtitle">This experiment is password protected.</p>
+        <form id="password-form">
+            <label for="password">Enter password:</label>
+            <input type="password" id="password" name="password" autocomplete="off" autofocus>
+            <button type="submit">Enter</button>
+        </form>
+        <p id="error-message" class="error">Incorrect password. Please try again.</p>
+        <a href="../../" class="back-link">← Back to main site</a>
+    </div>
+
+    <script>
+        (function() {
+            const CORRECT_PASSWORD = 'airbnb';
+
+            function showExperiment() {
+                document.getElementById('password-gate').remove();
+                document.getElementById('password-gate-styles').remove();
+            }
+
+            // Handle password form submission
+            document.getElementById('password-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+                const password = document.getElementById('password').value;
+
+                if (password === CORRECT_PASSWORD) {
+                    showExperiment();
+                } else {
+                    document.getElementById('error-message').style.display = 'block';
+                    document.getElementById('password').value = '';
+                    document.getElementById('password').focus();
+                }
+            });
+        })();
+    </script>
+
     <!-- Experiment will be rendered here by jsPsych -->
 
     <!-- Experiment scripts -->
