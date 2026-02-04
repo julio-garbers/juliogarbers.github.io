@@ -138,9 +138,24 @@
         (function() {
             const CORRECT_PASSWORD = 'airbnb';
 
-            function showExperiment() {
+            function loadScript(src) {
+                return new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.src = src;
+                    script.onload = resolve;
+                    script.onerror = reject;
+                    document.body.appendChild(script);
+                });
+            }
+
+            async function showExperiment() {
                 document.getElementById('password-gate').remove();
                 document.getElementById('password-gate-styles').remove();
+
+                // Load experiment scripts in order
+                await loadScript('js/stimuli.js');
+                await loadScript('js/data-export.js');
+                await loadScript('js/experiment.js');
             }
 
             // Handle password form submission
@@ -160,10 +175,5 @@
     </script>
 
     <!-- Experiment will be rendered here by jsPsych -->
-
-    <!-- Experiment scripts -->
-    <script src="js/stimuli.js"></script>
-    <script src="js/data-export.js"></script>
-    <script src="js/experiment.js"></script>
 </body>
 </html>
