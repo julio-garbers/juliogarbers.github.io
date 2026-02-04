@@ -42,7 +42,7 @@ async function sendToGoogleSheets(jsPsych, participantId) {
     // Only include entries that have race_response (indicating complete trial data)
     const trialData = allData.filter(d => {
         // Check for call-function trials with complete data in value property
-        if (d.value && d.value.individual_id && d.value.race_response !== undefined) {
+        if (d.value && d.value.image_name && d.value.race_response !== undefined) {
             return true;
         }
         return false;
@@ -70,12 +70,14 @@ async function sendToGoogleSheets(jsPsych, participantId) {
             const data = trial.value || trial;
             return {
                 trial_number: data.trial_number,
-                individual_id: data.individual_id,
+                image_name: data.image_name,
                 true_race: data.true_race,
                 true_gender: data.true_gender,
                 size_condition: data.size_condition,
                 smile_condition: data.smile_condition,
                 question_order: data.question_order,
+                race_options_order: data.race_options_order,
+                smile_options_order: data.smile_options_order,
                 race_response: data.race_response,
                 race_rt: data.race_rt,
                 race_correct: data.race_correct,

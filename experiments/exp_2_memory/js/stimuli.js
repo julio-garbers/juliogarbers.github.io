@@ -14,7 +14,10 @@
 
 const STIMULI_CONFIG = {
     // Base path for images
-    imagePath: 'images/',
+    imagePath: '../images/',
+
+    // Base path for practice images
+    practiceImagePath: '../practice_images/',
 
     // Image dimensions
     sizes: {
@@ -24,13 +27,13 @@ const STIMULI_CONFIG = {
 
     // Grid configuration
     grid: {
-        rows: 3,
+        rows: 2,
         cols: 4,
-        totalImages: 12
+        totalImages: 8
     },
 
     // Display duration in milliseconds
-    displayDuration: 10000,  // 10 seconds
+    displayDuration: 5000,  // 5 seconds
 
     // All races
     races: ['asian', 'black', 'hispanic', 'white'],
@@ -60,6 +63,19 @@ const STIMULI_CONFIG = {
         { id: 'hispanic_male_02', race: 'hispanic', gender: 'male' },
         { id: 'hispanic_female_01', race: 'hispanic', gender: 'female' },
         { id: 'hispanic_female_02', race: 'hispanic', gender: 'female' }
+    ],
+
+    // Practice individuals (8 total - one per race/gender combination)
+    // hasSmile indicates if smile version exists (some only have nosmile)
+    practiceIndividuals: [
+        { id: 'black_male_01', race: 'black', gender: 'male', hasSmile: true },
+        { id: 'black_female_01', race: 'black', gender: 'female', hasSmile: true },
+        { id: 'asian_male_01', race: 'asian', gender: 'male', hasSmile: false },
+        { id: 'asian_female_01', race: 'asian', gender: 'female', hasSmile: true },
+        { id: 'white_male_01', race: 'white', gender: 'male', hasSmile: true },
+        { id: 'white_female_01', race: 'white', gender: 'female', hasSmile: true },
+        { id: 'hispanic_male_01', race: 'hispanic', gender: 'male', hasSmile: false },
+        { id: 'hispanic_female_01', race: 'hispanic', gender: 'female', hasSmile: false }
     ]
 };
 
@@ -83,7 +99,104 @@ function getImagePath(individualId, size, smile) {
 }
 
 /**
- * Generate a random grid of 12 images for one round
+ * Generate the practice image filename for a given stimulus configuration
+ * @param {string} individualId - The individual's ID (e.g., 'black_male_01')
+ * @param {string} size - 'big' or 'small'
+ * @param {boolean} smile - true for smiling, false for not smiling
+ * @returns {string} The complete practice image path
+ */
+function getPracticeImagePath(individualId, size, smile) {
+    const parts = individualId.split('_');
+    const race = parts[0];
+    const gender = parts[1];
+    const idNum = parts[2];
+
+    const smileStr = smile ? 'smile' : 'nosmile';
+    const ext = size === 'big' ? 'jpeg' : 'png';
+
+    return `${STIMULI_CONFIG.practiceImagePath}${race}_${gender}_${smileStr}_${idNum}_${size}.${ext}`;
+}
+
+/**
+ * Generate a practice grid of 8 images using practice images
+ * @param {string} size - 'big' or 'small'
+ * @returns {Object} Grid configuration with images and composition stats
+ */
+function generatePracticeGridForRound(size) {
+    const gridImages = [];
+    const composition = {
+        asian: 0,
+        black: 0,
+        hispanic: 0,
+        white: 0,
+        smiling: 0,
+        not_smiling: 0
+    };
+
+    // Use all 8 practice individuals
+    const practiceIndividuals = [...STIMULI_CONFIG.practiceIndividuals];
+
+    // Separate individuals by whether they have smile images
+    const canSmile = practiceIndividuals.filter(ind => ind.hasSmile);
+    const cannotSmile = practiceIndividuals.filter(ind => !ind.hasSmile);
+
+    // Randomly select which of the canSmile individuals will smile
+    // We have 5 who can smile, 3 who cannot - aim for ~4 smiling total
+    const shuffledCanSmile = jsPsych.randomization.shuffle(canSmile);
+    const numSmiling = Math.min(4, canSmile.length);
+
+    const assignments = [];
+
+    // Assign smiles to first numSmiling of the shuffled canSmile group
+    shuffledCanSmile.forEach((individual, index) => {
+        assignments.push({
+            individual,
+            smile: index < numSmiling
+        });
+    });
+
+    // All cannotSmile individuals get nosmile
+    cannotSmile.forEach(individual => {
+        assignments.push({
+            individual,
+            smile: false
+        });
+    });
+
+    // Build the grid
+    for (const { individual, smile } of assignments) {
+        const imagePath = getPracticeImagePath(individual.id, size, smile);
+
+        gridImages.push({
+            individual_id: individual.id,
+            race: individual.race,
+            gender: individual.gender,
+            smile: smile,
+            size: size,
+            image_path: imagePath
+        });
+
+        // Update composition
+        composition[individual.race]++;
+        if (smile) {
+            composition.smiling++;
+        } else {
+            composition.not_smiling++;
+        }
+    }
+
+    // Shuffle the grid positions
+    const shuffledGrid = jsPsych.randomization.shuffle(gridImages);
+
+    return {
+        images: shuffledGrid,
+        composition: composition,
+        size: size
+    };
+}
+
+/**
+ * Generate a random grid of 8 images for one round
  * Ensures at least 1 of each race and both smiling/non-smiling are present
  * @param {string} size - 'big' or 'small'
  * @returns {Object} Grid configuration with images and composition stats
@@ -102,8 +215,8 @@ function generateGridForRound(size) {
     // Shuffle individuals
     const shuffledIndividuals = jsPsych.randomization.shuffle([...STIMULI_CONFIG.individuals]);
 
-    // Select 12 individuals for this round
-    const selectedIndividuals = shuffledIndividuals.slice(0, 12);
+    // Select 8 individuals for this round
+    const selectedIndividuals = shuffledIndividuals.slice(0, 8);
 
     // For each individual, randomly assign smile or no-smile
     // But ensure we have at least 2 of each
@@ -113,9 +226,9 @@ function generateGridForRound(size) {
     // First pass: assign randomly but track counts
     const assignments = selectedIndividuals.map(individual => {
         let smile;
-        if (smilingCount >= 10) {
+        if (smilingCount >= 6) {
             smile = false;  // Force no-smile to ensure balance
-        } else if (notSmilingCount >= 10) {
+        } else if (notSmilingCount >= 6) {
             smile = true;   // Force smile to ensure balance
         } else {
             smile = Math.random() < 0.5;
@@ -220,13 +333,24 @@ function generateAllRounds() {
 function getAllImagePaths() {
     const paths = [];
     const sizes = ['big', 'small'];
-    const smiles = [true, false];
 
+    // Practice images - only include smile versions for individuals that have them
+    for (const individual of STIMULI_CONFIG.practiceIndividuals) {
+        for (const size of sizes) {
+            // Always include nosmile
+            paths.push(getPracticeImagePath(individual.id, size, false));
+            // Only include smile if available
+            if (individual.hasSmile) {
+                paths.push(getPracticeImagePath(individual.id, size, true));
+            }
+        }
+    }
+
+    // Main experiment images (all have both smile and nosmile)
     for (const individual of STIMULI_CONFIG.individuals) {
         for (const size of sizes) {
-            for (const smile of smiles) {
-                paths.push(getImagePath(individual.id, size, smile));
-            }
+            paths.push(getImagePath(individual.id, size, false));
+            paths.push(getImagePath(individual.id, size, true));
         }
     }
 

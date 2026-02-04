@@ -40,6 +40,15 @@ async function sendToGoogleSheets(jsPsych, participantId) {
         return false;
     });
 
+    // DEBUG: Log the filtered round data
+    console.log('=== DEBUG data-export ===');
+    console.log('Total trials in allData:', allData.length);
+    console.log('Filtered roundData count:', roundData.length);
+    if (roundData.length > 0) {
+        console.log('First round data.value:', roundData[0].value);
+        console.log('First round grid_order:', roundData[0].value ? roundData[0].value.grid_order : 'NO VALUE');
+    }
+
     // Get demographics data
     const demographicsEntry = allData.find(d =>
         d.trial_type === 'survey-html-form' && d.response && d.response.age !== undefined
@@ -63,6 +72,9 @@ async function sendToGoogleSheets(jsPsych, participantId) {
                 size_condition: data.size_condition,
                 question_type: data.question_type,
                 is_practice: data.is_practice,
+                grid_order: data.grid_order,
+                input_order: data.input_order,
+                response_order: data.response_order,
                 // Actual composition
                 actual_asian: data.actual_asian,
                 actual_black: data.actual_black,
@@ -79,11 +91,17 @@ async function sendToGoogleSheets(jsPsych, participantId) {
                 black_error: data.black_error,
                 hispanic_error: data.hispanic_error,
                 white_error: data.white_error,
+                asian_correct: data.asian_correct,
+                black_correct: data.black_correct,
+                hispanic_correct: data.hispanic_correct,
+                white_correct: data.white_correct,
                 // Responses (smile question)
                 smiling_response: data.smiling_response,
                 not_smiling_response: data.not_smiling_response,
                 smiling_error: data.smiling_error,
                 not_smiling_error: data.not_smiling_error,
+                smiling_correct: data.smiling_correct,
+                not_smiling_correct: data.not_smiling_correct,
                 // Response time
                 response_rt: data.response_rt
             };

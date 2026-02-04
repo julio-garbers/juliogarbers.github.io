@@ -13,8 +13,11 @@
  */
 
 const STIMULI_CONFIG = {
-    // Base path for images (adjust if needed for deployment)
-    imagePath: 'images/',
+    // Base path for images
+    imagePath: '../images/',
+
+    // Base path for practice images
+    practiceImagePath: '../practice_images/',
 
     // Image dimensions
     sizes: {
@@ -145,13 +148,14 @@ function generatePlaceholder(label, size, smile) {
 }
 
 /**
- * Get the practice trial image (generated placeholder)
- * @returns {string} Data URL of the practice placeholder image
+ * Get the practice trial image path
+ * @returns {string} Path to the practice image
  */
 function getPracticeImagePath() {
     const p = STIMULI_CONFIG.practice;
-    const size = p.size === 'big' ? 256 : 104;
-    return generatePlaceholder('PRACTICE', size, p.smile);
+    const smileStr = p.smile ? 'smile' : 'nosmile';
+    const ext = p.size === 'big' ? 'jpeg' : 'png';
+    return `${STIMULI_CONFIG.practiceImagePath}${p.race}_${p.gender}_${smileStr}_${p.id}_${p.size}.${ext}`;
 }
 
 /**
@@ -201,7 +205,10 @@ function getAllImagePaths() {
     const sizes = ['big', 'small'];
     const smiles = [true, false];
 
-    // Main experiment images only (practice is generated, not loaded)
+    // Add practice image
+    paths.push(getPracticeImagePath());
+
+    // Main experiment images
     for (const individual of STIMULI_CONFIG.individuals) {
         for (const size of sizes) {
             for (const smile of smiles) {

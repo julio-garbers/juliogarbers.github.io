@@ -7,8 +7,7 @@
 
 // Initialize jsPsych
 const jsPsych = initJsPsych({
-    show_progress_bar: true,
-    auto_update_progress_bar: false,
+    show_progress_bar: false,
     on_finish: async function() {
         // Mark experiment as ended to disable fullscreen monitoring
         experimentEnded = true;
@@ -42,6 +41,56 @@ const jsPsych = initJsPsych({
         }, 1000);
     }
 });
+
+// ============================================================================
+// CUSTOM PROGRESS BAR
+// ============================================================================
+
+let progressBarCreated = false;
+
+/**
+ * Create and inject custom progress bar into the page
+ */
+function createCustomProgressBar() {
+    if (progressBarCreated) return;
+
+    const progressBar = document.createElement('div');
+    progressBar.id = 'custom-progress-bar';
+    progressBar.innerHTML = `
+        <span class="progress-label">Progress</span>
+        <div class="progress-track">
+            <div class="progress-fill" style="width: 0%"></div>
+        </div>
+    `;
+    document.body.appendChild(progressBar);
+    progressBarCreated = true;
+}
+
+/**
+ * Update custom progress bar
+ * @param {number} fraction - Progress fraction between 0 and 1
+ */
+function updateProgressBar(fraction) {
+    // Create bar if it doesn't exist yet
+    if (!progressBarCreated) {
+        createCustomProgressBar();
+    }
+    const fill = document.querySelector('#custom-progress-bar .progress-fill');
+    if (fill) {
+        fill.style.width = `${Math.round(fraction * 100)}%`;
+    }
+}
+
+/**
+ * Show or hide the progress bar
+ * @param {boolean} visible - Whether to show the progress bar
+ */
+function setProgressBarVisible(visible) {
+    const bar = document.getElementById('custom-progress-bar');
+    if (bar) {
+        bar.style.display = visible ? 'flex' : 'none';
+    }
+}
 
 // ============================================================================
 // DISPLAY REQUIREMENTS (FULLSCREEN & ZOOM)
@@ -653,26 +702,20 @@ const consent = {
         <div class="instruction-container consent-form">
             <h2>Informed Consent</h2>
 
-            <p><strong>Purpose:</strong> This study examines how people perceive facial features in profile pictures of varying sizes.</p>
+            <p><strong>What you'll do:</strong> View face images and answer questions about them.</p>
 
-            <p><strong>Procedure:</strong> You will view a series of face images and answer questions about each one. The entire study takes approximately 5-10 minutes.</p>
+            <p><strong>Risks & Benefits:</strong> No known risks. Your participation contributes to face perception research.</p>
 
-            <p><strong>Risks:</strong> There are no known risks associated with this study beyond those of everyday life.</p>
+            <p><strong>Privacy:</strong> Responses are anonymous. No identifying information is collected.</p>
 
-            <p><strong>Benefits:</strong> While there are no direct benefits to you, your participation will contribute to scientific understanding of face perception.</p>
-
-            <p><strong>Confidentiality:</strong> Your responses are anonymous. No personally identifying information is collected. Data will be used for research purposes only.</p>
-
-            <p><strong>Voluntary Participation:</strong> Your participation is entirely voluntary. You may withdraw at any time by closing your browser window.</p>
-
-            <p><strong>Contact:</strong> If you have questions about this study, please contact the research team.</p>
+            <p><strong>Voluntary:</strong> You may withdraw anytime by closing your browser.</p>
 
             <div class="consent-checkbox">
-                <p><strong>By clicking "I Agree" below, you confirm that:</strong></p>
+                <p><strong>By clicking "I Agree", you confirm:</strong></p>
                 <ul>
-                    <li>You have read and understood the above information</li>
-                    <li>You are 18 years of age or older</li>
-                    <li>You voluntarily agree to participate in this study</li>
+                    <li>You have read and understood the above</li>
+                    <li>You are 18 years or older</li>
+                    <li>You agree to participate voluntarily</li>
                 </ul>
             </div>
         </div>
@@ -696,7 +739,6 @@ const demographics = {
     preamble: `
         <div class="instruction-container">
             <h2>Demographic Information</h2>
-            <p>Please provide the following information. All responses are anonymous.</p>
         </div>
     `,
     html: `
@@ -707,33 +749,36 @@ const demographics = {
             </div>
 
             <div class="form-group">
-                <label>Gender:</label>
-                <div class="radio-group">
-                    <label><input type="radio" name="gender" value="male" required> Male</label>
-                    <label><input type="radio" name="gender" value="female"> Female</label>
-                    <label><input type="radio" name="gender" value="non-binary"> Non-binary</label>
-                    <label><input type="radio" name="gender" value="other"> Other</label>
-                    <label><input type="radio" name="gender" value="prefer_not_to_say"> Prefer not to say</label>
-                </div>
+                <label for="gender">Gender:</label>
+                <select name="gender" id="gender" required>
+                    <option value="">-- Select --</option>
+                    <option value="male">Male</option>
+                    <option value="female">Female</option>
+                    <option value="non-binary">Non-binary</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label>Race/Ethnicity (select all that apply):</label>
-                <div class="checkbox-group">
-                    <label><input type="checkbox" name="race_asian" value="asian"> Asian</label>
-                    <label><input type="checkbox" name="race_black" value="black"> Black or African American</label>
-                    <label><input type="checkbox" name="race_hispanic" value="hispanic"> Hispanic or Latino</label>
-                    <label><input type="checkbox" name="race_white" value="white"> White</label>
-                    <label><input type="checkbox" name="race_native" value="native"> Native American or Alaska Native</label>
-                    <label><input type="checkbox" name="race_pacific" value="pacific"> Native Hawaiian or Pacific Islander</label>
-                    <label><input type="checkbox" name="race_other" value="other"> Other</label>
-                    <label><input type="checkbox" name="race_prefer_not" value="prefer_not_to_say"> Prefer not to say</label>
-                </div>
+                <label for="race">Race/Ethnicity:</label>
+                <select name="race" id="race" required>
+                    <option value="">-- Select --</option>
+                    <option value="asian">Asian</option>
+                    <option value="black">Black or African American</option>
+                    <option value="hispanic">Hispanic or Latino</option>
+                    <option value="white">White</option>
+                    <option value="native">Native American or Alaska Native</option>
+                    <option value="pacific">Native Hawaiian or Pacific Islander</option>
+                    <option value="multiracial">Multiracial / Mixed</option>
+                    <option value="other">Other</option>
+                    <option value="prefer_not_to_say">Prefer not to say</option>
+                </select>
             </div>
 
             <div class="form-group">
-                <label>Highest level of education completed:</label>
-                <select name="education" required>
+                <label for="education">Education:</label>
+                <select name="education" id="education" required>
                     <option value="">-- Select --</option>
                     <option value="less_than_high_school">Less than high school</option>
                     <option value="high_school">High school diploma or equivalent</option>
@@ -764,27 +809,18 @@ const instructions = {
         <div class="instruction-container">
             <h2>Task Instructions</h2>
 
-            <p>In this study, you will view a series of <strong>profile pictures</strong> and answer questions about each one.</p>
-
-            <h3>How each trial works:</h3>
-            <ol>
-                <li>A face image will appear on screen for <strong>2 seconds</strong></li>
-                <li>The image will disappear and you will see a brief fixation cross (+)</li>
-                <li>You will then answer <strong>two questions</strong> about the face you just saw</li>
-            </ol>
-
-            <h3>The questions will ask about:</h3>
+            <p>You will view face images and answer two questions about each:</p>
             <ul>
-                <li><strong>Race:</strong> What is the race of the person shown?</li>
-                <li><strong>Expression:</strong> Was the person smiling?</li>
+                <li>What is the race of the person?</li>
+                <li>Was the person smiling?</li>
             </ul>
 
-            <h3>Important:</h3>
+            <p>Each image appears for <strong>2 seconds</strong>, then you'll answer the questions.</p>
+
+            <p><strong>Important:</strong></p>
             <ul>
-                <li>Please respond as <strong>quickly and accurately</strong> as possible</li>
-                <li>You will have <strong>10 seconds</strong> to answer each question</li>
-                <li>Pay close attention to the image, as it only appears briefly</li>
-                <li style="color: #dc3545;"><strong>Do NOT change your browser zoom</strong> during the experiment. If zoom changes are detected, the experiment will be terminated immediately.</li>
+                <li>Pay close attention - images appear briefly</li>
+                <li style="color: #dc3545;">Do NOT change browser zoom (experiment will terminate)</li>
             </ul>
 
             <p>Click "Continue" to begin a practice trial.</p>
@@ -828,33 +864,14 @@ const practiceTrial = createTrial({
 
 const practiceFeedback = {
     type: jsPsychHtmlButtonResponse,
-    stimulus: function() {
-        // Get practice trial data
-        const practiceData = jsPsych.data.get().filter({ is_practice: true }).last(1).values()[0];
-
-        let feedbackHtml = `<div class="instruction-container feedback-container">
-            <h2>Practice Complete!</h2>`;
-
-        if (practiceData) {
-            const raceCorrect = practiceData.race_correct;
-            const smileCorrect = practiceData.smile_correct;
-
-            feedbackHtml += `<p>Your responses:</p>
-            <ul>
-                <li>Race question: ${raceCorrect ? '<span class="correct">Correct</span>' : '<span class="incorrect">Incorrect</span>'}</li>
-                <li>Smile question: ${smileCorrect ? '<span class="correct">Correct</span>' : '<span class="incorrect">Incorrect</span>'}</li>
-            </ul>`;
-        }
-
-        feedbackHtml += `
+    stimulus: `
+        <div class="instruction-container">
+            <h2>Practice Complete!</h2>
             <p>Great! You now understand how the task works.</p>
             <p>In the main experiment, you will see <strong>16 face images</strong>.</p>
-            <p>There will be no feedback during the main experiment.</p>
             <p>Click "Begin Experiment" when you're ready to start.</p>
-        </div>`;
-
-        return feedbackHtml;
-    },
+        </div>
+    `,
     choices: ['Begin Experiment'],
     data: { trial_type: 'practice_feedback' }
 };
@@ -877,6 +894,10 @@ function createTrial(stimulus, isPractice = false) {
     const raceOptions = jsPsych.randomization.shuffle(['Asian', 'Black', 'Hispanic', 'White']);
     const smileOptions = jsPsych.randomization.shuffle(['Yes', 'No']);
 
+    // Store option orders as comma-separated strings for export
+    const raceOptionsOrder = raceOptions.map(o => o.toLowerCase()).join(',');
+    const smileOptionsOrder = smileOptions.map(o => o.toLowerCase()).join(',');
+
     // Trial data to be recorded
     const baseTrialData = {
         participant_id: participantId,
@@ -886,6 +907,8 @@ function createTrial(stimulus, isPractice = false) {
         size_condition: stimulus.size,
         smile_condition: stimulus.smile,
         question_order: raceFirst ? 'race_first' : 'smile_first',
+        race_options_order: raceOptionsOrder,
+        smile_options_order: smileOptionsOrder,
         is_practice: isPractice
     };
 
@@ -981,19 +1004,27 @@ function createTrial(stimulus, isPractice = false) {
             if (!isPractice) {
                 trialNumber++;
                 // Update progress bar
-                jsPsych.setProgressBar(trialNumber / 16);
+                updateProgressBar(trialNumber / 16);
             }
+
+            // Construct full image name (without extension)
+            // Format: {race}_{gender}_{smile}_{id}_{size}
+            const parts = stimulus.individual_id.split('_');
+            const smileStr = stimulus.smile ? 'smile' : 'nosmile';
+            const imageName = `${parts[0]}_${parts[1]}_${smileStr}_${parts[2]}_${stimulus.size}`;
 
             // Return the complete trial data (will be saved automatically)
             return {
                 participant_id: participantId,
                 trial_number: isPractice ? 'practice' : trialNumber,
-                individual_id: stimulus.individual_id,
+                image_name: imageName,
                 true_race: stimulus.race,
                 true_gender: stimulus.gender,
                 size_condition: stimulus.size,
                 smile_condition: stimulus.smile ? 'smile' : 'nosmile',
                 question_order: raceFirst ? 'race_first' : 'smile_first',
+                race_options_order: raceOptionsOrder,
+                smile_options_order: smileOptionsOrder,
                 race_response: raceResponse,
                 race_rt: raceRT,
                 race_correct: raceCorrect,
@@ -1129,6 +1160,8 @@ const timeline = [
         type: jsPsychCallFunction,
         func: function() {
             endPracticeMode();
+            createCustomProgressBar();
+            updateProgressBar(0);
             console.log('Practice complete. Zoom monitoring now active - zoom changes will terminate experiment.');
         }
     }

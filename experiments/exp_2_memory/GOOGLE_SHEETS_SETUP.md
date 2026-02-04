@@ -20,13 +20,18 @@ Both experiments send data to the **same Google Sheets file** but to **different
 |--------|-------------|
 | timestamp | When data was submitted |
 | participant_id | Unique ID |
-| demo_* | Demographics |
+| demo_age | Participant age |
+| demo_gender | Participant gender |
+| demo_race | Participant race/ethnicity |
+| demo_education | Education level |
 | trial_number | 1-16 or "practice" |
-| individual_id | Which face was shown |
+| image_name | Full image filename without extension (e.g., "black_male_smile_01_big") |
 | true_race / true_gender | Ground truth |
 | size_condition | "big" or "small" |
 | smile_condition | "smile" or "nosmile" |
 | question_order | "race_first" or "smile_first" |
+| race_options_order | Order of race buttons (e.g., "asian,black,hispanic,white") |
+| smile_options_order | Order of smile buttons (e.g., "yes,no") |
 | race_response / race_rt / race_correct | Race question data |
 | smile_response / smile_rt / smile_correct | Smile question data |
 
@@ -36,13 +41,20 @@ Both experiments send data to the **same Google Sheets file** but to **different
 |--------|-------------|
 | timestamp | When data was submitted |
 | participant_id | Unique ID |
-| demo_* | Demographics |
+| demo_age | Participant age |
+| demo_gender | Participant gender |
+| demo_race | Participant race/ethnicity |
+| demo_education | Education level |
 | round_number | 1-12 or "practice" |
 | size_condition | "big" or "small" |
 | question_type | "race" or "smile" |
+| grid_order | Order of images in grid positions 1-8 (e.g., "black_male_01:smile,asian_female_02:nosmile,...") |
+| input_order | Order of input fields shown (e.g., "hispanic,black,white,asian") |
+| response_order | Order participant filled in inputs (e.g., "black,white,hispanic,asian") |
 | actual_* | True count in the grid |
 | *_response | Participant's count |
 | *_error | Response minus actual (negative = undercount) |
+| *_correct | TRUE/FALSE whether response matches actual |
 | response_rt | Response time in ms |
 
 ---
@@ -189,23 +201,25 @@ function addAttentionHeaders(sheet) {
         // Demographics
         'demo_age',
         'demo_gender',
+        'demo_race',
         'demo_education',
-        'demo_race_asian',
-        'demo_race_black',
-        'demo_race_hispanic',
-        'demo_race_white',
-        'demo_race_native',
-        'demo_race_pacific',
-        'demo_race_other',
-        'demo_race_prefer_not',
+        // Zoom tracking
+        'zoom_check_bypassed',
+        'zoom_check_attempts',
+        'approved_dpr',
+        'zoom_changes_count',
+        'zoom_changes',
+        'terminated_due_to_zoom',
         // Trial data
         'trial_number',
-        'individual_id',
+        'image_name',
         'true_race',
         'true_gender',
         'size_condition',
         'smile_condition',
         'question_order',
+        'race_options_order',
+        'smile_options_order',
         'race_response',
         'race_rt',
         'race_correct',
@@ -227,6 +241,7 @@ function appendAttentionData(sheet, data) {
     const timestamp = data.timestamp || new Date().toISOString();
     const participantId = data.participant_id || '';
     const demographics = data.demographics || {};
+    const zoomTracking = data.zoom_tracking || {};
     const trials = data.trials || [];
 
     trials.forEach(trial => {
@@ -236,23 +251,25 @@ function appendAttentionData(sheet, data) {
             // Demographics
             demographics.age || '',
             demographics.gender || '',
+            demographics.race || '',
             demographics.education || '',
-            demographics.race_asian || '',
-            demographics.race_black || '',
-            demographics.race_hispanic || '',
-            demographics.race_white || '',
-            demographics.race_native || '',
-            demographics.race_pacific || '',
-            demographics.race_other || '',
-            demographics.race_prefer_not || '',
+            // Zoom tracking
+            zoomTracking.zoom_check_bypassed || false,
+            zoomTracking.zoom_check_attempts || 0,
+            zoomTracking.approved_dpr || '',
+            zoomTracking.zoom_changes_count || 0,
+            zoomTracking.zoom_changes ? JSON.stringify(zoomTracking.zoom_changes) : '',
+            zoomTracking.terminated_due_to_zoom || false,
             // Trial data
             trial.trial_number,
-            trial.individual_id,
+            trial.image_name || '',
             trial.true_race,
             trial.true_gender,
             trial.size_condition,
             trial.smile_condition,
             trial.question_order,
+            trial.race_options_order || '',
+            trial.smile_options_order || '',
             trial.race_response,
             trial.race_rt,
             trial.race_correct,
@@ -279,20 +296,23 @@ function addMemoryHeaders(sheet) {
         // Demographics
         'demo_age',
         'demo_gender',
+        'demo_race',
         'demo_education',
-        'demo_race_asian',
-        'demo_race_black',
-        'demo_race_hispanic',
-        'demo_race_white',
-        'demo_race_native',
-        'demo_race_pacific',
-        'demo_race_other',
-        'demo_race_prefer_not',
+        // Zoom tracking
+        'zoom_check_bypassed',
+        'zoom_check_attempts',
+        'approved_dpr',
+        'zoom_changes_count',
+        'zoom_changes',
+        'terminated_due_to_zoom',
         // Round info
         'round_number',
         'size_condition',
         'question_type',
         'is_practice',
+        'grid_order',
+        'input_order',
+        'response_order',
         // Actual composition (ground truth)
         'actual_asian',
         'actual_black',
@@ -309,11 +329,17 @@ function addMemoryHeaders(sheet) {
         'black_error',
         'hispanic_error',
         'white_error',
+        'asian_correct',
+        'black_correct',
+        'hispanic_correct',
+        'white_correct',
         // Smile question responses
         'smiling_response',
         'not_smiling_response',
         'smiling_error',
         'not_smiling_error',
+        'smiling_correct',
+        'not_smiling_correct',
         // Timing
         'response_rt'
     ];
@@ -330,6 +356,7 @@ function appendMemoryData(sheet, data) {
     const timestamp = data.timestamp || new Date().toISOString();
     const participantId = data.participant_id || '';
     const demographics = data.demographics || {};
+    const zoomTracking = data.zoom_tracking || {};
     const rounds = data.rounds || [];
 
     rounds.forEach(round => {
@@ -339,20 +366,23 @@ function appendMemoryData(sheet, data) {
             // Demographics
             demographics.age || '',
             demographics.gender || '',
+            demographics.race || '',
             demographics.education || '',
-            demographics.race_asian || '',
-            demographics.race_black || '',
-            demographics.race_hispanic || '',
-            demographics.race_white || '',
-            demographics.race_native || '',
-            demographics.race_pacific || '',
-            demographics.race_other || '',
-            demographics.race_prefer_not || '',
+            // Zoom tracking
+            zoomTracking.zoom_check_bypassed || false,
+            zoomTracking.zoom_check_attempts || 0,
+            zoomTracking.approved_dpr || '',
+            zoomTracking.zoom_changes_count || 0,
+            zoomTracking.zoom_changes ? JSON.stringify(zoomTracking.zoom_changes) : '',
+            zoomTracking.terminated_due_to_zoom || false,
             // Round info
             round.round_number,
             round.size_condition,
             round.question_type,
             round.is_practice,
+            round.grid_order || '',
+            round.input_order || '',
+            round.response_order || '',
             // Actual composition
             round.actual_asian,
             round.actual_black,
@@ -369,11 +399,17 @@ function appendMemoryData(sheet, data) {
             round.black_error !== undefined ? round.black_error : '',
             round.hispanic_error !== undefined ? round.hispanic_error : '',
             round.white_error !== undefined ? round.white_error : '',
+            round.asian_correct !== undefined ? round.asian_correct : '',
+            round.black_correct !== undefined ? round.black_correct : '',
+            round.hispanic_correct !== undefined ? round.hispanic_correct : '',
+            round.white_correct !== undefined ? round.white_correct : '',
             // Smile responses (empty if race question)
             round.smiling_response !== undefined ? round.smiling_response : '',
             round.not_smiling_response !== undefined ? round.not_smiling_response : '',
             round.smiling_error !== undefined ? round.smiling_error : '',
             round.not_smiling_error !== undefined ? round.not_smiling_error : '',
+            round.smiling_correct !== undefined ? round.smiling_correct : '',
+            round.not_smiling_correct !== undefined ? round.not_smiling_correct : '',
             // Timing
             round.response_rt
         ];
@@ -401,12 +437,14 @@ function testAttentionExperiment() {
         trials: [
             {
                 trial_number: 'practice',
-                individual_id: 'white_female_01',
+                image_name: 'white_female_smile_01_big',
                 true_race: 'white',
                 true_gender: 'female',
                 size_condition: 'big',
                 smile_condition: 'smile',
                 question_order: 'race_first',
+                race_options_order: 'white,black,asian,hispanic',
+                smile_options_order: 'yes,no',
                 race_response: 'white',
                 race_rt: 1500,
                 race_correct: true,
@@ -445,20 +483,27 @@ function testMemoryExperiment() {
                 size_condition: 'big',
                 question_type: 'race',
                 is_practice: true,
-                actual_asian: 3,
-                actual_black: 3,
-                actual_hispanic: 3,
-                actual_white: 3,
-                actual_smiling: 6,
-                actual_not_smiling: 6,
+                grid_order: 'black_male_01:smile,asian_female_01:nosmile,white_male_01:smile,hispanic_female_01:nosmile,black_female_01:smile,asian_male_01:nosmile,white_female_01:smile,hispanic_male_01:nosmile',
+                input_order: 'hispanic,black,white,asian',
+                response_order: 'black,hispanic,white,asian',
+                actual_asian: 2,
+                actual_black: 2,
+                actual_hispanic: 2,
+                actual_white: 2,
+                actual_smiling: 4,
+                actual_not_smiling: 4,
                 asian_response: 2,
-                black_response: 4,
-                hispanic_response: 3,
-                white_response: 3,
-                asian_error: -1,
-                black_error: 1,
+                black_response: 2,
+                hispanic_response: 2,
+                white_response: 2,
+                asian_error: 0,
+                black_error: 0,
                 hispanic_error: 0,
                 white_error: 0,
+                asian_correct: true,
+                black_correct: true,
+                hispanic_correct: true,
+                white_correct: true,
                 response_rt: 15000
             }
         ]
