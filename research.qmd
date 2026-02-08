@@ -48,3 +48,15 @@ with [Carlotta Montorsi (LISER)](https://carlottamnt.github.io/){target="_blank"
 A 2018 Airbnb design intervention reduced the size of the host profile picture, creating a natural experiment to test whether the salience of visual cues affects racial bias in the demand for Airbnb listings. Using scraped data from Airbnb in New York City and a face classification model, we find that, unexpectedly, the new design increased the Black-White demand disparity by 3.3 percentage points, an increase of about 30% relative to the pre-intervention gap. We show that smaller images made it harder for guests to detect positive facial cues – especially smiles – that are typically associated with higher demand, leading them to rely more heavily on skin color. In response, Black hosts updated their profile pictures to make their faces more visible and added basic amenities to their listings.
 :::
 :::
+
+::: {.paper}
+### Mapping Artificial Intelligence: Evidence from Firm-Level Web Data in Europe {.paper-title}
+
+::: {.paper-meta}
+with [Terry Gregory (LISER)](https://sites.google.com/view/terrygregory){target="_blank"}
+:::
+
+::: {.paper-abstract}
+We develop a novel firm-level indicator of Artificial Intelligence (AI) adoption in Europe by applying a Large Language Model to more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024). The method detects not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. The share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation: the ecosystem is shifting from specialized AI core technology providers toward broader AI adopters, signaling widespread diffusion. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis suggests that foundational Data skills form the necessary base for adoption, while specialized AI skills act as strong complements.
+:::
+:::
