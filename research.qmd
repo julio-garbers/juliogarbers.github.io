@@ -50,13 +50,13 @@ A 2018 Airbnb design intervention reduced the size of the host profile picture, 
 :::
 
 ::: {.paper}
-### Mapping Artificial Intelligence: Evidence from Firm-Level Web Data in Europe {.paper-title}
+### The Diffusion of Artificial Intelligence Across Firms: Evidence from Europe {.paper-title}
 
 ::: {.paper-meta}
 with [Terry Gregory (LISER)](https://sites.google.com/view/terrygregory){target="_blank"}
 :::
 
 ::: {.paper-abstract}
-We develop a novel firm-level indicator of Artificial Intelligence (AI) adoption in Europe by applying a Large Language Model to more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024). The method detects not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. The share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation: the ecosystem is shifting from specialized AI core technology providers toward broader AI adopters, signaling widespread diffusion. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis suggests that foundational Data skills form the necessary base for adoption, while specialized AI skills act as strong complements.
+We develop a novel firm-level indicator of Artificial Intelligence adoption in Europe (MAP-AI) by extracting information on AI usage from more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024) using a Large Language Model. The indicator captures realized AI adoption as signaled on their website rather than potential exposure. Our method allows to detect not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. Validation against human-coded benchmarks and external referenecs confirms high accuracy and external validity. We find that the share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation in the AI ecosystem, as expanding AI adoption increases the share of adopters in overall AI activity, signaling widespread diffusion and more integrated AI use, including generative AI. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis shows that foundational data skills form a necessary base for adoption, while a small set of specialized AI skills – such as machine learning and natural language processing – act as strong complements, highlighting human capital as a central driver of AI diffusion across firms.
 :::
 :::
