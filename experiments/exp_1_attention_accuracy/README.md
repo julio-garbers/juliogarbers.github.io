@@ -7,7 +7,7 @@ An online experiment measuring race and smile detection accuracy across differen
 Run the server from the `experiments` folder:
 
 ```bash
-cd /home/julio/Documents/airbnb/experiments
+cd /home/julio/Repositories/juliogarbers.github.io/experiments
 python3 -m http.server 8000
 # Open http://localhost:8000/exp_1_attention_accuracy/index.html
 ```
