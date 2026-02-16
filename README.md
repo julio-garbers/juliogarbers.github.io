@@ -9,6 +9,7 @@ website/
 ├── _quarto.yml                         # Site configuration
 ├── index.qmd                           # Home page
 ├── research.qmd                        # Research publications & working papers
+├── data.qmd                            # Research datasets
 ├── policy.qmd                          # Policy reports
 ├── experiments.qmd                     # Experiments landing page
 ├── blog.qmd                            # Blog listing page
