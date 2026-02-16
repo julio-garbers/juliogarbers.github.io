@@ -1,0 +1,22 @@
+---
+title: "Data"
+pagetitle: "Data - Julio Garbers"
+---
+
+## Datasets
+
+::: {.paper}
+### MAP-AI: Measuring AI Adoption Across Firms in Europe {.paper-title}
+
+::: {.paper-meta}
+with [Terry Gregory (LISER)](https://sites.google.com/view/terrygregory){target="_blank"}
+:::
+
+::: {.paper-abstract}
+A firm-level indicator of Artificial Intelligence adoption in Europe, covering more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016--2024). The repository contains the data and documentation for the MAP-AI indicator.
+:::
+
+::: {.paper-links}
+[Data Repository](https://github.com/MAP-AI-data/data){.paper-link target="_blank"}
+:::
+:::
