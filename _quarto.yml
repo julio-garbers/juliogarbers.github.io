@@ -17,6 +17,8 @@ website:
         href: index.qmd
       - text: "Research"
         href: research.qmd
+      - text: "Data"
+        href: data.qmd
       - text: "Policy"
         href: policy.qmd
       - text: "Experiments"
