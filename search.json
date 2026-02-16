@@ -14,18 +14,81 @@
     "text": "Data from this experiment goes to the att_acc sheet with the following key columns:\n\n\n\nColumn\nDescription\n\n\n\n\nparticipant_id\nUnique ID\n\n\ntrial_number\n1-16 or “practice”\n\n\nindividual_id\nWhich face was shown\n\n\nsize_condition\n“big” or “small”\n\n\nsmile_condition\n“smile” or “nosmile”\n\n\nrace_response / race_correct\nRace question data\n\n\nsmile_response / smile_correct\nSmile question data"
   },
   {
-    "objectID": "policy.html",
-    "href": "policy.html",
-    "title": "Policy",
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data",
     "section": "",
-    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
+    "text": "with Terry Gregory (LISER)\n\n\nA firm-level indicator of Artificial Intelligence adoption in Europe, covering more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024). The repository contains the data and documentation for the MAP-AI indicator.\n\n\nData Repository"
   },
   {
-    "objectID": "policy.html#reports",
-    "href": "policy.html#reports",
-    "title": "Policy",
+    "objectID": "data.html#datasets",
+    "href": "data.html#datasets",
+    "title": "Data",
     "section": "",
-    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
+    "text": "with Terry Gregory (LISER)\n\n\nA firm-level indicator of Artificial Intelligence adoption in Europe, covering more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024). The repository contains the data and documentation for the MAP-AI indicator.\n\n\nData Repository"
+  },
+  {
+    "objectID": "research.html",
+    "href": "research.html",
+    "title": "Research",
+    "section": "",
+    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
+  },
+  {
+    "objectID": "research.html#publications",
+    "href": "research.html#publications",
+    "title": "Research",
+    "section": "",
+    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
+  },
+  {
+    "objectID": "research.html#working-papers-work-in-progress",
+    "href": "research.html#working-papers-work-in-progress",
+    "title": "Research",
+    "section": "Working Papers / Work in Progress",
+    "text": "Working Papers / Work in Progress\n\nArriving LATE: Access to Citizenship and Economic Integration\n\nwith Christina Gathmann (LISER)\n\n\nWe analyze whether faster access to citizenship fosters the economic integration of immigrants. Our empirical setting is Germany, which went from a strict concept of citizenship based on ‘jus sanguinis’ to a more open citizenship policy. We make use of discontinuities in residency requirements faced by first-generation immigrants to estimate LATEs based on Local Randomization and Fuzzy RDD approaches. We find that a more liberal citizenship policy acts as a catalyst for integration, especially for immigrant women. Women’s labor force participation increases by 8.9 percentage points and their earnings by 21.3%. We do not find any significant effects on immigrant men.\n\n\n\nSmall Pictures, Big Biases: The Adverse Effect of an Airbnb Design Intervention\n\nwith Carlotta Montorsi (LISER)\n\n\nA 2018 Airbnb design intervention reduced the size of the host profile picture, creating a natural experiment to test whether the salience of visual cues affects racial bias in the demand for Airbnb listings. Using scraped data from Airbnb in New York City and a face classification model, we find that, unexpectedly, the new design increased the Black-White demand disparity by 3.3 percentage points, an increase of about 30% relative to the pre-intervention gap. We show that smaller images made it harder for guests to detect positive facial cues – especially smiles – that are typically associated with higher demand, leading them to rely more heavily on skin color. In response, Black hosts updated their profile pictures to make their faces more visible and added basic amenities to their listings.\n\n\n\nThe Diffusion of Artificial Intelligence Across Firms: Evidence from Europe\n\nwith Terry Gregory (LISER)\n\n\nWe develop a novel firm-level indicator of Artificial Intelligence adoption in Europe (MAP-AI) by extracting information on AI usage from more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024) using a Large Language Model. The indicator captures realized AI adoption as signaled on their website rather than potential exposure. Our method allows to detect not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. Validation against human-coded benchmarks and external referenecs confirms high accuracy and external validity. We find that the share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation in the AI ecosystem, as expanding AI adoption increases the share of adopters in overall AI activity, signaling widespread diffusion and more integrated AI use, including generative AI. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis shows that foundational data skills form a necessary base for adoption, while a small set of specialized AI skills – such as machine learning and natural language processing – act as strong complements, highlighting human capital as a central driver of AI diffusion across firms.\n\n\nData Repository"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Julio Garbers",
+    "section": "",
+    "text": "Contact: julio.garbers@liser.lu\n\nLuxembourg Institute of Socio-Economic Research (LISER) 11, Porte des Sciences Campus Belval L-4366 Esch-sur-Alzette www.liser.lu"
+  },
+  {
+    "objectID": "index.html#research-interests",
+    "href": "index.html#research-interests",
+    "title": "Julio Garbers",
+    "section": "Research Interests",
+    "text": "Research Interests\n\nMigration\nDiscrimination\nPolicy Evaluation\nLabor Economics"
+  },
+  {
+    "objectID": "index.html#education",
+    "href": "index.html#education",
+    "title": "Julio Garbers",
+    "section": "Education",
+    "text": "Education\n\nPhD in Economics (2021 – 2025) LISER and University of Luxembourg\n\n\nMaster’s Degree in Economics (2018 – 2021) University of Heidelberg\n\n\nBachelor’s Degree in Economics (2015 – 2018) University of Heidelberg"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "The Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "experiments.html",
+    "href": "experiments.html",
+    "title": "Experiments",
+    "section": "",
+    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nMeasures how accurately people identify race and facial expressions when viewing individual faces at different sizes.\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nTests how well people remember the racial composition and expressions of faces shown in groups.\nDuration: ~15 minutes\nStart Experiment"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "View CV (PDF)"
   },
   {
     "objectID": "posts/website_languages_lux/index.html",
@@ -70,67 +133,18 @@
     "text": "Citation\nFor attribution, please cite this work as:\nGarbers, J. (2026, January). The Linguistic Web of Luxembourg.\nRetrieved from https://github.com/julio-garbers/blog/tree/main/website_languages_lux\nBibTeX:\n@misc{garbers2026linguistic,\n  author = {Garbers, Julio},\n  title = {The Linguistic Web of Luxembourg},\n  url = {https://github.com/julio-garbers/blog/tree/main/website_languages_lux},\n  year = {2026}\n}\n\n\n\n\n\nAll scripts available on GitHub"
   },
   {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
+    "objectID": "policy.html",
+    "href": "policy.html",
+    "title": "Policy",
     "section": "",
-    "text": "View CV (PDF)"
+    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
   },
   {
-    "objectID": "experiments.html",
-    "href": "experiments.html",
-    "title": "Experiments",
+    "objectID": "policy.html#reports",
+    "href": "policy.html#reports",
+    "title": "Policy",
     "section": "",
-    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nMeasures how accurately people identify race and facial expressions when viewing individual faces at different sizes.\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nTests how well people remember the racial composition and expressions of faces shown in groups.\nDuration: ~15 minutes\nStart Experiment"
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "The Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Julio Garbers",
-    "section": "",
-    "text": "Contact: julio.garbers@liser.lu\n\nLuxembourg Institute of Socio-Economic Research (LISER) 11, Porte des Sciences Campus Belval L-4366 Esch-sur-Alzette www.liser.lu"
-  },
-  {
-    "objectID": "index.html#research-interests",
-    "href": "index.html#research-interests",
-    "title": "Julio Garbers",
-    "section": "Research Interests",
-    "text": "Research Interests\n\nMigration\nDiscrimination\nPolicy Evaluation\nLabor Economics"
-  },
-  {
-    "objectID": "index.html#education",
-    "href": "index.html#education",
-    "title": "Julio Garbers",
-    "section": "Education",
-    "text": "Education\n\nPhD in Economics (2021 – 2025) LISER and University of Luxembourg\n\n\nMaster’s Degree in Economics (2018 – 2021) University of Heidelberg\n\n\nBachelor’s Degree in Economics (2015 – 2018) University of Heidelberg"
-  },
-  {
-    "objectID": "research.html",
-    "href": "research.html",
-    "title": "Research",
-    "section": "",
-    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
-  },
-  {
-    "objectID": "research.html#publications",
-    "href": "research.html#publications",
-    "title": "Research",
-    "section": "",
-    "text": "with Christina Gathmann (LISER) Labour Economics, Vol. 82, June 2023, 102343\n\n\nSeveral European countries have reformed their citizenship policies over the past decades. There is much to learn from their experience of how citizenship works; for whom it works; and what rules and policies matter for integration. The article surveys recent quasi-experimental evidence and field experiments from the social sciences on the link between eligibility rules, take-up and integration outcomes. Across countries and reforms, the evidence shows that faster access to citizenship increases take-up and improves the economic, educational, political and social integration of immigrants. Other eligibility rules like civic knowledge tests or application fees also impact who naturalizes and therefore benefits from citizenship. Birthright citizenship, which is much less common in Europe, turns out to be a powerful tool for getting second-generation immigrants off to a good start. Together, citizenship acts as a powerful catalyst benefiting immigrants as well as host countries.\n\n\nPublished Version Working Paper"
-  },
-  {
-    "objectID": "research.html#working-papers-work-in-progress",
-    "href": "research.html#working-papers-work-in-progress",
-    "title": "Research",
-    "section": "Working Papers / Work in Progress",
-    "text": "Working Papers / Work in Progress\n\nArriving LATE: Access to Citizenship and Economic Integration\n\nwith Christina Gathmann (LISER)\n\n\nWe analyze whether faster access to citizenship fosters the economic integration of immigrants. Our empirical setting is Germany, which went from a strict concept of citizenship based on ‘jus sanguinis’ to a more open citizenship policy. We make use of discontinuities in residency requirements faced by first-generation immigrants to estimate LATEs based on Local Randomization and Fuzzy RDD approaches. We find that a more liberal citizenship policy acts as a catalyst for integration, especially for immigrant women. Women’s labor force participation increases by 8.9 percentage points and their earnings by 21.3%. We do not find any significant effects on immigrant men.\n\n\n\nSmall Pictures, Big Biases: The Adverse Effect of an Airbnb Design Intervention\n\nwith Carlotta Montorsi (LISER)\n\n\nA 2018 Airbnb design intervention reduced the size of the host profile picture, creating a natural experiment to test whether the salience of visual cues affects racial bias in the demand for Airbnb listings. Using scraped data from Airbnb in New York City and a face classification model, we find that, unexpectedly, the new design increased the Black-White demand disparity by 3.3 percentage points, an increase of about 30% relative to the pre-intervention gap. We show that smaller images made it harder for guests to detect positive facial cues – especially smiles – that are typically associated with higher demand, leading them to rely more heavily on skin color. In response, Black hosts updated their profile pictures to make their faces more visible and added basic amenities to their listings.\n\n\n\nMapping Artificial Intelligence: Evidence from Firm-Level Web Data in Europe\n\nwith Terry Gregory (LISER)\n\n\nWe develop a novel firm-level indicator of Artificial Intelligence (AI) adoption in Europe by applying a Large Language Model to more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024). The method detects not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. The share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation: the ecosystem is shifting from specialized AI core technology providers toward broader AI adopters, signaling widespread diffusion. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis suggests that foundational Data skills form the necessary base for adoption, while specialized AI skills act as strong complements."
+    "text": "with Christina Gathmann and Felix Stips Wirtschaftsdienst, 2025\n\n\nDeutschland ist in den letzten Jahren zu einem wichtigen Zielland für internationale Fachkräfte geworden. Herkömmliche Datenquellen wie die amtliche Statistik oder der Mikrozensus erfassen jedoch nicht, welche Kompetenzen hochqualifizierte Zuwanderer mitbringen oder durch Abwanderung verloren gehen. Mithilfe von LinkedIn-Daten machen wir diesen Kompetenzfluss sichtbar und zeigen: Deutschland ist ein deutlicher Nettoimporteur von Fähigkeiten – insbesondere in den Bereichen IT, kognitive Kompetenzen sowie Projekt- und Personalmanagement. Sowohl Erwerbs- als auch Bildungsmigration tragen hierzu bei, wobei die Bildungsmigration durch die Pandemie stärker beeinträchtigt wurde. Entscheidend ist: Deutschlands Wettbewerbsfähigkeit hängt maßgeblich von einer aktiven Fachkräftepolitik sowie von attraktiven Ausbildungs- und Bleibeperspektiven ab.\n\n\nReport (PDF)"
   },
   {
     "objectID": "experiments/exp_2_memory/GOOGLE_SHEETS_SETUP.html",
