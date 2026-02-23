@@ -6,8 +6,11 @@ readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
     "jupyter>=1.1.1",
+    "kaleido>=1.2.0",
+    "matplotlib>=3.10.8",
     "nbclient>=0.10.4",
     "nbformat>=5.10.4",
     "plotly>=6.5.2",
     "polars>=1.0.0",
+    "squarify>=0.4.4",
 ]

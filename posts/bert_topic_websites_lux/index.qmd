@@ -1,0 +1,288 @@
+---
+title: "What Does Luxembourg's Web Talk About?"
+description: "Using BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps."
+date: "2026-02-23"
+image: "thumbnail.png"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+execute:
+  echo: true
+  warning: false
+---
+
+```{python}
+#| label: setup
+#| echo: false
+#| output: false
+
+import json
+import plotly.graph_objects as go
+
+with open('stats.json', 'r') as f:
+    data = json.load(f)
+
+yearly = data['yearly']
+topics_2024 = data['topics_2024']
+sector_evo = data['sector_evolution']
+
+# One palette for both figures — each category gets a unique hue family
+cat_colors = {
+    'Real Estate': '#4363d8',
+    'Finance & Law': '#1e3a5f',
+    'Construction': '#9A6324',
+    'Services': '#f58231',
+    'Data Protection': '#808080',
+    'Restaurants': '#e6194b',
+    'Retail': '#911eb4',
+    'Healthcare': '#469990',
+    'IT & Digital': '#42d4f4',
+    'Sports': '#3cb44b',
+    'Public Services': '#ffe119',
+    'Culture & Tourism': '#f032e6',
+    'Community': '#bfef45',
+    'Automotive': '#800000',
+    'Childcare': '#fabed4',
+    'Other': '#e0e0e0'
+}
+```
+
+In my [previous post](../website_languages_lux/), I found that 75% of Luxembourg websites offer French, while Luxembourgish appears on just 9%. But *language* is only part of the story — what are these websites actually about?
+
+Using the same CommonCrawl sample, I aggregated all crawled text per website-year, removed repeated boilerplate (navigation bars, footers, cookie banners), and let [BERTopic](https://maartengr.github.io/BERTopic/) discover themes on its own — no predefined categories, just multilingual embeddings, clustering, and keyword extraction across all years at once.
+
+## A Map of Luxembourg's Web
+
+What happens when you let an algorithm read every .lu website and group them by content? The treemap below shows the topics discovered in 2024, organized into 15 categories. **Click any category to explore its individual topics**, then click the header to zoom back out.
+
+::: {.figure-container}
+::: {.figure-title}
+All topics discovered in 2024, grouped by category
+:::
+
+```{python}
+# Compute category totals
+cat_totals = {}
+for t in topics_2024:
+    s = t['sector']
+    cat_totals[s] = cat_totals.get(s, 0) + t['count']
+
+sorted_cats = sorted(cat_totals.keys(), key=lambda s: -cat_totals[s])
+total_classified = sum(cat_totals.values())
+
+# Build treemap arrays
+ids = ['Luxembourg .lu']
+labels = ['Luxembourg .lu']
+parents = ['']
+values = [total_classified]
+colors = ['#faf9f7']
+customdata = [f'{total_classified:,} websites classified']
+
+for cat in sorted_cats:
+    ids.append(cat)
+    labels.append(cat)
+    parents.append('Luxembourg .lu')
+    values.append(cat_totals[cat])
+    colors.append(cat_colors.get(cat, '#999'))
+    n = sum(1 for t in topics_2024 if t['sector'] == cat)
+    customdata.append(f'{cat_totals[cat]} websites across {n} topics')
+
+for t in topics_2024:
+    ids.append(f"{t['sector']}/{t['id']}")
+    labels.append(t['label'])
+    parents.append(t['sector'])
+    values.append(t['count'])
+    colors.append(cat_colors.get(t['sector'], '#999'))
+    customdata.append(t['words'])
+
+fig_treemap = go.Figure(go.Treemap(
+    ids=ids,
+    labels=labels,
+    parents=parents,
+    values=values,
+    branchvalues='total',
+    marker=dict(colors=colors, line=dict(width=1.5, color='white')),
+    customdata=customdata,
+    hovertemplate='<b>%{label}</b><br>%{value} websites<br>%{customdata}<extra></extra>',
+    textinfo='label+value',
+    textfont=dict(size=13),
+    maxdepth=2,
+    pathbar=dict(textfont=dict(size=13))
+))
+
+fig_treemap.update_layout(
+    height=550,
+    margin=dict(t=30, r=10, b=10, l=10),
+    paper_bgcolor='white'
+)
+
+fig_treemap.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: Based on 4,629 classified websites in 2024. The remaining 3,153 websites (40.5%) were too unique to fit any cluster. Categories are manual groupings of BERTopic's automatically discovered topics.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+**Real estate** dominates Luxembourg's web with 643 websites — more than finance and healthcare combined. In a country where housing prices rose by nearly 90% between 2015 and their peak in 2022 ([source](https://logement.public.lu/fr/observatoire-habitat/prix-de-vente/series-retrospectives.html)), it makes sense that *appartement*, *m²*, and *chambres* are the most common vocabulary on .lu domains.
+
+**Investment funds** are the second-largest single topic (277 websites), with keywords almost entirely in English: *fund*, *investment*, *asset management*, *tax*, *equity* — reflecting Luxembourg's role as Europe's largest fund administration centre.
+
+**Construction** is the most fragmented category: 11 distinct topics from roofing (*toiture*, *charpente*) to tiling (*carrelages*, *salle de bain*), reflecting a highly specialized trade sector where each craft maintains its own web presence.
+
+The topic keywords also reveal the multilingual character of Luxembourg: *appartement*, *chauffage* (French), *Fenster*, *Fassade* (German), *Musek*, *Scouten*, *Haff* (Luxembourgish), and *fund*, *cloud* (English) — all coexisting in the same .lu domain space, as explored in my [previous analysis](../website_languages_lux/).
+:::
+
+## How Stable Is This Landscape?
+
+The treemap shows a snapshot of 2024, but has the composition always looked like this? Because the model runs globally across all years, each topic has a consistent identity — so I can track how the share of each category evolved from 2016 to 2024.
+
+::: {.figure-container}
+::: {.figure-title}
+Share of classified websites per category, 2016–2024
+:::
+
+```{python}
+years = sector_evo['years']
+
+# All named sectors sorted by latest-year share (largest first), then "Other"
+named = [s for s in sector_evo['sectors'] if s['name'] != 'Other']
+named_sorted = sorted(named, key=lambda s: -s['shares'][-1])
+other = [s for s in sector_evo['sectors'] if s['name'] == 'Other']
+
+fig = go.Figure()
+
+# Add named sectors (largest on bottom for stacked chart)
+for sector in reversed(named_sorted):
+    fig.add_trace(go.Bar(
+        x=years,
+        y=sector['shares'],
+        name=sector['name'],
+        marker_color=cat_colors.get(sector['name'], '#999'),
+        hovertemplate=f"<b>{sector['name']}</b><br>%{{y:.1f}}% of classified websites<br>%{{x}}<extra></extra>"
+    ))
+
+# Add "Other" (unmapped topics) at the bottom
+if other:
+    fig.add_trace(go.Bar(
+        x=years,
+        y=other[0]['shares'],
+        name='Other',
+        marker_color=cat_colors.get('Other', '#e0e0e0'),
+        hovertemplate='<b>Other (unmapped topics)</b><br>%{y:.1f}%<br>%{x}<extra></extra>'
+    ))
+
+fig.update_layout(
+    height=500,
+    margin=dict(t=20, r=20, b=100, l=60),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    barmode='stack',
+    legend=dict(orientation='h', y=-0.22, x=0.5, xanchor='center',
+                traceorder='normal'),
+    hovermode='x unified',
+    bargap=0.25
+)
+
+fig.update_xaxes(
+    title='Year', dtick=1,
+    gridcolor='#eee', zerolinecolor='#eee'
+)
+fig.update_yaxes(
+    title_text='Share of classified websites (%)',
+    gridcolor='#eee', zerolinecolor='#eee',
+    range=[0, 100]
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: Each bar shows the share of classified websites belonging to each category. All 15 categories from the treemap are shown; "Other" covers the remaining smaller topics without a category assignment.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+The composition is remarkably **stable**. Real estate, finance, and construction have held their positions since 2016, reflecting an economy whose core pillars haven't changed.
+
+The one visible shift is **data protection**: barely present before 2018, it grew into a significant category after GDPR required businesses to publish privacy policies and cookie notices. This isn't a new sector — it's existing websites adding standardized legal text that the algorithm detects as a recurring pattern.
+:::
+
+## Methodology
+
+A single global BERTopic model processes all 81,585 website-years at once, producing consistent topic IDs that can be tracked across years without heuristic matching.
+
+::: {.pipeline-steps}
+
+**1. Data Preparation**
+: From the same CommonCrawl sample used in my [language analysis](../website_languages_lux/) (81,585 website-years, 2013–2024), I aggregated all crawled pages per website-year. Within each website, repeated paragraphs — navigation menus, footers, cookie banners — were deduplicated by comparing normalized text blocks across pages. This removed an average of 25% of text volume while preserving all unique content.
+
+**2. Sentence Embeddings**
+: Each website's deduplicated text was encoded using [`BAAI/bge-m3`](https://huggingface.co/BAAI/bge-m3), a multilingual sentence transformer with a context window of 8,192 tokens. The 1,024-dimensional embeddings were computed on GPU (one SLURM array job per year).
+
+**3. Global BERTopic**
+: All embeddings across all years are combined into a single BERTopic run: [UMAP](https://umap-learn.readthedocs.io/) reduces the 1,024 dimensions to 5, [HDBSCAN](https://hdbscan.readthedocs.io/) clusters them (minimum cluster size = 50), and [c-TF-IDF](https://maartengr.github.io/BERTopic/algorithm/algorithm.html) extracts keywords from the full text (up to 50,000 characters), using n-grams (1,2) with stopwords for English, French, German, Portuguese, Dutch, and Luxembourgish. BERTopic's built-in `topics_over_time()` method then tracks how each topic's prevalence changes year by year.
+
+**4. Category Aggregation**
+: The 191 automatically discovered topics were manually grouped into 15 categories (Real Estate, Finance & Law, Construction, etc.) based on their keywords and representative documents. This [mapping](https://github.com/julio-garbers/blog/blob/main/bert_topic_websites_lux/sector_mapping.json) covers the 94 largest topics. The remaining smaller topics are grouped as "Other".
+
+:::
+
+## Citation
+
+For attribution, please cite this work as:
+
+```
+Garbers, J. (2026, February). What Does Luxembourg's Web Talk About?
+Retrieved from https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux
+```
+
+BibTeX:
+
+```bibtex
+@misc{garbers2026topics,
+  author = {Garbers, Julio},
+  title = {What Does Luxembourg's Web Talk About?},
+  url = {https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux},
+  year = {2026}
+}
+```
+
+---
+
+::: {.github-link}
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+[All scripts available on GitHub](https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux)
+:::
+
+```{python}
+#| label: thumbnail
+#| echo: false
+#| output: false
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+import squarify
+
+# Prepare category data sorted by size
+cat_data = sorted(cat_totals.items(), key=lambda x: -x[1])
+names = [c[0] for c in cat_data]
+vals = [c[1] for c in cat_data]
+colors = [cat_colors.get(n, '#999') for n in names]
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=150)
+squarify.plot(sizes=vals, label=[f'{n}\n{v}' for n, v in zip(names, vals)],
+              color=colors, alpha=0.9, ax=ax, text_kwargs={'fontsize': 7, 'color': 'white', 'fontweight': 'bold'})
+ax.axis('off')
+fig.patch.set_facecolor('white')
+plt.tight_layout(pad=0.5)
+plt.savefig('thumbnail.png', bbox_inches='tight', facecolor='white')
+plt.close()
+```
