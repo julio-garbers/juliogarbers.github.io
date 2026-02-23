@@ -49,6 +49,62 @@
     "text": "Working Papers / Work in Progress\n\nArriving LATE: Access to Citizenship and Economic Integration\n\nwith Christina Gathmann (LISER)\n\n\nWe analyze whether faster access to citizenship fosters the economic integration of immigrants. Our empirical setting is Germany, which went from a strict concept of citizenship based on ‘jus sanguinis’ to a more open citizenship policy. We make use of discontinuities in residency requirements faced by first-generation immigrants to estimate LATEs based on Local Randomization and Fuzzy RDD approaches. We find that a more liberal citizenship policy acts as a catalyst for integration, especially for immigrant women. Women’s labor force participation increases by 8.9 percentage points and their earnings by 21.3%. We do not find any significant effects on immigrant men.\n\n\n\nSmall Pictures, Big Biases: The Adverse Effect of an Airbnb Design Intervention\n\nwith Carlotta Montorsi (LISER)\n\n\nA 2018 Airbnb design intervention reduced the size of the host profile picture, creating a natural experiment to test whether the salience of visual cues affects racial bias in the demand for Airbnb listings. Using scraped data from Airbnb in New York City and a face classification model, we find that, unexpectedly, the new design increased the Black-White demand disparity by 3.3 percentage points, an increase of about 30% relative to the pre-intervention gap. We show that smaller images made it harder for guests to detect positive facial cues – especially smiles – that are typically associated with higher demand, leading them to rely more heavily on skin color. In response, Black hosts updated their profile pictures to make their faces more visible and added basic amenities to their listings.\n\n\n\nThe Diffusion of Artificial Intelligence Across Firms: Evidence from Europe\n\nwith Terry Gregory (LISER)\n\n\nWe develop a novel firm-level indicator of Artificial Intelligence adoption in Europe (MAP-AI) by extracting information on AI usage from more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024) using a Large Language Model. The indicator captures realized AI adoption as signaled on their website rather than potential exposure. Our method allows to detect not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. Validation against human-coded benchmarks and external referenecs confirms high accuracy and external validity. We find that the share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation in the AI ecosystem, as expanding AI adoption increases the share of adopters in overall AI activity, signaling widespread diffusion and more integrated AI use, including generative AI. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis shows that foundational data skills form a necessary base for adoption, while a small set of specialized AI skills – such as machine learning and natural language processing – act as strong complements, highlighting human capital as a central driver of AI diffusion across firms.\n\n\nData Repository"
   },
   {
+    "objectID": "posts/bert_topic_websites_lux/index.html",
+    "href": "posts/bert_topic_websites_lux/index.html",
+    "title": "What Does Luxembourg’s Web Talk About?",
+    "section": "",
+    "text": "In my previous post, I found that 75% of Luxembourg websites offer French, while Luxembourgish appears on just 9%. But language is only part of the story — what are these websites actually about?\nUsing the same CommonCrawl sample, I aggregated all crawled text per website-year, removed repeated boilerplate (navigation bars, footers, cookie banners), and let BERTopic discover themes on its own — no predefined categories, just multilingual embeddings, clustering, and keyword extraction across all years at once."
+  },
+  {
+    "objectID": "posts/bert_topic_websites_lux/index.html#a-map-of-luxembourgs-web",
+    "href": "posts/bert_topic_websites_lux/index.html#a-map-of-luxembourgs-web",
+    "title": "What Does Luxembourg’s Web Talk About?",
+    "section": "A Map of Luxembourg’s Web",
+    "text": "A Map of Luxembourg’s Web\nWhat happens when you let an algorithm read every .lu website and group them by content? The treemap below shows the topics discovered in 2024, organized into 15 categories. Click any category to explore its individual topics, then click the header to zoom back out.\n\n\nAll topics discovered in 2024, grouped by category\n\n\n\nShow code\n# Compute category totals\ncat_totals = {}\nfor t in topics_2024:\n    s = t['sector']\n    cat_totals[s] = cat_totals.get(s, 0) + t['count']\n\nsorted_cats = sorted(cat_totals.keys(), key=lambda s: -cat_totals[s])\ntotal_classified = sum(cat_totals.values())\n\n# Build treemap arrays\nids = ['Luxembourg .lu']\nlabels = ['Luxembourg .lu']\nparents = ['']\nvalues = [total_classified]\ncolors = ['#faf9f7']\ncustomdata = [f'{total_classified:,} websites classified']\n\nfor cat in sorted_cats:\n    ids.append(cat)\n    labels.append(cat)\n    parents.append('Luxembourg .lu')\n    values.append(cat_totals[cat])\n    colors.append(cat_colors.get(cat, '#999'))\n    n = sum(1 for t in topics_2024 if t['sector'] == cat)\n    customdata.append(f'{cat_totals[cat]} websites across {n} topics')\n\nfor t in topics_2024:\n    ids.append(f\"{t['sector']}/{t['id']}\")\n    labels.append(t['label'])\n    parents.append(t['sector'])\n    values.append(t['count'])\n    colors.append(cat_colors.get(t['sector'], '#999'))\n    customdata.append(t['words'])\n\nfig_treemap = go.Figure(go.Treemap(\n    ids=ids,\n    labels=labels,\n    parents=parents,\n    values=values,\n    branchvalues='total',\n    marker=dict(colors=colors, line=dict(width=1.5, color='white')),\n    customdata=customdata,\n    hovertemplate='&lt;b&gt;%{label}&lt;/b&gt;&lt;br&gt;%{value} websites&lt;br&gt;%{customdata}&lt;extra&gt;&lt;/extra&gt;',\n    textinfo='label+value',\n    textfont=dict(size=13),\n    maxdepth=2,\n    pathbar=dict(textfont=dict(size=13))\n))\n\nfig_treemap.update_layout(\n    height=550,\n    margin=dict(t=30, r=10, b=10, l=10),\n    paper_bgcolor='white'\n)\n\nfig_treemap.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: Based on 4,629 classified websites in 2024. The remaining 3,153 websites (40.5%) were too unique to fit any cluster. Categories are manual groupings of BERTopic’s automatically discovered topics.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nReal estate dominates Luxembourg’s web with 643 websites — more than finance and healthcare combined. In a country where housing prices rose by nearly 90% between 2015 and their peak in 2022 (source), it makes sense that appartement, m², and chambres are the most common vocabulary on .lu domains.\nInvestment funds are the second-largest single topic (277 websites), with keywords almost entirely in English: fund, investment, asset management, tax, equity — reflecting Luxembourg’s role as Europe’s largest fund administration centre.\nConstruction is the most fragmented category: 11 distinct topics from roofing (toiture, charpente) to tiling (carrelages, salle de bain), reflecting a highly specialized trade sector where each craft maintains its own web presence.\nThe topic keywords also reveal the multilingual character of Luxembourg: appartement, chauffage (French), Fenster, Fassade (German), Musek, Scouten, Haff (Luxembourgish), and fund, cloud (English) — all coexisting in the same .lu domain space, as explored in my previous analysis."
+  },
+  {
+    "objectID": "posts/bert_topic_websites_lux/index.html#how-stable-is-this-landscape",
+    "href": "posts/bert_topic_websites_lux/index.html#how-stable-is-this-landscape",
+    "title": "What Does Luxembourg’s Web Talk About?",
+    "section": "How Stable Is This Landscape?",
+    "text": "How Stable Is This Landscape?\nThe treemap shows a snapshot of 2024, but has the composition always looked like this? Because the model runs globally across all years, each topic has a consistent identity — so I can track how the share of each category evolved from 2016 to 2024.\n\n\nShare of classified websites per category, 2016–2024\n\n\n\nShow code\nyears = sector_evo['years']\n\n# All named sectors sorted by latest-year share (largest first), then \"Other\"\nnamed = [s for s in sector_evo['sectors'] if s['name'] != 'Other']\nnamed_sorted = sorted(named, key=lambda s: -s['shares'][-1])\nother = [s for s in sector_evo['sectors'] if s['name'] == 'Other']\n\nfig = go.Figure()\n\n# Add named sectors (largest on bottom for stacked chart)\nfor sector in reversed(named_sorted):\n    fig.add_trace(go.Bar(\n        x=years,\n        y=sector['shares'],\n        name=sector['name'],\n        marker_color=cat_colors.get(sector['name'], '#999'),\n        hovertemplate=f\"&lt;b&gt;{sector['name']}&lt;/b&gt;&lt;br&gt;%{{y:.1f}}% of classified websites&lt;br&gt;%{{x}}&lt;extra&gt;&lt;/extra&gt;\"\n    ))\n\n# Add \"Other\" (unmapped topics) at the bottom\nif other:\n    fig.add_trace(go.Bar(\n        x=years,\n        y=other[0]['shares'],\n        name='Other',\n        marker_color=cat_colors.get('Other', '#e0e0e0'),\n        hovertemplate='&lt;b&gt;Other (unmapped topics)&lt;/b&gt;&lt;br&gt;%{y:.1f}%&lt;br&gt;%{x}&lt;extra&gt;&lt;/extra&gt;'\n    ))\n\nfig.update_layout(\n    height=500,\n    margin=dict(t=20, r=20, b=100, l=60),\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    barmode='stack',\n    legend=dict(orientation='h', y=-0.22, x=0.5, xanchor='center',\n                traceorder='normal'),\n    hovermode='x unified',\n    bargap=0.25\n)\n\nfig.update_xaxes(\n    title='Year', dtick=1,\n    gridcolor='#eee', zerolinecolor='#eee'\n)\nfig.update_yaxes(\n    title_text='Share of classified websites (%)',\n    gridcolor='#eee', zerolinecolor='#eee',\n    range=[0, 100]\n)\n\nfig.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: Each bar shows the share of classified websites belonging to each category. All 15 categories from the treemap are shown; “Other” covers the remaining smaller topics without a category assignment.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nThe composition is remarkably stable. Real estate, finance, and construction have held their positions since 2016, reflecting an economy whose core pillars haven’t changed.\nThe one visible shift is data protection: barely present before 2018, it grew into a significant category after GDPR required businesses to publish privacy policies and cookie notices. This isn’t a new sector — it’s existing websites adding standardized legal text that the algorithm detects as a recurring pattern."
+  },
+  {
+    "objectID": "posts/bert_topic_websites_lux/index.html#methodology",
+    "href": "posts/bert_topic_websites_lux/index.html#methodology",
+    "title": "What Does Luxembourg’s Web Talk About?",
+    "section": "Methodology",
+    "text": "Methodology\nA single global BERTopic model processes all 81,585 website-years at once, producing consistent topic IDs that can be tracked across years without heuristic matching.\n\n\n1. Data Preparation\n\nFrom the same CommonCrawl sample used in my language analysis (81,585 website-years, 2013–2024), I aggregated all crawled pages per website-year. Within each website, repeated paragraphs — navigation menus, footers, cookie banners — were deduplicated by comparing normalized text blocks across pages. This removed an average of 25% of text volume while preserving all unique content.\n\n2. Sentence Embeddings\n\nEach website’s deduplicated text was encoded using BAAI/bge-m3, a multilingual sentence transformer with a context window of 8,192 tokens. The 1,024-dimensional embeddings were computed on GPU (one SLURM array job per year).\n\n3. Global BERTopic\n\nAll embeddings across all years are combined into a single BERTopic run: UMAP reduces the 1,024 dimensions to 5, HDBSCAN clusters them (minimum cluster size = 50), and c-TF-IDF extracts keywords from the full text (up to 50,000 characters), using n-grams (1,2) with stopwords for English, French, German, Portuguese, Dutch, and Luxembourgish. BERTopic’s built-in topics_over_time() method then tracks how each topic’s prevalence changes year by year.\n\n4. Category Aggregation\n\nThe 191 automatically discovered topics were manually grouped into 15 categories (Real Estate, Finance & Law, Construction, etc.) based on their keywords and representative documents. This mapping covers the 94 largest topics. The remaining smaller topics are grouped as “Other”."
+  },
+  {
+    "objectID": "posts/bert_topic_websites_lux/index.html#citation",
+    "href": "posts/bert_topic_websites_lux/index.html#citation",
+    "title": "What Does Luxembourg’s Web Talk About?",
+    "section": "Citation",
+    "text": "Citation\nFor attribution, please cite this work as:\nGarbers, J. (2026, February). What Does Luxembourg's Web Talk About?\nRetrieved from https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux\nBibTeX:\n@misc{garbers2026topics,\n  author = {Garbers, Julio},\n  title = {What Does Luxembourg's Web Talk About?},\n  url = {https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux},\n  year = {2026}\n}\n\n\n\n\n\nAll scripts available on GitHub"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "View CV (PDF)"
+  },
+  {
+    "objectID": "experiments.html",
+    "href": "experiments.html",
+    "title": "Experiments",
+    "section": "",
+    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nMeasures how accurately people identify race and facial expressions when viewing individual faces at different sizes.\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nTests how well people remember the racial composition and expressions of faces shown in groups.\nDuration: ~15 minutes\nStart Experiment"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "What Does Luxembourg’s Web Talk About?\n\n\nUsing BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps.\n\n\n\n\n\nFebruary 23, 2026\n\n\n\n\n\n\n\nThe Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Julio Garbers",
@@ -68,27 +124,6 @@
     "title": "Julio Garbers",
     "section": "Education",
     "text": "Education\n\nPhD in Economics (2021 – 2025) LISER and University of Luxembourg\n\n\nMaster’s Degree in Economics (2018 – 2021) University of Heidelberg\n\n\nBachelor’s Degree in Economics (2015 – 2018) University of Heidelberg"
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "The Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
-    "objectID": "experiments.html",
-    "href": "experiments.html",
-    "title": "Experiments",
-    "section": "",
-    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nMeasures how accurately people identify race and facial expressions when viewing individual faces at different sizes.\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nTests how well people remember the racial composition and expressions of faces shown in groups.\nDuration: ~15 minutes\nStart Experiment"
-  },
-  {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "View CV (PDF)"
   },
   {
     "objectID": "posts/website_languages_lux/index.html",

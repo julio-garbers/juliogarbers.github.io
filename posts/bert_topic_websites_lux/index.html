@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-02-23">
+<meta name="description" content="Using BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps.">
+
+<title>What Does Luxembourg’s Web Talk About? – Julio Garbers</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7a3aec57ca8ba058e5ee33bf22308737.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+</script>
+<script type="module">import "https://cdn.plot.ly/plotly-3.3.1.min"</script>
+
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julio Garbers</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../data.html"> 
+<span class="menu-text">Data</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../policy.html"> 
+<span class="menu-text">Policy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../experiments.html"> 
+<span class="menu-text">Experiments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/julio-garbers"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">What Does Luxembourg’s Web Talk About?</h1>
+</div>
+
+<div>
+  <div class="description">
+    Using BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">February 23, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In my <a href="../website_languages_lux/">previous post</a>, I found that 75% of Luxembourg websites offer French, while Luxembourgish appears on just 9%. But <em>language</em> is only part of the story — what are these websites actually about?</p>
+<p>Using the same CommonCrawl sample, I aggregated all crawled text per website-year, removed repeated boilerplate (navigation bars, footers, cookie banners), and let <a href="https://maartengr.github.io/BERTopic/">BERTopic</a> discover themes on its own — no predefined categories, just multilingual embeddings, clustering, and keyword extraction across all years at once.</p>
+<section id="a-map-of-luxembourgs-web" class="level2">
+<h2 data-anchor-id="a-map-of-luxembourgs-web">A Map of Luxembourg’s Web</h2>
+<p>What happens when you let an algorithm read every .lu website and group them by content? The treemap below shows the topics discovered in 2024, organized into 15 categories. <strong>Click any category to explore its individual topics</strong>, then click the header to zoom back out.</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>All topics discovered in 2024, grouped by category</p>
+</div>
+<div id="623169da" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compute category totals</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>cat_totals <span class="op">=</span> {}</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> topics_2024:</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    s <span class="op">=</span> t[<span class="st">'sector'</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    cat_totals[s] <span class="op">=</span> cat_totals.get(s, <span class="dv">0</span>) <span class="op">+</span> t[<span class="st">'count'</span>]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>sorted_cats <span class="op">=</span> <span class="bu">sorted</span>(cat_totals.keys(), key<span class="op">=</span><span class="kw">lambda</span> s: <span class="op">-</span>cat_totals[s])</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>total_classified <span class="op">=</span> <span class="bu">sum</span>(cat_totals.values())</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Build treemap arrays</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>ids <span class="op">=</span> [<span class="st">'Luxembourg .lu'</span>]</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [<span class="st">'Luxembourg .lu'</span>]</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>parents <span class="op">=</span> [<span class="st">''</span>]</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>values <span class="op">=</span> [total_classified]</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>colors <span class="op">=</span> [<span class="st">'#faf9f7'</span>]</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>customdata <span class="op">=</span> [<span class="ss">f'</span><span class="sc">{</span>total_classified<span class="sc">:,}</span><span class="ss"> websites classified'</span>]</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> cat <span class="kw">in</span> sorted_cats:</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    ids.append(cat)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    labels.append(cat)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    parents.append(<span class="st">'Luxembourg .lu'</span>)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    values.append(cat_totals[cat])</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    colors.append(cat_colors.get(cat, <span class="st">'#999'</span>))</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    n <span class="op">=</span> <span class="bu">sum</span>(<span class="dv">1</span> <span class="cf">for</span> t <span class="kw">in</span> topics_2024 <span class="cf">if</span> t[<span class="st">'sector'</span>] <span class="op">==</span> cat)</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    customdata.append(<span class="ss">f'</span><span class="sc">{</span>cat_totals[cat]<span class="sc">}</span><span class="ss"> websites across </span><span class="sc">{</span>n<span class="sc">}</span><span class="ss"> topics'</span>)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> t <span class="kw">in</span> topics_2024:</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    ids.append(<span class="ss">f"</span><span class="sc">{</span>t[<span class="st">'sector'</span>]<span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>t[<span class="st">'id'</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    labels.append(t[<span class="st">'label'</span>])</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    parents.append(t[<span class="st">'sector'</span>])</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    values.append(t[<span class="st">'count'</span>])</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    colors.append(cat_colors.get(t[<span class="st">'sector'</span>], <span class="st">'#999'</span>))</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    customdata.append(t[<span class="st">'words'</span>])</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>fig_treemap <span class="op">=</span> go.Figure(go.Treemap(</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    ids<span class="op">=</span>ids,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    labels<span class="op">=</span>labels,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    parents<span class="op">=</span>parents,</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    values<span class="op">=</span>values,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    branchvalues<span class="op">=</span><span class="st">'total'</span>,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    marker<span class="op">=</span><span class="bu">dict</span>(colors<span class="op">=</span>colors, line<span class="op">=</span><span class="bu">dict</span>(width<span class="op">=</span><span class="fl">1.5</span>, color<span class="op">=</span><span class="st">'white'</span>)),</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    customdata<span class="op">=</span>customdata,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'&lt;b&gt;%</span><span class="sc">{label}</span><span class="st">&lt;/b&gt;&lt;br&gt;%</span><span class="sc">{value}</span><span class="st"> websites&lt;br&gt;%</span><span class="sc">{customdata}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    textinfo<span class="op">=</span><span class="st">'label+value'</span>,</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">13</span>),</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    maxdepth<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    pathbar<span class="op">=</span><span class="bu">dict</span>(textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">13</span>))</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>fig_treemap.update_layout(</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">550</span>,</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">30</span>, r<span class="op">=</span><span class="dv">10</span>, b<span class="op">=</span><span class="dv">10</span>, l<span class="op">=</span><span class="dv">10</span>),</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span></span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>fig_treemap.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="94e50c86-dfcc-4246-a217-f93d83499c66" class="plotly-graph-div" style="height:550px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("94e50c86-dfcc-4246-a217-f93d83499c66")) {                    Plotly.newPlot(                        "94e50c86-dfcc-4246-a217-f93d83499c66",                        [{"branchvalues":"total","customdata":["3,831 websites classified","643 websites across 3 topics","366 websites across 3 topics","360 websites across 12 topics","305 websites across 11 topics","283 websites across 2 topics","260 websites across 8 topics","250 websites across 12 topics","238 websites across 9 topics","216 websites across 2 topics","187 websites across 4 topics","166 websites across 9 topics","160 websites across 6 topics","156 websites across 7 topics","127 websites across 5 topics","114 websites across 1 topics","appartement, chambres, m², surface, maison, immobilier","fund, investment, asset management, tax, equity","Daten, Verarbeitung, personenbezogenen Daten, DSGVO, Cookies","commune, conseil communal, administration, déchets, bourgmestre","crèche, enfants, foyer de jour, parents, Montessori","cloud, security, solutions, informatique, management","design, marketing, communication, référencement, SEO","architectes, construction, maison unifamiliale, transformation","installation, domotique, alarme, électriques, LED","sushi, poulet, saumon, maki, thon, scampis","vins, Pinot, Riesling, domaine, crémant","soins, beauté, visage, peau, massage","jardin, gazon, plantes, arbres, aménagement","FC, seniors, match, coupe, saison","chauffage, sanitaire, climatisation, chaudière, pompe à chaleur","assurance, Lalux, Foyer, habitation, auto","élèves, lycée, scolaire, classes, Schüler","coiffure, salon, cheveux, coloration","théâtre, musique, concert, Philharmonie","nettoyage, vitres, ménage, lavage","toiture, charpente, couverture, ferblanterie, isolation","BMW, Audi, Peugeot, véhicules, diesel","fondation, projets, SOS, développement","Fenster, aluminium, portes, PVC, pergola","lettrage, impression, panneaux, signalétique","cancer, health, médecins, santé, patients","Adidas, chaussures, femme, jeans, vêtements","voyages, travel, Reisen, bus, forfait","mozzarella, tomate, jambon, champignons, parmesan","accessoires, poids, marque, machine","law, droit, avocats, litigation, cour","coaching, sophrologie, yoga, stress, relaxation","Musek, harmonie, municipale, concert","l'art, galerie, Mudam, artistes, exposition","transport, express, logistics, marchandises","lentilles, lunettes, optique, verres, vision","fitness, training, coach, Pilates, body","Kirche, l'Église, communauté, messe","permis de conduire, examen, conduite","menuiserie, portes, dressing, bois, meubles","offres d'emploi, job, recruitment, RH","club, Volvo, vintage, moto","ASBL, psychologie, Ligue, prévention","judo, arts martiaux, kids, entraînements","Scouten, FNEL, camp, Explorer","camping, Campingplatz, Luxemburg, Ardennen","ingénieur, projets, bureau d'études, coordination","dentaire, dents, chirurgie, cabinet","fleurs, plantes, bouquet, mariage, roses","CSI, Pferd, résultats, compétition","Einsatz, Fahrzeuge, secours, incendie","carte cadeau, produits, food, Auchan","rénovation, travaux, aménagement, carrelage","photo, photographe, portraits, shooting","John Deere, machines, manutention, chariot","danse, salsa, jazz, tango, cours","film, Tarantula, festival, Kinepolis","courses, langues, Luxembourgish, English","rééducation, kinésithérapie, thérapie, drainage","soins, aides, Hëllef Doheem, domicile","client, commande, vendeur, livraison, paiement","pizzeria, pâtes, spécialités, emporter","données personnelles, caractère personnel, traitement, collectées","garage, carrosserie, réparation, voitures","taxi, chauffeur, réservation, tarifs","boulangerie, pain, pâtisserie, traiteur","Energiepass, énergétique, passeport, myenergy","tennis, terrains, tournoi","brasserie, plat du jour, carte, cuisine","chicken, lamb, curry, Indian, sauce","vélos, bike, carbon, VTT","pneus, jantes, montage, Muller","médecine, docteur, chirurgie, clinique","natation, club, stage, compétition","chambre, artisanat, métiers, commerce","garde-corps, acier, inox, escaliers","Fassade, Farben, Sanierung, peinture","formation, MBA, university, professionnelle","bureau, mobilier, fauteuil, chaise","écologique, mouvement, transition, Stiftung","Rolex, vintage, Patek Philippe, collector","peinture, décoration, façade, revêtement","intérim, Synergie, postuler, recherche","randonnée, VTT, challenge, tour","animal, animaux, consultations, chien","flight, pilot, training, licence","pharmacie, garde, médicaments","Q8, mazout, pellets, Gulf","Haff, ferme, Buttek, Geméis","café, tea, espresso, coffee","sol, parquet, revêtements, tapis","event, team building, animations","robe, boutique, mariage, mariée","carrelages, pose, pierres, salle de bain"],"hovertemplate":"\u003cb\u003e%{label}\u003c\u002fb\u003e\u003cbr\u003e%{value} websites\u003cbr\u003e%{customdata}\u003cextra\u003e\u003c\u002fextra\u003e","ids":["Luxembourg .lu","Real Estate","Finance & Law","Construction","Services","Data Protection","Restaurants","Retail","Healthcare","IT & Digital","Public Services","Sports","Culture & Tourism","Community","Automotive","Childcare","Real Estate\u002f0","Finance & Law\u002f1","Data Protection\u002f2","Public Services\u002f3","Childcare\u002f4","IT & Digital\u002f5","IT & Digital\u002f6","Real Estate\u002f7","Construction\u002f8","Restaurants\u002f9","Restaurants\u002f10","Healthcare\u002f11","Services\u002f13","Sports\u002f14","Construction\u002f15","Finance & Law\u002f16","Public Services\u002f17","Services\u002f18","Culture & Tourism\u002f19","Services\u002f20","Construction\u002f21","Automotive\u002f22","Community\u002f23","Construction\u002f24","Services\u002f25","Healthcare\u002f26","Retail\u002f27","Culture & Tourism\u002f28","Restaurants\u002f29","Retail\u002f30","Finance & Law\u002f31","Healthcare\u002f32","Culture & Tourism\u002f34","Culture & Tourism\u002f35","Services\u002f36","Retail\u002f37","Sports\u002f38","Community\u002f40","Automotive\u002f41","Construction\u002f42","Services\u002f44","Automotive\u002f45","Community\u002f47","Sports\u002f48","Community\u002f49","Culture & Tourism\u002f50","Real Estate\u002f51","Healthcare\u002f52","Retail\u002f53","Sports\u002f54","Community\u002f55","Retail\u002f56","Construction\u002f57","Services\u002f58","Retail\u002f59","Sports\u002f60","Culture & Tourism\u002f61","Services\u002f62","Healthcare\u002f64","Healthcare\u002f66","Retail\u002f67","Restaurants\u002f68","Data Protection\u002f69","Automotive\u002f71","Services\u002f72","Restaurants\u002f73","Construction\u002f74","Sports\u002f75","Restaurants\u002f76","Restaurants\u002f77","Retail\u002f78","Automotive\u002f79","Healthcare\u002f80","Sports\u002f81","Public Services\u002f82","Construction\u002f83","Construction\u002f84","Public Services\u002f85","Retail\u002f86","Community\u002f89","Retail\u002f90","Construction\u002f91","Services\u002f92","Sports\u002f93","Healthcare\u002f94","Sports\u002f96","Healthcare\u002f98","Retail\u002f100","Community\u002f101","Restaurants\u002f102","Construction\u002f103","Services\u002f105","Retail\u002f107","Construction\u002f112"],"labels":["Luxembourg .lu","Real Estate","Finance & Law","Construction","Services","Data Protection","Restaurants","Retail","Healthcare","IT & Digital","Public Services","Sports","Culture & Tourism","Community","Automotive","Childcare","Property Listings","Investment Funds","DSGVO (German)","Municipal Government","Crèches & Daycare","IT & Cloud","Marketing & Design","Architecture","Electrical & Smart Home","Asian Cuisine","Wine & Vineyards","Beauty & Spa","Gardening","Football Clubs","HVAC & Heating","Insurance","Schools & Lycées","Hairdressers","Theater & Music","Cleaning","Roofing","Car Dealers","NGOs & Foundations","Windows & Doors","Printing & Signage","Health & Medicine","Fashion & Shoes","Travel & Tourism","Pizza & Italian","Hardware & Equipment","Law Firms","Coaching & Wellbeing","Music Associations","Art Galleries","Transport & Logistics","Opticians","Fitness","Churches","Driving Schools","Joinery","Recruitment","Car & Vintage Clubs","Support Associations","Martial Arts","Scouts","Camping","Engineering","Dentistry","Florists","Equestrian","Fire Services","Online Shopping","Renovation","Photography","Machinery","Dance","Film & Cinema","Language Courses","Physiotherapy","Home Care","E-commerce","Pizzerias","Privacy Policies (French)","Garages","Taxi","Bakeries","Energy Certificates","Tennis","Brasseries","Indian Cuisine","Bicycle Shops","Tyre Services","Medical Specialists","Swimming","Chambers of Commerce","Metalwork","Facades","Training & Education","Office Furniture","Ecology & Transition","Luxury Watches","Painting","Temp Agencies","Cycling & Trails","Veterinary","Aviation","Pharmacies","Fuel & Pellets","Farms","Cafés","Flooring","Event Planning","Bridal","Tiling"],"marker":{"colors":["#faf9f7","#4363d8","#1e3a5f","#9A6324","#f58231","#808080","#e6194b","#911eb4","#469990","#42d4f4","#ffe119","#3cb44b","#f032e6","#bfef45","#800000","#fabed4","#4363d8","#1e3a5f","#808080","#ffe119","#fabed4","#42d4f4","#42d4f4","#4363d8","#9A6324","#e6194b","#e6194b","#469990","#f58231","#3cb44b","#9A6324","#1e3a5f","#ffe119","#f58231","#f032e6","#f58231","#9A6324","#800000","#bfef45","#9A6324","#f58231","#469990","#911eb4","#f032e6","#e6194b","#911eb4","#1e3a5f","#469990","#f032e6","#f032e6","#f58231","#911eb4","#3cb44b","#bfef45","#800000","#9A6324","#f58231","#800000","#bfef45","#3cb44b","#bfef45","#f032e6","#4363d8","#469990","#911eb4","#3cb44b","#bfef45","#911eb4","#9A6324","#f58231","#911eb4","#3cb44b","#f032e6","#f58231","#469990","#469990","#911eb4","#e6194b","#808080","#800000","#f58231","#e6194b","#9A6324","#3cb44b","#e6194b","#e6194b","#911eb4","#800000","#469990","#3cb44b","#ffe119","#9A6324","#9A6324","#ffe119","#911eb4","#bfef45","#911eb4","#9A6324","#f58231","#3cb44b","#469990","#3cb44b","#469990","#911eb4","#bfef45","#e6194b","#9A6324","#f58231","#911eb4","#9A6324"],"line":{"color":"white","width":1.5}},"maxdepth":2,"parents":["","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Luxembourg .lu","Real Estate","Finance & Law","Data Protection","Public Services","Childcare","IT & Digital","IT & Digital","Real Estate","Construction","Restaurants","Restaurants","Healthcare","Services","Sports","Construction","Finance & Law","Public Services","Services","Culture & Tourism","Services","Construction","Automotive","Community","Construction","Services","Healthcare","Retail","Culture & Tourism","Restaurants","Retail","Finance & Law","Healthcare","Culture & Tourism","Culture & Tourism","Services","Retail","Sports","Community","Automotive","Construction","Services","Automotive","Community","Sports","Community","Culture & Tourism","Real Estate","Healthcare","Retail","Sports","Community","Retail","Construction","Services","Retail","Sports","Culture & Tourism","Services","Healthcare","Healthcare","Retail","Restaurants","Data Protection","Automotive","Services","Restaurants","Construction","Sports","Restaurants","Restaurants","Retail","Automotive","Healthcare","Sports","Public Services","Construction","Construction","Public Services","Retail","Community","Retail","Construction","Services","Sports","Healthcare","Sports","Healthcare","Retail","Community","Restaurants","Construction","Services","Retail","Construction"],"pathbar":{"textfont":{"size":13}},"textfont":{"size":13},"textinfo":"label+value","values":[3831,643,366,360,305,283,260,250,238,216,187,166,160,156,127,114,514,277,231,125,114,115,101,100,69,85,66,48,52,20,53,45,38,28,43,48,45,43,45,49,38,36,31,29,35,40,44,43,29,27,34,34,31,28,30,27,24,27,20,25,23,19,29,26,18,17,13,24,26,19,15,16,13,18,19,19,25,19,52,11,13,11,19,14,10,21,15,16,14,17,12,16,20,12,13,14,15,14,15,11,17,15,16,13,13,13,12,16,7,10],"type":"treemap"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"margin":{"t":30,"r":10,"b":10,"l":10},"height":550,"paper_bgcolor":"white"},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('94e50c86-dfcc-4246-a217-f93d83499c66');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: Based on 4,629 classified websites in 2024. The remaining 3,153 websites (40.5%) were too unique to fit any cluster. Categories are manual groupings of BERTopic’s automatically discovered topics.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Real estate</strong> dominates Luxembourg’s web with 643 websites — more than finance and healthcare combined. In a country where housing prices rose by nearly 90% between 2015 and their peak in 2022 (<a href="https://logement.public.lu/fr/observatoire-habitat/prix-de-vente/series-retrospectives.html">source</a>), it makes sense that <em>appartement</em>, <em>m²</em>, and <em>chambres</em> are the most common vocabulary on .lu domains.</p>
+<p><strong>Investment funds</strong> are the second-largest single topic (277 websites), with keywords almost entirely in English: <em>fund</em>, <em>investment</em>, <em>asset management</em>, <em>tax</em>, <em>equity</em> — reflecting Luxembourg’s role as Europe’s largest fund administration centre.</p>
+<p><strong>Construction</strong> is the most fragmented category: 11 distinct topics from roofing (<em>toiture</em>, <em>charpente</em>) to tiling (<em>carrelages</em>, <em>salle de bain</em>), reflecting a highly specialized trade sector where each craft maintains its own web presence.</p>
+<p>The topic keywords also reveal the multilingual character of Luxembourg: <em>appartement</em>, <em>chauffage</em> (French), <em>Fenster</em>, <em>Fassade</em> (German), <em>Musek</em>, <em>Scouten</em>, <em>Haff</em> (Luxembourgish), and <em>fund</em>, <em>cloud</em> (English) — all coexisting in the same .lu domain space, as explored in my <a href="../website_languages_lux/">previous analysis</a>.</p>
+</div>
+</div>
+</section>
+<section id="how-stable-is-this-landscape" class="level2">
+<h2 data-anchor-id="how-stable-is-this-landscape">How Stable Is This Landscape?</h2>
+<p>The treemap shows a snapshot of 2024, but has the composition always looked like this? Because the model runs globally across all years, each topic has a consistent identity — so I can track how the share of each category evolved from 2016 to 2024.</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>Share of classified websites per category, 2016–2024</p>
+</div>
+<div id="90859465" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> sector_evo[<span class="st">'years'</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co"># All named sectors sorted by latest-year share (largest first), then "Other"</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>named <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> sector_evo[<span class="st">'sectors'</span>] <span class="cf">if</span> s[<span class="st">'name'</span>] <span class="op">!=</span> <span class="st">'Other'</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>named_sorted <span class="op">=</span> <span class="bu">sorted</span>(named, key<span class="op">=</span><span class="kw">lambda</span> s: <span class="op">-</span>s[<span class="st">'shares'</span>][<span class="op">-</span><span class="dv">1</span>])</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>other <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> sector_evo[<span class="st">'sectors'</span>] <span class="cf">if</span> s[<span class="st">'name'</span>] <span class="op">==</span> <span class="st">'Other'</span>]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Add named sectors (largest on bottom for stacked chart)</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sector <span class="kw">in</span> <span class="bu">reversed</span>(named_sorted):</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Bar(</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>years,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span>sector[<span class="st">'shares'</span>],</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span>sector[<span class="st">'name'</span>],</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>        marker_color<span class="op">=</span>cat_colors.get(sector[<span class="st">'name'</span>], <span class="st">'#999'</span>),</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>sector[<span class="st">'name'</span>]<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;%</span><span class="ch">{{</span><span class="ss">y:.1f</span><span class="ch">}}</span><span class="ss">% of classified websites&lt;br&gt;%</span><span class="ch">{{</span><span class="ss">x</span><span class="ch">}}</span><span class="ss">&lt;extra&gt;&lt;/extra&gt;"</span></span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Add "Other" (unmapped topics) at the bottom</span></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> other:</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Bar(</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span>years,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span>other[<span class="dv">0</span>][<span class="st">'shares'</span>],</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span><span class="st">'Other'</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>        marker_color<span class="op">=</span>cat_colors.get(<span class="st">'Other'</span>, <span class="st">'#e0e0e0'</span>),</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="st">'&lt;b&gt;Other (unmapped topics)&lt;/b&gt;&lt;br&gt;%</span><span class="sc">{y:.1f}</span><span class="st">%&lt;br&gt;%</span><span class="sc">{x}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;'</span></span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">500</span>,</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">20</span>, r<span class="op">=</span><span class="dv">20</span>, b<span class="op">=</span><span class="dv">100</span>, l<span class="op">=</span><span class="dv">60</span>),</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    barmode<span class="op">=</span><span class="st">'stack'</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(orientation<span class="op">=</span><span class="st">'h'</span>, y<span class="op">=-</span><span class="fl">0.22</span>, x<span class="op">=</span><span class="fl">0.5</span>, xanchor<span class="op">=</span><span class="st">'center'</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>                traceorder<span class="op">=</span><span class="st">'normal'</span>),</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>    hovermode<span class="op">=</span><span class="st">'x unified'</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>    bargap<span class="op">=</span><span class="fl">0.25</span></span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>fig.update_xaxes(</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    title<span class="op">=</span><span class="st">'Year'</span>, dtick<span class="op">=</span><span class="dv">1</span>,</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>    gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span></span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>fig.update_yaxes(</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>    title_text<span class="op">=</span><span class="st">'Share of classified websites (%)'</span>,</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>    gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>,</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>    <span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, <span class="dv">100</span>]</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>fig.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="10f9d29d-c678-4393-a09e-a440404d8124" class="plotly-graph-div" style="height:500px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("10f9d29d-c678-4393-a09e-a440404d8124")) {                    Plotly.newPlot(                        "10f9d29d-c678-4393-a09e-a440404d8124",                        [{"hovertemplate":"\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#fabed4"},"name":"Childcare","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[2.5,3.0,2.9,2.7,2.6,2.6,2.4,2.4,2.5],"type":"bar"},{"hovertemplate":"\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#800000"},"name":"Automotive","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.1,3.0,2.8,2.4,2.7,2.5,2.6,2.6,2.7],"type":"bar"},{"hovertemplate":"\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#bfef45"},"name":"Community","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.9,3.8,3.4,3.2,3.1,3.1,3.1,3.5,3.4],"type":"bar"},{"hovertemplate":"\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#f032e6"},"name":"Culture & Tourism","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.6,4.7,4.0,3.6,3.6,3.3,3.5,3.5,3.5],"type":"bar"},{"hovertemplate":"\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#3cb44b"},"name":"Sports","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.6,5.1,4.8,4.1,3.9,4.0,3.9,4.1,3.6],"type":"bar"},{"hovertemplate":"\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#ffe119"},"name":"Public Services","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.4,4.8,3.9,3.3,3.4,3.4,3.6,4.0,4.0],"type":"bar"},{"hovertemplate":"\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#42d4f4"},"name":"IT & Digital","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.3,4.8,4.8,4.3,4.2,4.4,4.6,4.7,4.7],"type":"bar"},{"hovertemplate":"\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#469990"},"name":"Healthcare","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[3.9,4.7,5.3,5.2,5.3,5.5,5.5,5.1,5.1],"type":"bar"},{"hovertemplate":"\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#911eb4"},"name":"Retail","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.5,5.0,5.2,5.6,5.2,5.3,5.4,5.4,5.4],"type":"bar"},{"hovertemplate":"\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#e6194b"},"name":"Restaurants","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[4.3,5.0,5.2,6.1,6.0,6.1,5.6,5.6,5.6],"type":"bar"},{"hovertemplate":"\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#808080"},"name":"Data Protection","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[0.3,0.4,1.6,2.9,3.2,3.7,4.5,6.5,6.1],"type":"bar"},{"hovertemplate":"\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#f58231"},"name":"Services","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[5.5,6.3,7.0,7.5,7.4,7.6,7.3,6.2,6.6],"type":"bar"},{"hovertemplate":"\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#9A6324"},"name":"Construction","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[7.0,7.3,7.6,7.7,7.7,8.1,8.3,7.5,7.8],"type":"bar"},{"hovertemplate":"\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#1e3a5f"},"name":"Finance & Law","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[8.0,8.1,8.4,8.0,7.3,7.4,7.4,7.8,7.9],"type":"bar"},{"hovertemplate":"\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}% of classified websites\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#4363d8"},"name":"Real Estate","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[13.0,12.7,13.7,13.0,12.9,13.1,13.2,14.0,13.9],"type":"bar"},{"hovertemplate":"\u003cb\u003eOther (unmapped topics)\u003c\u002fb\u003e\u003cbr\u003e%{y:.1f}%\u003cbr\u003e%{x}\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#e0e0e0"},"name":"Other","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[23.1,21.1,19.3,20.1,21.6,20.0,19.0,17.1,17.2],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"margin":{"t":20,"r":20,"b":100,"l":60},"legend":{"orientation":"h","y":-0.22,"x":0.5,"xanchor":"center","traceorder":"normal"},"height":500,"plot_bgcolor":"white","paper_bgcolor":"white","barmode":"stack","hovermode":"x unified","bargap":0.25,"xaxis":{"title":{"text":"Year"},"dtick":1,"gridcolor":"#eee","zerolinecolor":"#eee"},"yaxis":{"title":{"text":"Share of classified websites (%)"},"gridcolor":"#eee","zerolinecolor":"#eee","range":[0,100]}},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('10f9d29d-c678-4393-a09e-a440404d8124');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: Each bar shows the share of classified websites belonging to each category. All 15 categories from the treemap are shown; “Other” covers the remaining smaller topics without a category assignment.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The composition is remarkably <strong>stable</strong>. Real estate, finance, and construction have held their positions since 2016, reflecting an economy whose core pillars haven’t changed.</p>
+<p>The one visible shift is <strong>data protection</strong>: barely present before 2018, it grew into a significant category after GDPR required businesses to publish privacy policies and cookie notices. This isn’t a new sector — it’s existing websites adding standardized legal text that the algorithm detects as a recurring pattern.</p>
+</div>
+</div>
+</section>
+<section id="methodology" class="level2">
+<h2 data-anchor-id="methodology">Methodology</h2>
+<p>A single global BERTopic model processes all 81,585 website-years at once, producing consistent topic IDs that can be tracked across years without heuristic matching.</p>
+<div class="pipeline-steps">
+<dl>
+<dt><strong>1. Data Preparation</strong></dt>
+<dd>
+From the same CommonCrawl sample used in my <a href="../website_languages_lux/">language analysis</a> (81,585 website-years, 2013–2024), I aggregated all crawled pages per website-year. Within each website, repeated paragraphs — navigation menus, footers, cookie banners — were deduplicated by comparing normalized text blocks across pages. This removed an average of 25% of text volume while preserving all unique content.
+</dd>
+<dt><strong>2. Sentence Embeddings</strong></dt>
+<dd>
+Each website’s deduplicated text was encoded using <a href="https://huggingface.co/BAAI/bge-m3"><code>BAAI/bge-m3</code></a>, a multilingual sentence transformer with a context window of 8,192 tokens. The 1,024-dimensional embeddings were computed on GPU (one SLURM array job per year).
+</dd>
+<dt><strong>3. Global BERTopic</strong></dt>
+<dd>
+All embeddings across all years are combined into a single BERTopic run: <a href="https://umap-learn.readthedocs.io/">UMAP</a> reduces the 1,024 dimensions to 5, <a href="https://hdbscan.readthedocs.io/">HDBSCAN</a> clusters them (minimum cluster size = 50), and <a href="https://maartengr.github.io/BERTopic/algorithm/algorithm.html">c-TF-IDF</a> extracts keywords from the full text (up to 50,000 characters), using n-grams (1,2) with stopwords for English, French, German, Portuguese, Dutch, and Luxembourgish. BERTopic’s built-in <code>topics_over_time()</code> method then tracks how each topic’s prevalence changes year by year.
+</dd>
+<dt><strong>4. Category Aggregation</strong></dt>
+<dd>
+The 191 automatically discovered topics were manually grouped into 15 categories (Real Estate, Finance &amp; Law, Construction, etc.) based on their keywords and representative documents. This <a href="https://github.com/julio-garbers/blog/blob/main/bert_topic_websites_lux/sector_mapping.json">mapping</a> covers the 94 largest topics. The remaining smaller topics are grouped as “Other”.
+</dd>
+</dl>
+</div>
+</section>
+<section id="citation" class="level2">
+<h2 data-anchor-id="citation">Citation</h2>
+<p>For attribution, please cite this work as:</p>
+<pre><code>Garbers, J. (2026, February). What Does Luxembourg's Web Talk About?
+Retrieved from https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux</code></pre>
+<p>BibTeX:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">garbers2026topics</span>,</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span> = {Garbers, Julio},</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span> = {What Does Luxembourg's Web Talk About?},</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span> = {https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux},</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span> = {2026}</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<div class="github-link">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+</svg>
+<p><a href="https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux">All scripts available on GitHub</a></p>
+</div>
+<script>
+(function() {
+  function updateChartsForMobile() {
+    var plots = document.querySelectorAll('.js-plotly-plot');
+    if (plots.length < 2) return;
+
+    var isMobile = window.innerWidth < 768;
+
+    // Treemap: reduce text size on mobile to prevent overlap
+    Plotly.restyle(plots[0], {'textfont.size': isMobile ? 10 : 13}, [0]);
+    Plotly.relayout(plots[0], {height: isMobile ? 480 : 550});
+
+    // Stacked bar chart: adjust legend for 16 category items
+    Plotly.relayout(plots[1], isMobile ? {
+      'legend.font.size': 9, 'legend.y': -0.5,
+      'margin.b': 180, 'margin.l': 40, 'margin.r': 10
+    } : {
+      'legend.font.size': 12, 'legend.y': -0.22,
+      'margin.b': 100, 'margin.l': 60, 'margin.r': 20
+    });
+  }
+
+  setTimeout(updateChartsForMobile, 150);
+  window.addEventListener('resize', updateChartsForMobile);
+})();
+</script>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/juliogarbers\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Julio Garbers</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
