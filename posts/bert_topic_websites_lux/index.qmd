@@ -261,6 +261,35 @@ BibTeX:
 [All scripts available on GitHub](https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux)
 :::
 
+```{=html}
+<script>
+(function() {
+  function updateChartsForMobile() {
+    var plots = document.querySelectorAll('.js-plotly-plot');
+    if (plots.length < 2) return;
+
+    var isMobile = window.innerWidth < 768;
+
+    // Treemap: reduce text size on mobile to prevent overlap
+    Plotly.restyle(plots[0], {'textfont.size': isMobile ? 10 : 13}, [0]);
+    Plotly.relayout(plots[0], {height: isMobile ? 480 : 550});
+
+    // Stacked bar chart: adjust legend for 16 category items
+    Plotly.relayout(plots[1], isMobile ? {
+      'legend.font.size': 9, 'legend.y': -0.5,
+      'margin.b': 180, 'margin.l': 40, 'margin.r': 10
+    } : {
+      'legend.font.size': 12, 'legend.y': -0.22,
+      'margin.b': 100, 'margin.l': 60, 'margin.r': 20
+    });
+  }
+
+  setTimeout(updateChartsForMobile, 150);
+  window.addEventListener('resize', updateChartsForMobile);
+})();
+</script>
+```
+
 ```{python}
 #| label: thumbnail
 #| echo: false

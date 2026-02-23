@@ -470,20 +470,21 @@ section.paper > section {
 }
 
 .quarto-post {
-  display: grid;
-  grid-template-columns: 1fr 320px;
-  grid-template-areas:
-    "date thumbnail"
-    "content thumbnail";
-  gap: 0 2rem;
-  align-items: start;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 0 !important;
   padding: 1.75rem !important;
   background: white !important;
   border: 1px solid var(--color-border) !important;
   border-radius: 8px;
   margin-bottom: 2rem !important;
   transition: box-shadow 0.2s ease, transform 0.2s ease;
-  overflow: visible;
+}
+
+.quarto-post .metadata {
+  order: -1;
+  flex-basis: auto !important;
+  padding-bottom: 0 !important;
 }
 
 .quarto-post:hover {
@@ -497,33 +498,13 @@ section.paper > section {
 }
 
 .quarto-post .metadata {
-  grid-area: date;
-}
-
-.quarto-post .body {
-  grid-area: content;
-}
-
-.quarto-post .thumbnail {
-  grid-area: thumbnail;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  overflow: visible;
-}
-
-.quarto-post .thumbnail-image {
-  width: 320px;
-  height: auto;
-  aspect-ratio: 16 / 10;
-  object-fit: contain;
-  border-radius: 6px;
+  margin-bottom: 0;
 }
 
 .quarto-post .listing-date {
   font-size: 0.85rem;
   color: var(--color-text-muted);
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.25rem;
   font-weight: 500;
 }
 
@@ -551,26 +532,6 @@ section.paper > section {
 
 .quarto-post .listing-description p {
   margin-bottom: 0;
-}
-
-@media (max-width: 600px) {
-  .quarto-post {
-    grid-template-columns: 1fr;
-    grid-template-areas:
-      "date"
-      "content"
-      "thumbnail";
-  }
-
-  .quarto-post .thumbnail {
-    margin-top: 1rem;
-    justify-content: flex-start;
-  }
-
-  .quarto-post .thumbnail-image {
-    width: 100%;
-    height: 160px;
-  }
 }
 
 // Footer
@@ -640,7 +601,10 @@ pre {
     font-size: 0.75rem;
   }
 
-  .callout table th,
+  .callout table th {
+    padding: 0.3rem 0.4rem;
+  }
+
   .callout table td {
     padding: 0.3rem 0.4rem;
     white-space: nowrap;
@@ -1038,10 +1002,6 @@ pre {
 
   .quarto-post .listing-description {
     font-size: 0.9rem;
-  }
-
-  .quarto-post .thumbnail-image {
-    height: 140px;
   }
 
   // Paper cards

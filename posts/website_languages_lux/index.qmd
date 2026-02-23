@@ -245,37 +245,48 @@ print(f"""```{{=html}}
   const fullLabels = {_json.dumps(full_labels)};
   const shortLabels = {_json.dumps(short_labels)};
 
-  function updateFigure3Labels() {{
+  function updateChartsForMobile() {{
     const plots = document.querySelectorAll('.js-plotly-plot');
-    const fig3 = plots[plots.length - 1];
-    if (!fig3) return;
+    if (plots.length < 3) return;
 
     const isMobile = window.innerWidth < 768;
-    const labels = isMobile ? shortLabels : fullLabels;
 
-    if (isMobile) {{
-      Plotly.relayout(fig3, {{
-        'yaxis.ticktext': labels,
-        'yaxis.tickvals': [...Array(labels.length).keys()],
-        'margin.l': 70,
-        'margin.r': 45,
-        'margin.t': 10,
-        'xaxis.range': [0, 50],
-        'xaxis.dtick': 10
-      }});
-    }} else {{
-      Plotly.relayout(fig3, {{
-        'yaxis.ticktext': labels,
-        'yaxis.tickvals': [...Array(labels.length).keys()],
-        'margin.l': 200,
-        'margin.r': 80,
-        'xaxis.range': [0, 48]
-      }});
-    }}
+    // Figure 1: Line chart — adjust legend and margins
+    Plotly.relayout(plots[0], isMobile ? {{
+      'legend.font.size': 10, 'margin.b': 120,
+      'margin.l': 45, 'margin.r': 10
+    }} : {{
+      'legend.font.size': 12, 'margin.b': 100,
+      'margin.l': 60, 'margin.r': 20
+    }});
+
+    // Figure 2: Stacked area chart — adjust legend and margins
+    Plotly.relayout(plots[1], isMobile ? {{
+      'legend.font.size': 10, 'margin.b': 120,
+      'margin.l': 45, 'margin.r': 10
+    }} : {{
+      'legend.font.size': 12, 'margin.b': 100,
+      'margin.l': 60, 'margin.r': 20
+    }});
+
+    // Figure 3: Horizontal bar chart — adjust labels and margins
+    const labels = isMobile ? shortLabels : fullLabels;
+    Plotly.relayout(plots[2], isMobile ? {{
+      'yaxis.ticktext': labels,
+      'yaxis.tickvals': [...Array(labels.length).keys()],
+      'margin.l': 70, 'margin.r': 50,
+      'margin.t': 10, 'xaxis.range': [0, 50],
+      'xaxis.dtick': 10
+    }} : {{
+      'yaxis.ticktext': labels,
+      'yaxis.tickvals': [...Array(labels.length).keys()],
+      'margin.l': 200, 'margin.r': 80,
+      'xaxis.range': [0, 48]
+    }});
   }}
 
-  setTimeout(updateFigure3Labels, 100);
-  window.addEventListener('resize', updateFigure3Labels);
+  setTimeout(updateChartsForMobile, 100);
+  window.addEventListener('resize', updateChartsForMobile);
 }})();
 </script>
 ```""")
