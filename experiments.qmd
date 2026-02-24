@@ -29,4 +29,14 @@ Tests how well people remember the racial composition and expressions of faces s
 [Start Experiment](experiments/exp_2_memory/){.experiment-link}
 :::
 
+::: {.experiment-card}
+### Subjective Traits Study
+
+Measures how people rate traits like trustworthiness, competence, attractiveness, and friendliness based on profile pictures at different sizes.
+
+**Duration:** ~15 minutes
+
+[Start Experiment](experiments/exp_3_subjective_traits/){.experiment-link}
+:::
+
 :::
