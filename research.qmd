@@ -61,6 +61,7 @@ We develop a novel firm-level indicator of Artificial Intelligence adoption in E
 :::
 
 ::: {.paper-links}
+[Working Paper](https://docs.iza.org/dp18434.pdf){.paper-link target="_blank"}
 [Data Repository](https://github.com/MAP-AI-data/data){.paper-link target="_blank"}
 :::
 :::
