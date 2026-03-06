@@ -12,8 +12,6 @@ These online experiments are part of ongoing research on face perception. Each e
 ::: {.experiment-card}
 ### Face Perception Study
 
-Measures how accurately people identify race and facial expressions when viewing individual faces at different sizes.
-
 **Duration:** ~10 minutes
 
 [Start Experiment](experiments/exp_1_attention_accuracy/){.experiment-link}
@@ -22,8 +20,6 @@ Measures how accurately people identify race and facial expressions when viewing
 ::: {.experiment-card}
 ### Face Memory Study
 
-Tests how well people remember the racial composition and expressions of faces shown in groups.
-
 **Duration:** ~15 minutes
 
 [Start Experiment](experiments/exp_2_memory/){.experiment-link}
@@ -31,8 +27,6 @@ Tests how well people remember the racial composition and expressions of faces s
 
 ::: {.experiment-card}
 ### Subjective Traits Study
-
-Measures how people rate traits like trustworthiness, competence, attractiveness, and friendliness based on profile pictures at different sizes.
 
 **Duration:** ~15 minutes
 
