@@ -6,6 +6,23 @@ pagetitle: "Policy - Julio Garbers"
 ## Reports
 
 ::: {.paper}
+### AI adoption by firms in Luxembourg and neighbouring countries: Which firms adopt AI, when and for what {.paper-title}
+
+::: {.paper-meta}
+with [Christina Gathmann](https://sites.google.com/view/christina-gathmann/start){target="_blank"} and [Terry Gregory](https://www.terry-gregory.de/){target="_blank"}<br>
+*LISER Policy Brief*, 2026
+:::
+
+::: {.paper-abstract}
+Policymakers lack reliable measures of which European firms actually use artificial intelligence (AI). This policy brief presents new evidence from over 3 million firm websites in Belgium, France, Germany, and Luxembourg between 2016 and 2024. AI adoption has grown twelvefold, reaching 12% of firms, with Luxembourg leading at 23%. However, roughly 9 percentage points of Luxembourg's advantage stem from its large financial sector—its sector-adjusted rate of 14.3% is comparable to Germany's 14.8%. Across all countries, workforce skills are the strongest predictor of AI adoption, with particularly large potential relevance for sectors where such skills are less prevalent. Closing the skills gap—particularly for SMEs in non-tech industries—is key to broadening AI adoption across Europe.
+:::
+
+::: {.paper-links}
+[Report (PDF)](assets/AI-adoption-by-firms-in-Luxembourg-Which-firms-adopt-AI-when-and-for-what-2026-03-en.pdf){.paper-link target="_blank"}
+:::
+:::
+
+::: {.paper}
 ### Welche Kompetenzen bringen internationale Fachkräfte nach Deutschland? {.paper-title}
 
 ::: {.paper-meta}
