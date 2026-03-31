@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.8.27">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2026-03-27">
+<meta name="description" content="By crossing language detection with topic modeling on 81,000 website-years, I examine whether essential services — government, healthcare, childcare — are as linguistically accessible as market-driven sectors like real estate and restaurants.">
+
+<title>Lost in Translation on Luxembourg’s Web – Julio Garbers</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<script src="../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-ed96de9b727972fe78a7b5d16c58bf87.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap-7a3aec57ca8ba058e5ee33bf22308737.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script type="text/javascript">
+window.PlotlyConfig = {MathJaxConfig: 'local'};
+if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}
+</script>
+<script type="module">import "https://cdn.plot.ly/plotly-3.3.1.min"</script>
+
+
+
+</head>
+
+<body class="nav-fixed fullcontent quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Julio Garbers</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../research.html"> 
+<span class="menu-text">Research</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../data.html"> 
+<span class="menu-text">Data</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../policy.html"> 
+<span class="menu-text">Policy</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../experiments.html"> 
+<span class="menu-text">Experiments</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../blog.html"> 
+<span class="menu-text">Blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../cv.html"> 
+<span class="menu-text">CV</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="https://github.com/julio-garbers"> <i class="bi bi-github" role="img" aria-label="GitHub">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Lost in Translation on Luxembourg’s Web</h1>
+</div>
+
+<div>
+  <div class="description">
+    By crossing language detection with topic modeling on 81,000 website-years, I examine whether essential services — government, healthcare, childcare — are as linguistically accessible as market-driven sectors like real estate and restaurants.
+  </div>
+</div>
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">March 27, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p>In my <a href="../website_languages_lux/">first post</a>, I found that 75% of Luxembourg websites offer French but only 2.4% offer Portuguese — despite Portuguese speakers being 14.5% of the population. In the <a href="../bert_topic_websites_lux/">second</a>, I discovered that real estate dominates the web while construction splits into 11 subgroups. But neither post could answer the following question: <strong>if you only speak Portuguese, can you find a doctor online? Can you navigate your commune’s website? Can you find a crèche for your child?</strong></p>
+<p>By joining the two datasets — language availability and topic (hereafter sector) classification — I can now map which services are accessible in which languages.</p>
+<div class="callout callout-style-simple callout-note no-icon callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon no-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Note</span>The Dataset
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>4,629</strong> classified websites in 2024 with both a sector label and detected languages, spanning <strong>16</strong> sectors over <strong>9</strong> years.</p>
+</div>
+</div>
+<div style="margin-top: 2.5rem;">
+
+</div>
+<section id="the-language-map-of-luxembourgs-sectors" class="level2">
+<h2 data-anchor-id="the-language-map-of-luxembourgs-sectors">The Language Map of Luxembourg’s Sectors</h2>
+<p>Which languages does each sector make available? The heatmap below shows language availability across all sectors in 2024. Darker cells mean more websites in that sector offer that language.</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>Language availability by sector (2024)</p>
+</div>
+<div id="bbea5485" class="cell" data-execution_count="2">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build heatmap data (exclude "Other" — it's a catch-all, not a real sector)</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>sector_lang_filtered <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> sector_lang <span class="cf">if</span> s[<span class="st">'sector'</span>] <span class="op">!=</span> <span class="st">'Other'</span>]</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>sectors_sorted <span class="op">=</span> [s[<span class="st">'sector'</span>] <span class="cf">for</span> s <span class="kw">in</span> sector_lang_filtered]</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>langs <span class="op">=</span> [<span class="st">'fr'</span>, <span class="st">'de'</span>, <span class="st">'en'</span>, <span class="st">'lb'</span>, <span class="st">'pt'</span>]</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>lang_labels <span class="op">=</span> [lang_names[l] <span class="cf">for</span> l <span class="kw">in</span> langs]</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>z_data <span class="op">=</span> []</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>hover_data <span class="op">=</span> []</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> s <span class="kw">in</span> sector_lang_filtered:</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    row <span class="op">=</span> [s[<span class="ss">f'</span><span class="sc">{</span>l<span class="sc">}</span><span class="ss">_pct'</span>] <span class="cf">for</span> l <span class="kw">in</span> langs]</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    z_data.append(row)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    hover_row <span class="op">=</span> [</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"&lt;b&gt;</span><span class="sc">{</span>s[<span class="st">'sector'</span>]<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;"</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"</span><span class="sc">{</span>lang_names[l]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>s[<span class="ss">f'</span><span class="sc">{</span>l<span class="sc">}</span><span class="ss">_pct'</span>]<span class="sc">}</span><span class="ss">%&lt;br&gt;"</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        <span class="ss">f"(</span><span class="sc">{</span>s[<span class="st">'n_websites'</span>]<span class="sc">}</span><span class="ss"> websites)"</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> l <span class="kw">in</span> langs</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    hover_data.append(hover_row)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure(go.Heatmap(</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    z<span class="op">=</span>z_data,</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>lang_labels,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>sectors_sorted,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    colorscale<span class="op">=</span>[</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        [<span class="dv">0</span>, <span class="st">'#f7f7f7'</span>],</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">0.15</span>, <span class="st">'#d1e5f0'</span>],</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">0.35</span>, <span class="st">'#92c5de'</span>],</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">0.55</span>, <span class="st">'#4393c3'</span>],</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">0.75</span>, <span class="st">'#2166ac'</span>],</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        [<span class="fl">1.0</span>, <span class="st">'#053061'</span>]</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    ],</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>[[<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">%'</span> <span class="cf">for</span> v <span class="kw">in</span> row] <span class="cf">for</span> row <span class="kw">in</span> z_data],</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    texttemplate<span class="op">=</span><span class="st">'%</span><span class="sc">{text}</span><span class="st">'</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    textfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">11</span>),</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    hovertext<span class="op">=</span>hover_data,</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'%</span><span class="sc">{hovertext}</span><span class="st">&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    colorbar<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="bu">dict</span>(text<span class="op">=</span><span class="st">'</span><span class="sc">% o</span><span class="st">f websites'</span>, side<span class="op">=</span><span class="st">'right'</span>),</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>        ticksuffix<span class="op">=</span><span class="st">'%'</span>,</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>        <span class="bu">len</span><span class="op">=</span><span class="fl">0.7</span></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    zmin<span class="op">=</span><span class="dv">0</span>,</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    zmax<span class="op">=</span><span class="dv">100</span>,</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="bu">max</span>(<span class="dv">450</span>, <span class="bu">len</span>(sectors_sorted) <span class="op">*</span> <span class="dv">32</span>),</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">20</span>, r<span class="op">=</span><span class="dv">100</span>, b<span class="op">=</span><span class="dv">50</span>, l<span class="op">=</span><span class="dv">180</span>),</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(side<span class="op">=</span><span class="st">'top'</span>, tickangle<span class="op">=</span><span class="dv">0</span>),</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(autorange<span class="op">=</span><span class="st">'reversed'</span>, tickfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">11</span>)),</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>fig.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="8077e5ee-1ac1-40e5-85c1-c8ea3ada9247" class="plotly-graph-div" style="height:480px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("8077e5ee-1ac1-40e5-85c1-c8ea3ada9247")) {                    Plotly.newPlot(                        "8077e5ee-1ac1-40e5-85c1-c8ea3ada9247",                        [{"colorbar":{"len":0.7,"ticksuffix":"%","title":{"side":"right","text":"% of websites"}},"colorscale":[[0,"#f7f7f7"],[0.15,"#d1e5f0"],[0.35,"#92c5de"],[0.55,"#4393c3"],[0.75,"#2166ac"],[1.0,"#053061"]],"hovertemplate":"%{hovertext}\u003cextra\u003e\u003c\u002fextra\u003e","hovertext":[["\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003eFrench: 92.1%\u003cbr\u003e(643 websites)","\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003eGerman: 32.3%\u003cbr\u003e(643 websites)","\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003eEnglish: 44.0%\u003cbr\u003e(643 websites)","\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 5.4%\u003cbr\u003e(643 websites)","\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 3.4%\u003cbr\u003e(643 websites)"],["\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003eFrench: 61.5%\u003cbr\u003e(366 websites)","\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003eGerman: 29.0%\u003cbr\u003e(366 websites)","\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003eEnglish: 64.5%\u003cbr\u003e(366 websites)","\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 4.6%\u003cbr\u003e(366 websites)","\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 2.5%\u003cbr\u003e(366 websites)"],["\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003eFrench: 81.1%\u003cbr\u003e(360 websites)","\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003eGerman: 42.8%\u003cbr\u003e(360 websites)","\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003eEnglish: 18.9%\u003cbr\u003e(360 websites)","\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 4.4%\u003cbr\u003e(360 websites)","\u003cb\u003eConstruction\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 1.7%\u003cbr\u003e(360 websites)"],["\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003eFrench: 83.9%\u003cbr\u003e(305 websites)","\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003eGerman: 26.6%\u003cbr\u003e(305 websites)","\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003eEnglish: 34.8%\u003cbr\u003e(305 websites)","\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 5.6%\u003cbr\u003e(305 websites)","\u003cb\u003eServices\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 2.3%\u003cbr\u003e(305 websites)"],["\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003eFrench: 67.8%\u003cbr\u003e(283 websites)","\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003eGerman: 45.6%\u003cbr\u003e(283 websites)","\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003eEnglish: 33.6%\u003cbr\u003e(283 websites)","\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 5.3%\u003cbr\u003e(283 websites)","\u003cb\u003eData Protection\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 2.5%\u003cbr\u003e(283 websites)"],["\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003eFrench: 86.2%\u003cbr\u003e(260 websites)","\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003eGerman: 11.9%\u003cbr\u003e(260 websites)","\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003eEnglish: 38.1%\u003cbr\u003e(260 websites)","\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 2.3%\u003cbr\u003e(260 websites)","\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 0.8%\u003cbr\u003e(260 websites)"],["\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003eFrench: 80.8%\u003cbr\u003e(250 websites)","\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003eGerman: 38.0%\u003cbr\u003e(250 websites)","\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003eEnglish: 33.2%\u003cbr\u003e(250 websites)","\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 3.6%\u003cbr\u003e(250 websites)","\u003cb\u003eRetail\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 1.6%\u003cbr\u003e(250 websites)"],["\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003eFrench: 84.9%\u003cbr\u003e(238 websites)","\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003eGerman: 37.4%\u003cbr\u003e(238 websites)","\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003eEnglish: 33.2%\u003cbr\u003e(238 websites)","\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 9.2%\u003cbr\u003e(238 websites)","\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 2.9%\u003cbr\u003e(238 websites)"],["\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003eFrench: 65.3%\u003cbr\u003e(216 websites)","\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003eGerman: 17.1%\u003cbr\u003e(216 websites)","\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003eEnglish: 57.4%\u003cbr\u003e(216 websites)","\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 1.9%\u003cbr\u003e(216 websites)","\u003cb\u003eIT & Digital\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 1.9%\u003cbr\u003e(216 websites)"],["\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003eFrench: 87.2%\u003cbr\u003e(187 websites)","\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003eGerman: 31.6%\u003cbr\u003e(187 websites)","\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003eEnglish: 28.3%\u003cbr\u003e(187 websites)","\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 17.1%\u003cbr\u003e(187 websites)","\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 0.0%\u003cbr\u003e(187 websites)"],["\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003eFrench: 74.7%\u003cbr\u003e(166 websites)","\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003eGerman: 34.9%\u003cbr\u003e(166 websites)","\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003eEnglish: 38.0%\u003cbr\u003e(166 websites)","\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 21.7%\u003cbr\u003e(166 websites)","\u003cb\u003eSports\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 1.8%\u003cbr\u003e(166 websites)"],["\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003eFrench: 71.2%\u003cbr\u003e(160 websites)","\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003eGerman: 53.1%\u003cbr\u003e(160 websites)","\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003eEnglish: 50.6%\u003cbr\u003e(160 websites)","\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 20.6%\u003cbr\u003e(160 websites)","\u003cb\u003eCulture & Tourism\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 0.6%\u003cbr\u003e(160 websites)"],["\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003eFrench: 64.1%\u003cbr\u003e(156 websites)","\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003eGerman: 42.3%\u003cbr\u003e(156 websites)","\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003eEnglish: 32.1%\u003cbr\u003e(156 websites)","\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 32.7%\u003cbr\u003e(156 websites)","\u003cb\u003eCommunity\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 1.9%\u003cbr\u003e(156 websites)"],["\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003eFrench: 89.0%\u003cbr\u003e(127 websites)","\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003eGerman: 33.9%\u003cbr\u003e(127 websites)","\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003eEnglish: 22.8%\u003cbr\u003e(127 websites)","\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 16.5%\u003cbr\u003e(127 websites)","\u003cb\u003eAutomotive\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 8.7%\u003cbr\u003e(127 websites)"],["\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003eFrench: 97.4%\u003cbr\u003e(114 websites)","\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003eGerman: 20.2%\u003cbr\u003e(114 websites)","\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003eEnglish: 18.4%\u003cbr\u003e(114 websites)","\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003eLuxembourgish: 16.7%\u003cbr\u003e(114 websites)","\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003ePortuguese: 5.3%\u003cbr\u003e(114 websites)"]],"text":[["92.1%","32.3%","44.0%","5.4%","3.4%"],["61.5%","29.0%","64.5%","4.6%","2.5%"],["81.1%","42.8%","18.9%","4.4%","1.7%"],["83.9%","26.6%","34.8%","5.6%","2.3%"],["67.8%","45.6%","33.6%","5.3%","2.5%"],["86.2%","11.9%","38.1%","2.3%","0.8%"],["80.8%","38.0%","33.2%","3.6%","1.6%"],["84.9%","37.4%","33.2%","9.2%","2.9%"],["65.3%","17.1%","57.4%","1.9%","1.9%"],["87.2%","31.6%","28.3%","17.1%","0.0%"],["74.7%","34.9%","38.0%","21.7%","1.8%"],["71.2%","53.1%","50.6%","20.6%","0.6%"],["64.1%","42.3%","32.1%","32.7%","1.9%"],["89.0%","33.9%","22.8%","16.5%","8.7%"],["97.4%","20.2%","18.4%","16.7%","5.3%"]],"textfont":{"size":11},"texttemplate":"%{text}","x":["French","German","English","Luxembourgish","Portuguese"],"y":["Real Estate","Finance & Law","Construction","Services","Data Protection","Restaurants","Retail","Healthcare","IT & Digital","Public Services","Sports","Culture & Tourism","Community","Automotive","Childcare"],"z":[[92.1,32.3,44.0,5.4,3.4],[61.5,29.0,64.5,4.6,2.5],[81.1,42.8,18.9,4.4,1.7],[83.9,26.6,34.8,5.6,2.3],[67.8,45.6,33.6,5.3,2.5],[86.2,11.9,38.1,2.3,0.8],[80.8,38.0,33.2,3.6,1.6],[84.9,37.4,33.2,9.2,2.9],[65.3,17.1,57.4,1.9,1.9],[87.2,31.6,28.3,17.1,0.0],[74.7,34.9,38.0,21.7,1.8],[71.2,53.1,50.6,20.6,0.6],[64.1,42.3,32.1,32.7,1.9],[89.0,33.9,22.8,16.5,8.7],[97.4,20.2,18.4,16.7,5.3]],"zmax":100,"zmin":0,"type":"heatmap"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"margin":{"t":20,"r":100,"b":50,"l":180},"xaxis":{"side":"top","tickangle":0},"yaxis":{"tickfont":{"size":11},"autorange":"reversed"},"height":480,"plot_bgcolor":"white","paper_bgcolor":"white"},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('8077e5ee-1ac1-40e5-85c1-c8ea3ada9247');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: Each cell shows the percentage of websites in that sector offering that language. Sectors sorted by number of websites (largest at top). Only sectors with 5+ websites shown.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The heatmap reveals strikingly different language worlds. <strong>Finance &amp; Law</strong> is the only sector where English (65%) beats French (62%) — the language of international capital markets. <strong>Childcare</strong> is the opposite extreme: 97% French, just 18% English, reflecting that crèches primarily communicate in French</p>
+<p><strong>Community</strong> organizations (scouts, churches, fire services) have the highest Luxembourgish availability at 33% — these seem to be the most culturally rooted institutions. <strong>Culture &amp; Tourism</strong> is the most multilingual sector overall (58%), serving international visitors.</p>
+<p>Now look at the Portuguese column: it’s near zero almost everywhere. <strong>Public Services show 0%</strong> — not a single municipal or government website in the sample offers Portuguese.</p>
+</div>
+</div>
+</section>
+<section id="essential-services-vs.-the-market" class="level2">
+<h2 data-anchor-id="essential-services-vs.-the-market">Essential Services vs.&nbsp;the Market</h2>
+<p>Does the market do a better job at multilingualism than the public sector? I grouped sectors into two categories: <strong>essential services</strong> (government, healthcare, childcare) that residents <em>need</em>, and <strong>market-driven sectors</strong> (real estate, restaurants, retail, finance) that compete for customers.</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>Language availability: essential services vs.&nbsp;market-driven sectors (2024)</p>
+</div>
+<div id="14e03878" class="cell" data-execution_count="3">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>ess <span class="op">=</span> ess_vs_mkt[<span class="st">'essential'</span>]</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>mkt <span class="op">=</span> ess_vs_mkt[<span class="st">'market'</span>]</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>langs_compare <span class="op">=</span> [<span class="st">'fr'</span>, <span class="st">'de'</span>, <span class="st">'en'</span>, <span class="st">'lb'</span>, <span class="st">'pt'</span>]</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> [lang_names[l] <span class="cf">for</span> l <span class="kw">in</span> langs_compare] <span class="op">+</span> [<span class="st">'Multilingual'</span>]</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>ess_vals <span class="op">=</span> [ess.get(<span class="ss">f'</span><span class="sc">{</span>l<span class="sc">}</span><span class="ss">_pct'</span>, <span class="dv">0</span>) <span class="cf">for</span> l <span class="kw">in</span> langs_compare] <span class="op">+</span> [ess.get(<span class="st">'multilingual_pct'</span>, <span class="dv">0</span>)]</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>mkt_vals <span class="op">=</span> [mkt.get(<span class="ss">f'</span><span class="sc">{</span>l<span class="sc">}</span><span class="ss">_pct'</span>, <span class="dv">0</span>) <span class="cf">for</span> l <span class="kw">in</span> langs_compare] <span class="op">+</span> [mkt.get(<span class="st">'multilingual_pct'</span>, <span class="dv">0</span>)]</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Bar(</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="ss">f"Essential Services (N=</span><span class="sc">{</span>ess[<span class="st">'n_websites'</span>]<span class="sc">}</span><span class="ss">)"</span>,</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>labels,</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>ess_vals,</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>    marker_color<span class="op">=</span><span class="st">'#2166ac'</span>,</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>[<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">%'</span> <span class="cf">for</span> v <span class="kw">in</span> ess_vals],</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>    textposition<span class="op">=</span><span class="st">'outside'</span>,</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'&lt;b&gt;Essential Services&lt;/b&gt;&lt;br&gt;%</span><span class="sc">{x}</span><span class="st">: %</span><span class="sc">{y:.1f}</span><span class="st">%&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Bar(</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="ss">f"Market-Driven (N=</span><span class="sc">{</span>mkt[<span class="st">'n_websites'</span>]<span class="sc">}</span><span class="ss">)"</span>,</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>labels,</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>mkt_vals,</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>    marker_color<span class="op">=</span><span class="st">'#b2182b'</span>,</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>[<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">%'</span> <span class="cf">for</span> v <span class="kw">in</span> mkt_vals],</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>    textposition<span class="op">=</span><span class="st">'outside'</span>,</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'&lt;b&gt;Market-Driven Sectors&lt;/b&gt;&lt;br&gt;%</span><span class="sc">{x}</span><span class="st">: %</span><span class="sc">{y:.1f}</span><span class="st">%&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">450</span>,</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">20</span>, r<span class="op">=</span><span class="dv">20</span>, b<span class="op">=</span><span class="dv">100</span>, l<span class="op">=</span><span class="dv">60</span>),</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>    barmode<span class="op">=</span><span class="st">'group'</span>,</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">% o</span><span class="st">f websites'</span>, ticksuffix<span class="op">=</span><span class="st">'%'</span>,</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>        gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>,</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>        <span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, <span class="bu">max</span>(<span class="bu">max</span>(ess_vals), <span class="bu">max</span>(mkt_vals)) <span class="op">*</span> <span class="fl">1.2</span>],</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>),</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(orientation<span class="op">=</span><span class="st">'h'</span>, y<span class="op">=-</span><span class="fl">0.22</span>, x<span class="op">=</span><span class="fl">0.5</span>, xanchor<span class="op">=</span><span class="st">'center'</span>),</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>fig.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="00636f25-17ff-4e4f-8c7b-943851076922" class="plotly-graph-div" style="height:450px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("00636f25-17ff-4e4f-8c7b-943851076922")) {                    Plotly.newPlot(                        "00636f25-17ff-4e4f-8c7b-943851076922",                        [{"hovertemplate":"\u003cb\u003eEssential Services\u003c\u002fb\u003e\u003cbr\u003e%{x}: %{y:.1f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#2166ac"},"name":"Essential Services (N=539)","text":["88.3%","31.7%","28.4%","13.5%","2.4%","42.1%"],"textposition":"outside","x":["French","German","English","Luxembourgish","Portuguese","Multilingual"],"y":[88.3,31.7,28.4,13.5,2.4,42.1],"type":"bar"},{"hovertemplate":"\u003cb\u003eMarket-Driven Sectors\u003c\u002fb\u003e\u003cbr\u003e%{x}: %{y:.1f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#b2182b"},"name":"Market-Driven (N=1519)","text":["81.8%","29.0%","46.1%","4.4%","2.4%","43.1%"],"textposition":"outside","x":["French","German","English","Luxembourgish","Portuguese","Multilingual"],"y":[81.8,29.0,46.1,4.4,2.4,43.1],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"margin":{"t":20,"r":20,"b":100,"l":60},"yaxis":{"title":{"text":"% of websites"},"ticksuffix":"%","gridcolor":"#eee","zerolinecolor":"#eee","range":[0,105.96]},"xaxis":{"gridcolor":"#eee","zerolinecolor":"#eee"},"legend":{"orientation":"h","y":-0.22,"x":0.5,"xanchor":"center"},"height":450,"plot_bgcolor":"white","paper_bgcolor":"white","barmode":"group"},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('00636f25-17ff-4e4f-8c7b-943851076922');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: Essential services = Public Services, Healthcare, Childcare. Market-driven = Real Estate, Restaurants, Retail, Finance &amp; Law.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The gap is clear in <strong>English</strong>: market-driven sectors offer it on 46% of websites, while essential services manage only 28%. This matters for the 48% of Luxembourg’s residents who are foreign-born — many of whom speak English but not necessarily French or German.</p>
+<p><strong>Luxembourgish</strong> shows the reverse pattern: 14% in essential services vs.&nbsp;4% in the market — government and healthcare websites are more likely to be offered in Luxembourgish.</p>
+<p>Portuguese availability is equally low in both groups (2.4%) — neither the market nor the public sector serves this community online.</p>
+</div>
+</div>
+</section>
+<section id="the-portuguese-gap" class="level2">
+<h2 data-anchor-id="the-portuguese-gap">The Portuguese Gap</h2>
+<p>Portuguese speakers make up <strong>14.5%</strong> of Luxembourg’s population — the largest immigrant community. Yet the previous analysis found Portuguese on just 2.4% of websites overall. How does this gap look across sectors that matter most for daily life?</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>Portuguese availability by sector vs.&nbsp;population share (14.5%)</p>
+</div>
+<div id="f5d068c9" class="cell" data-execution_count="4">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter to named sectors with enough websites</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pt_sectors <span class="op">=</span> [s <span class="cf">for</span> s <span class="kw">in</span> pt_gap <span class="cf">if</span> s[<span class="st">'n_websites'</span>] <span class="op">&gt;=</span> <span class="dv">10</span> <span class="kw">and</span> s[<span class="st">'sector'</span>] <span class="op">!=</span> <span class="st">'Other'</span>][:<span class="dv">15</span>]</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>sectors_list <span class="op">=</span> [s[<span class="st">'sector'</span>] <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">reversed</span>(pt_sectors)]</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>pt_pcts <span class="op">=</span> [s[<span class="st">'pt_pct'</span>] <span class="cf">for</span> s <span class="kw">in</span> <span class="bu">reversed</span>(pt_sectors)]</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Portuguese availability bars</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>fig.add_trace(go.Bar(</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>    y<span class="op">=</span>sectors_list,</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span>pt_pcts,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    orientation<span class="op">=</span><span class="st">'h'</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">'Portuguese availability'</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    marker_color<span class="op">=</span><span class="st">'#7c3aed'</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    text<span class="op">=</span>[<span class="ss">f'</span><span class="sc">{</span>v<span class="sc">}</span><span class="ss">%'</span> <span class="cf">for</span> v <span class="kw">in</span> pt_pcts],</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    textposition<span class="op">=</span><span class="st">'outside'</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>    hovertemplate<span class="op">=</span><span class="st">'&lt;b&gt;%</span><span class="sc">{y}</span><span class="st">&lt;/b&gt;&lt;br&gt;Portuguese: %</span><span class="sc">{x:.1f}</span><span class="st">%&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>))</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Population reference line</span></span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a>fig.add_vline(</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a>    x<span class="op">=</span><span class="fl">14.5</span>, line_dash<span class="op">=</span><span class="st">'dash'</span>, line_color<span class="op">=</span><span class="st">'#ef4444'</span>, line_width<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a>    annotation_text<span class="op">=</span><span class="st">'Population share (14.5%)'</span>,</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a>    annotation_position<span class="op">=</span><span class="st">'top'</span>,</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a>    annotation_font_color<span class="op">=</span><span class="st">'#ef4444'</span>,</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="bu">max</span>(<span class="dv">400</span>, <span class="bu">len</span>(pt_sectors) <span class="op">*</span> <span class="dv">30</span>),</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">40</span>, r<span class="op">=</span><span class="dv">80</span>, b<span class="op">=</span><span class="dv">50</span>, l<span class="op">=</span><span class="dv">180</span>),</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">% o</span><span class="st">f websites offering Portuguese'</span>,</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a>        ticksuffix<span class="op">=</span><span class="st">'%'</span>, gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>,</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a>        <span class="bu">range</span><span class="op">=</span>[<span class="dv">0</span>, <span class="bu">max</span>(<span class="bu">max</span>(pt_pcts) <span class="op">*</span> <span class="fl">1.3</span>, <span class="dv">18</span>)],</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(tickfont<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">11</span>)),</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a>    showlegend<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a>fig.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="4e685b92-6d38-4480-ba06-d37b026dad3d" class="plotly-graph-div" style="height:450px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("4e685b92-6d38-4480-ba06-d37b026dad3d")) {                    Plotly.newPlot(                        "4e685b92-6d38-4480-ba06-d37b026dad3d",                        [{"hovertemplate":"\u003cb\u003e%{y}\u003c\u002fb\u003e\u003cbr\u003ePortuguese: %{x:.1f}%\u003cextra\u003e\u003c\u002fextra\u003e","marker":{"color":"#7c3aed"},"name":"Portuguese availability","orientation":"h","text":["8.7%","5.3%","3.4%","2.9%","2.5%","2.5%","2.3%","1.9%","1.9%","1.8%","1.7%","1.6%","0.8%","0.6%","0.0%"],"textposition":"outside","x":[8.7,5.3,3.4,2.9,2.5,2.5,2.3,1.9,1.9,1.8,1.7,1.6,0.8,0.6,0.0],"y":["Automotive","Childcare","Real Estate","Healthcare","Finance & Law","Data Protection","Services","IT & Digital","Community","Sports","Construction","Retail","Restaurants","Culture & Tourism","Public Services"],"type":"bar"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"shapes":[{"line":{"color":"#ef4444","dash":"dash","width":2},"type":"line","x0":14.5,"x1":14.5,"xref":"x","y0":0,"y1":1,"yref":"y domain"}],"annotations":[{"font":{"color":"#ef4444"},"showarrow":false,"text":"Population share (14.5%)","x":14.5,"xanchor":"center","xref":"x","y":1,"yanchor":"bottom","yref":"y domain"}],"margin":{"t":40,"r":80,"b":50,"l":180},"xaxis":{"title":{"text":"% of websites offering Portuguese"},"ticksuffix":"%","gridcolor":"#eee","zerolinecolor":"#eee","range":[0,18]},"yaxis":{"tickfont":{"size":11}},"height":450,"plot_bgcolor":"white","paper_bgcolor":"white","showlegend":false},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('4e685b92-6d38-4480-ba06-d37b026dad3d');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: The dashed red line marks the share of Portuguese speakers in Luxembourg’s population (14.5%, <a href="https://statistiques.public.lu/en/recensement/nationalites.html">source</a>). Sectors sorted by gap size (largest gap at top).</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>Not a single sector comes close to the 14.5% population benchmark. The closest is <strong>Automotive</strong> at 8.7%.</p>
+<p><strong>Public Services sit at exactly 0%</strong> — the most striking finding. Of 187 government and municipal websites, none offers Portuguese. <strong>Healthcare</strong> (2.9%) and <strong>Childcare</strong> (5.3%) fare marginally better, but the gap with the population share remains large.</p>
+<p>Even <strong>Construction</strong> — a sector where <a href="https://statistiques.public.lu/en/recensement/nationalites.html">Portuguese workers make up a large share of the workforce</a> — only offers 1.7% of its websites in Portuguese.</p>
+</div>
+</div>
+</section>
+<section id="is-the-gap-closing" class="level2">
+<h2 data-anchor-id="is-the-gap-closing">Is the Gap Closing?</h2>
+<p>Has multilingualism in essential services improved over time? The chart below tracks English and multilingual availability in key sectors from 2016 to 2024.</p>
+<div class="figure-container">
+<div class="figure-title">
+<p>English availability over time in selected sectors</p>
+</div>
+<div id="b048e7c8" class="cell" data-execution_count="5">
+<details class="code-fold">
+<summary>Show code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>years <span class="op">=</span> evolution[<span class="st">'years'</span>]</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>focus_sectors <span class="op">=</span> [</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Public Services'</span>, <span class="st">'Healthcare'</span>, <span class="st">'Childcare'</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Real Estate'</span>, <span class="st">'Finance &amp; Law'</span>, <span class="st">'Restaurants'</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>sector_colors <span class="op">=</span> {</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Public Services'</span>: <span class="st">'#2166ac'</span>,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Healthcare'</span>: <span class="st">'#469990'</span>,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Childcare'</span>: <span class="st">'#fabed4'</span>,</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Real Estate'</span>: <span class="st">'#4363d8'</span>,</span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Finance &amp; Law'</span>: <span class="st">'#1e3a5f'</span>,</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a>    <span class="st">'Restaurants'</span>: <span class="st">'#e6194b'</span>,</span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a>fig <span class="op">=</span> go.Figure()</span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-18"><a href="#cb4-18" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sector_data <span class="kw">in</span> evolution[<span class="st">'sectors'</span>]:</span>
+<span id="cb4-19"><a href="#cb4-19" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> sector_data[<span class="st">'sector'</span>]</span>
+<span id="cb4-20"><a href="#cb4-20" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> name <span class="kw">not</span> <span class="kw">in</span> focus_sectors:</span>
+<span id="cb4-21"><a href="#cb4-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb4-22"><a href="#cb4-22" aria-hidden="true" tabindex="-1"></a>    en_pcts <span class="op">=</span> sector_data[<span class="st">'en_pct'</span>]</span>
+<span id="cb4-23"><a href="#cb4-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Filter out None values for clean lines</span></span>
+<span id="cb4-24"><a href="#cb4-24" aria-hidden="true" tabindex="-1"></a>    valid <span class="op">=</span> [(y, v) <span class="cf">for</span> y, v <span class="kw">in</span> <span class="bu">zip</span>(years, en_pcts) <span class="cf">if</span> v <span class="kw">is</span> <span class="kw">not</span> <span class="va">None</span>]</span>
+<span id="cb4-25"><a href="#cb4-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="kw">not</span> valid:</span>
+<span id="cb4-26"><a href="#cb4-26" aria-hidden="true" tabindex="-1"></a>        <span class="cf">continue</span></span>
+<span id="cb4-27"><a href="#cb4-27" aria-hidden="true" tabindex="-1"></a>    xs, ys <span class="op">=</span> <span class="bu">zip</span>(<span class="op">*</span>valid)</span>
+<span id="cb4-28"><a href="#cb4-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-29"><a href="#cb4-29" aria-hidden="true" tabindex="-1"></a>    fig.add_trace(go.Scatter(</span>
+<span id="cb4-30"><a href="#cb4-30" aria-hidden="true" tabindex="-1"></a>        x<span class="op">=</span><span class="bu">list</span>(xs),</span>
+<span id="cb4-31"><a href="#cb4-31" aria-hidden="true" tabindex="-1"></a>        y<span class="op">=</span><span class="bu">list</span>(ys),</span>
+<span id="cb4-32"><a href="#cb4-32" aria-hidden="true" tabindex="-1"></a>        name<span class="op">=</span>name,</span>
+<span id="cb4-33"><a href="#cb4-33" aria-hidden="true" tabindex="-1"></a>        mode<span class="op">=</span><span class="st">'lines+markers'</span>,</span>
+<span id="cb4-34"><a href="#cb4-34" aria-hidden="true" tabindex="-1"></a>        line<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb4-35"><a href="#cb4-35" aria-hidden="true" tabindex="-1"></a>            color<span class="op">=</span>sector_colors.get(name, <span class="st">'#999'</span>),</span>
+<span id="cb4-36"><a href="#cb4-36" aria-hidden="true" tabindex="-1"></a>            width<span class="op">=</span><span class="dv">3</span>, shape<span class="op">=</span><span class="st">'spline'</span>, smoothing<span class="op">=</span><span class="fl">0.8</span>,</span>
+<span id="cb4-37"><a href="#cb4-37" aria-hidden="true" tabindex="-1"></a>        ),</span>
+<span id="cb4-38"><a href="#cb4-38" aria-hidden="true" tabindex="-1"></a>        marker<span class="op">=</span><span class="bu">dict</span>(size<span class="op">=</span><span class="dv">6</span>),</span>
+<span id="cb4-39"><a href="#cb4-39" aria-hidden="true" tabindex="-1"></a>        hovertemplate<span class="op">=</span><span class="ss">f'&lt;b&gt;</span><span class="sc">{</span>name<span class="sc">}</span><span class="ss">&lt;/b&gt;&lt;br&gt;English: %</span><span class="ch">{{</span><span class="ss">y:.1f</span><span class="ch">}}</span><span class="ss">%&lt;br&gt;Year: %</span><span class="ch">{{</span><span class="ss">x</span><span class="ch">}}</span><span class="ss">&lt;extra&gt;&lt;/extra&gt;'</span>,</span>
+<span id="cb4-40"><a href="#cb4-40" aria-hidden="true" tabindex="-1"></a>    ))</span>
+<span id="cb4-41"><a href="#cb4-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-42"><a href="#cb4-42" aria-hidden="true" tabindex="-1"></a>fig.update_layout(</span>
+<span id="cb4-43"><a href="#cb4-43" aria-hidden="true" tabindex="-1"></a>    height<span class="op">=</span><span class="dv">450</span>,</span>
+<span id="cb4-44"><a href="#cb4-44" aria-hidden="true" tabindex="-1"></a>    margin<span class="op">=</span><span class="bu">dict</span>(t<span class="op">=</span><span class="dv">20</span>, r<span class="op">=</span><span class="dv">20</span>, b<span class="op">=</span><span class="dv">100</span>, l<span class="op">=</span><span class="dv">60</span>),</span>
+<span id="cb4-45"><a href="#cb4-45" aria-hidden="true" tabindex="-1"></a>    plot_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb4-46"><a href="#cb4-46" aria-hidden="true" tabindex="-1"></a>    paper_bgcolor<span class="op">=</span><span class="st">'white'</span>,</span>
+<span id="cb4-47"><a href="#cb4-47" aria-hidden="true" tabindex="-1"></a>    xaxis<span class="op">=</span><span class="bu">dict</span>(title<span class="op">=</span><span class="st">'Year'</span>, dtick<span class="op">=</span><span class="dv">1</span>, gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>),</span>
+<span id="cb4-48"><a href="#cb4-48" aria-hidden="true" tabindex="-1"></a>    yaxis<span class="op">=</span><span class="bu">dict</span>(</span>
+<span id="cb4-49"><a href="#cb4-49" aria-hidden="true" tabindex="-1"></a>        title<span class="op">=</span><span class="st">'</span><span class="sc">% o</span><span class="st">f websites offering English'</span>, ticksuffix<span class="op">=</span><span class="st">'%'</span>,</span>
+<span id="cb4-50"><a href="#cb4-50" aria-hidden="true" tabindex="-1"></a>        gridcolor<span class="op">=</span><span class="st">'#eee'</span>, zerolinecolor<span class="op">=</span><span class="st">'#eee'</span>,</span>
+<span id="cb4-51"><a href="#cb4-51" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb4-52"><a href="#cb4-52" aria-hidden="true" tabindex="-1"></a>    legend<span class="op">=</span><span class="bu">dict</span>(orientation<span class="op">=</span><span class="st">'h'</span>, y<span class="op">=-</span><span class="fl">0.28</span>, x<span class="op">=</span><span class="fl">0.5</span>, xanchor<span class="op">=</span><span class="st">'center'</span>),</span>
+<span id="cb4-53"><a href="#cb4-53" aria-hidden="true" tabindex="-1"></a>    hovermode<span class="op">=</span><span class="st">'x unified'</span>,</span>
+<span id="cb4-54"><a href="#cb4-54" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-55"><a href="#cb4-55" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-56"><a href="#cb4-56" aria-hidden="true" tabindex="-1"></a>fig.show(config<span class="op">=</span>{<span class="st">'displayModeBar'</span>: <span class="va">False</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output cell-output-display">
+<div>            <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-AMS-MML_SVG"></script><script type="text/javascript">if (window.MathJax && window.MathJax.Hub && window.MathJax.Hub.Config) {window.MathJax.Hub.Config({SVG: {font: "STIX-Web"}});}</script>                <script type="text/javascript">window.PlotlyConfig = {MathJaxConfig: 'local'};</script>
+        <script charset="utf-8" src="https://cdn.plot.ly/plotly-3.3.1.min.js" integrity="sha256-4rD3fugVb/nVJYUv5Ky3v+fYXoouHaBSP20WIJuEiWg=" crossorigin="anonymous"></script>                <div id="39a0ef9b-d36c-4763-80dd-5d8f7f08a104" class="plotly-graph-div" style="height:450px; width:100%;"></div>            <script type="text/javascript">                window.PLOTLYENV=window.PLOTLYENV || {};                                if (document.getElementById("39a0ef9b-d36c-4763-80dd-5d8f7f08a104")) {                    Plotly.newPlot(                        "39a0ef9b-d36c-4763-80dd-5d8f7f08a104",                        [{"hovertemplate":"\u003cb\u003eChildcare\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#fabed4","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Childcare","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[32.5,38.7,37.8,27.8,25.7,24.3,22.8,19.7,18.4],"type":"scatter"},{"hovertemplate":"\u003cb\u003eFinance & Law\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#1e3a5f","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Finance & Law","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[72.1,70.2,66.3,64.6,65.3,61.8,64.2,65.1,64.5],"type":"scatter"},{"hovertemplate":"\u003cb\u003eHealthcare\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#469990","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Healthcare","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[33.6,38.5,41.9,24.4,24.7,26.9,28.9,31.2,33.2],"type":"scatter"},{"hovertemplate":"\u003cb\u003ePublic Services\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#2166ac","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Public Services","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[28.8,25.0,19.4,17.3,21.8,24.4,20.3,23.5,28.3],"type":"scatter"},{"hovertemplate":"\u003cb\u003eReal Estate\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#4363d8","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Real Estate","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[32.4,33.9,35.9,36.7,36.4,37.7,41.5,43.4,44.0],"type":"scatter"},{"hovertemplate":"\u003cb\u003eRestaurants\u003c\u002fb\u003e\u003cbr\u003eEnglish: %{y:.1f}%\u003cbr\u003eYear: %{x}\u003cextra\u003e\u003c\u002fextra\u003e","line":{"color":"#e6194b","shape":"spline","smoothing":0.8,"width":3},"marker":{"size":6},"mode":"lines+markers","name":"Restaurants","x":[2016,2017,2018,2019,2020,2021,2022,2023,2024],"y":[24.8,25.7,32.6,20.2,23.0,23.6,35.2,37.7,38.1],"type":"scatter"}],                        {"template":{"data":{"histogram2dcontour":[{"type":"histogram2dcontour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"choropleth":[{"type":"choropleth","colorbar":{"outlinewidth":0,"ticks":""}}],"histogram2d":[{"type":"histogram2d","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"heatmap":[{"type":"heatmap","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"contourcarpet":[{"type":"contourcarpet","colorbar":{"outlinewidth":0,"ticks":""}}],"contour":[{"type":"contour","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"surface":[{"type":"surface","colorbar":{"outlinewidth":0,"ticks":""},"colorscale":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]]}],"mesh3d":[{"type":"mesh3d","colorbar":{"outlinewidth":0,"ticks":""}}],"scatter":[{"fillpattern":{"fillmode":"overlay","size":10,"solidity":0.2},"type":"scatter"}],"parcoords":[{"type":"parcoords","line":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolargl":[{"type":"scatterpolargl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"bar":[{"error_x":{"color":"#2a3f5f"},"error_y":{"color":"#2a3f5f"},"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"bar"}],"scattergeo":[{"type":"scattergeo","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterpolar":[{"type":"scatterpolar","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"histogram":[{"marker":{"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"histogram"}],"scattergl":[{"type":"scattergl","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatter3d":[{"type":"scatter3d","line":{"colorbar":{"outlinewidth":0,"ticks":""}},"marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermap":[{"type":"scattermap","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattermapbox":[{"type":"scattermapbox","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scatterternary":[{"type":"scatterternary","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"scattercarpet":[{"type":"scattercarpet","marker":{"colorbar":{"outlinewidth":0,"ticks":""}}}],"carpet":[{"aaxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"baxis":{"endlinecolor":"#2a3f5f","gridcolor":"white","linecolor":"white","minorgridcolor":"white","startlinecolor":"#2a3f5f"},"type":"carpet"}],"table":[{"cells":{"fill":{"color":"#EBF0F8"},"line":{"color":"white"}},"header":{"fill":{"color":"#C8D4E3"},"line":{"color":"white"}},"type":"table"}],"barpolar":[{"marker":{"line":{"color":"#E5ECF6","width":0.5},"pattern":{"fillmode":"overlay","size":10,"solidity":0.2}},"type":"barpolar"}],"pie":[{"automargin":true,"type":"pie"}]},"layout":{"autotypenumbers":"strict","colorway":["#636efa","#EF553B","#00cc96","#ab63fa","#FFA15A","#19d3f3","#FF6692","#B6E880","#FF97FF","#FECB52"],"font":{"color":"#2a3f5f"},"hovermode":"closest","hoverlabel":{"align":"left"},"paper_bgcolor":"white","plot_bgcolor":"#E5ECF6","polar":{"bgcolor":"#E5ECF6","angularaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"radialaxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"ternary":{"bgcolor":"#E5ECF6","aaxis":{"gridcolor":"white","linecolor":"white","ticks":""},"baxis":{"gridcolor":"white","linecolor":"white","ticks":""},"caxis":{"gridcolor":"white","linecolor":"white","ticks":""}},"coloraxis":{"colorbar":{"outlinewidth":0,"ticks":""}},"colorscale":{"sequential":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"sequentialminus":[[0.0,"#0d0887"],[0.1111111111111111,"#46039f"],[0.2222222222222222,"#7201a8"],[0.3333333333333333,"#9c179e"],[0.4444444444444444,"#bd3786"],[0.5555555555555556,"#d8576b"],[0.6666666666666666,"#ed7953"],[0.7777777777777778,"#fb9f3a"],[0.8888888888888888,"#fdca26"],[1.0,"#f0f921"]],"diverging":[[0,"#8e0152"],[0.1,"#c51b7d"],[0.2,"#de77ae"],[0.3,"#f1b6da"],[0.4,"#fde0ef"],[0.5,"#f7f7f7"],[0.6,"#e6f5d0"],[0.7,"#b8e186"],[0.8,"#7fbc41"],[0.9,"#4d9221"],[1,"#276419"]]},"xaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"yaxis":{"gridcolor":"white","linecolor":"white","ticks":"","title":{"standoff":15},"zerolinecolor":"white","automargin":true,"zerolinewidth":2},"scene":{"xaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"yaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2},"zaxis":{"backgroundcolor":"#E5ECF6","gridcolor":"white","linecolor":"white","showbackground":true,"ticks":"","zerolinecolor":"white","gridwidth":2}},"shapedefaults":{"line":{"color":"#2a3f5f"}},"annotationdefaults":{"arrowcolor":"#2a3f5f","arrowhead":0,"arrowwidth":1},"geo":{"bgcolor":"white","landcolor":"#E5ECF6","subunitcolor":"white","showland":true,"showlakes":true,"lakecolor":"white"},"title":{"x":0.05},"mapbox":{"style":"light"},"margin":{"b":0,"l":0,"r":0,"t":30}}},"margin":{"t":20,"r":20,"b":100,"l":60},"xaxis":{"title":{"text":"Year"},"dtick":1,"gridcolor":"#eee","zerolinecolor":"#eee"},"yaxis":{"title":{"text":"% of websites offering English"},"ticksuffix":"%","gridcolor":"#eee","zerolinecolor":"#eee"},"legend":{"orientation":"h","y":-0.28,"x":0.5,"xanchor":"center"},"height":450,"plot_bgcolor":"white","paper_bgcolor":"white","hovermode":"x unified"},                        {"displayModeBar": false, "responsive": true}                    ).then(function(){
+                            
+var gd = document.getElementById('39a0ef9b-d36c-4763-80dd-5d8f7f08a104');
+var x = new MutationObserver(function (mutations, observer) {{
+        var display = window.getComputedStyle(gd).display;
+        if (!display || display === 'none') {{
+            console.log([gd, 'removed!']);
+            Plotly.purge(gd);
+            observer.disconnect();
+        }}
+}});
+
+// Listen for the removal of the full notebook cells
+var notebookContainer = gd.closest('#notebook-container');
+if (notebookContainer) {{
+    x.observe(notebookContainer, {childList: true});
+}}
+
+// Listen for the clearing of the current output cell
+var outputEl = gd.closest('.output');
+if (outputEl) {{
+    x.observe(outputEl, {childList: true});
+}}
+
+                        })                };            </script>        </div>
+</div>
+</div>
+<div class="figure-note">
+<p>Note: Only sectors with 10+ websites per year are shown. Sectors with fewer observations in a given year are excluded from that data point.</p>
+</div>
+</div>
+<div class="callout callout-style-default callout-tip callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+<span class="screen-reader-only">Tip</span>Key Findings
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p><strong>Finance &amp; Law</strong> has consistently led in English availability, hovering around 60-65% throughout the period. <strong>Real Estate</strong> also trends upward, reflecting international demand for Luxembourg property.</p>
+<p>The most concerning trend is <strong>Childcare</strong>: English availability dropped from 33% (2016) to 18% (2024). Crèche websites are becoming <em>more</em> monolingual over time, not less — moving in the opposite direction of what digital inclusion would require. In a country where a growing share of parents are international workers, this narrowing of linguistic access is worth attention.</p>
+</div>
+</div>
+</section>
+<section id="methodology" class="level2">
+<h2 data-anchor-id="methodology">Methodology</h2>
+<p>This analysis joins two existing datasets at the website-year level, combining language detection from the <a href="../website_languages_lux/">first post</a> with topic classification from the <a href="../bert_topic_websites_lux/">second</a>. No new machine learning models are trained — the value is in the cross-referencing.</p>
+<div class="pipeline-steps">
+<dl>
+<dt><strong>1. Language Data</strong></dt>
+<dd>
+Language availability per website-year from a three-tier detection pipeline: hreflang extraction (regex), LLM-based language switcher detection (Magistral), and FastText fallback for monolingual sites. Covers 83,728 website-years with flags for French, German, English, Luxembourgish, Portuguese, Dutch, and Other.
+</dd>
+<dt><strong>2. Topic Data</strong></dt>
+<dd>
+Sector classifications from a global BERTopic model run on 81,585 website-years. Each website-year is assigned one of 191 topics (or marked as outlier). Topics are manually grouped into 15 sectors (Real Estate, Healthcare, Public Services, etc.) via a <a href="https://github.com/julio-garbers/blog/blob/main/bert_topic_websites_lux/sector_mapping.json">sector mapping</a>.
+</dd>
+<dt><strong>3. Join &amp; Aggregate</strong></dt>
+<dd>
+An inner join on <code>(website_url, year)</code> produces the analysis dataset. Outlier websites (42% — those too unique to cluster) are excluded, as they have no sector label. For each sector and year, I compute the share of websites offering each language and the overall multilingual rate.
+</dd>
+<dt><strong>4. Policy Groupings</strong></dt>
+<dd>
+Sectors are grouped into <strong>essential services</strong> (Public Services, Healthcare, Childcare) and <strong>market-driven sectors</strong> (Real Estate, Restaurants, Retail, Finance &amp; Law) for the comparative analysis. The Portuguese gap analysis compares web availability against the 14.5% population share of Portuguese speakers in Luxembourg (<a href="https://statistiques.public.lu/en/recensement/nationalites.html">source</a>).
+</dd>
+</dl>
+</div>
+</section>
+<section id="citation" class="level2">
+<h2 data-anchor-id="citation">Citation</h2>
+<p>For attribution, please cite this work as:</p>
+<pre><code>Garbers, J. (2026, March). Lost in Translation on Luxembourg's Web.
+Retrieved from https://github.com/julio-garbers/blog/tree/main/language_sector_lux</code></pre>
+<p>BibTeX:</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode bibtex code-with-copy"><code class="sourceCode bibtex"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="va">@misc</span>{<span class="ot">garbers2026translation</span>,</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">author</span> = {Garbers, Julio},</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">title</span> = {Lost in Translation on Luxembourg's Web},</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="dt">url</span> = {https://github.com/julio-garbers/blog/tree/main/language_sector_lux},</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="dt">year</span> = {2026}</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<hr>
+<div class="github-link">
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewbox="0 0 24 24" fill="currentColor">
+<path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"></path>
+</svg>
+<p><a href="https://github.com/julio-garbers/blog/tree/main/language_sector_lux">All scripts available on GitHub</a></p>
+</div>
+<script>
+(function() {
+  function updateChartsForMobile() {
+    var plots = document.querySelectorAll('.js-plotly-plot');
+    if (plots.length < 4) return;
+
+    var isMobile = window.innerWidth < 768;
+
+    // Heatmap: reduce margins and text
+    Plotly.relayout(plots[0], isMobile ? {
+      'margin.l': 100, 'margin.r': 50,
+      'yaxis.tickfont.size': 9
+    } : {
+      'margin.l': 180, 'margin.r': 100,
+      'yaxis.tickfont.size': 11
+    });
+    Plotly.restyle(plots[0], {'textfont.size': isMobile ? 8 : 11}, [0]);
+
+    // Grouped bar: adjust legend and margins
+    Plotly.relayout(plots[1], isMobile ? {
+      'legend.font.size': 10, 'margin.b': 120,
+      'margin.l': 45, 'margin.r': 10
+    } : {
+      'legend.font.size': 12, 'margin.b': 100,
+      'margin.l': 60, 'margin.r': 20
+    });
+
+    // Portuguese gap: adjust left margin
+    Plotly.relayout(plots[2], isMobile ? {
+      'margin.l': 100, 'margin.r': 50,
+      'yaxis.tickfont.size': 9
+    } : {
+      'margin.l': 180, 'margin.r': 80,
+      'yaxis.tickfont.size': 11
+    });
+
+    // Evolution line chart
+    Plotly.relayout(plots[3], isMobile ? {
+      'legend.font.size': 10, 'margin.b': 130,
+      'margin.l': 45, 'margin.r': 10
+    } : {
+      'legend.font.size': 12, 'margin.b': 100,
+      'margin.l': 60, 'margin.r': 20
+    });
+  }
+
+  setTimeout(updateChartsForMobile, 150);
+  window.addEventListener('resize', updateChartsForMobile);
+})();
+</script>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/juliogarbers\.github\.io");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+<p>© 2026 Julio Garbers</p>
+</div>   
+    <div class="nav-footer-center">
+      &nbsp;
+    </div>
+    <div class="nav-footer-right">
+<p><a href="mailto:julio.garbers@liser.lu">julio.garbers@liser.lu</a></p>
+</div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

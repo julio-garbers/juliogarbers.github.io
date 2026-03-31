@@ -84,27 +84,6 @@
     "text": "Citation\nFor attribution, please cite this work as:\nGarbers, J. (2026, February). What Does Luxembourg's Web Talk About?\nRetrieved from https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux\nBibTeX:\n@misc{garbers2026topics,\n  author = {Garbers, Julio},\n  title = {What Does Luxembourg's Web Talk About?},\n  url = {https://github.com/julio-garbers/blog/tree/main/bert_topic_websites_lux},\n  year = {2026}\n}\n\n\n\n\n\nAll scripts available on GitHub"
   },
   {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "Curriculum Vitae",
-    "section": "",
-    "text": "View CV (PDF)"
-  },
-  {
-    "objectID": "experiments.html",
-    "href": "experiments.html",
-    "title": "Experiments",
-    "section": "",
-    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nDuration: ~15 minutes\nStart Experiment\n\n\nSubjective Traits Study\nDuration: ~15 minutes\nStart Experiment"
-  },
-  {
-    "objectID": "blog.html",
-    "href": "blog.html",
-    "title": "Blog",
-    "section": "",
-    "text": "What Does Luxembourg’s Web Talk About?\n\n\nUsing BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps.\n\n\n\n\n\nFebruary 23, 2026\n\n\n\n\n\n\n\nThe Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "Julio Garbers",
@@ -124,6 +103,76 @@
     "title": "Julio Garbers",
     "section": "Education",
     "text": "Education\n\nPhD in Economics (2021 – 2025) LISER and University of Luxembourg\n\n\nMaster’s Degree in Economics (2018 – 2021) University of Heidelberg\n\n\nBachelor’s Degree in Economics (2015 – 2018) University of Heidelberg"
+  },
+  {
+    "objectID": "blog.html",
+    "href": "blog.html",
+    "title": "Blog",
+    "section": "",
+    "text": "Lost in Translation on Luxembourg’s Web\n\n\nBy crossing language detection with topic modeling on 81,000 website-years, I examine whether essential services — government, healthcare, childcare — are as linguistically accessible as market-driven sectors like real estate and restaurants.\n\n\n\n\n\nMarch 27, 2026\n\n\n\n\n\n\n\nWhat Does Luxembourg’s Web Talk About?\n\n\nUsing BERTopic on CommonCrawl archives, I applied unsupervised topic modeling to Luxembourg websites. The results reveal what .lu domains talk about — from property listings and investment funds to sushi menus and scout camps.\n\n\n\n\n\nFebruary 23, 2026\n\n\n\n\n\n\n\nThe Linguistic Web of Luxembourg\n\n\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. I explore language trends over time, multilingual patterns, and the most common language configurations.\n\n\n\n\n\nJanuary 17, 2026\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "experiments.html",
+    "href": "experiments.html",
+    "title": "Experiments",
+    "section": "",
+    "text": "These online experiments are part of ongoing research on face perception. Each experiment is password protected. If you want to participate in this demo version, please send me an e-mail.\n\n\n\nFace Perception Study\nDuration: ~10 minutes\nStart Experiment\n\n\nFace Memory Study\nDuration: ~15 minutes\nStart Experiment\n\n\nSubjective Traits Study\nDuration: ~15 minutes\nStart Experiment"
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "Curriculum Vitae",
+    "section": "",
+    "text": "View CV (PDF)"
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html",
+    "href": "posts/language_sector_lux/index.html",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "",
+    "text": "In my first post, I found that 75% of Luxembourg websites offer French but only 2.4% offer Portuguese — despite Portuguese speakers being 14.5% of the population. In the second, I discovered that real estate dominates the web while construction splits into 11 subgroups. But neither post could answer the following question: if you only speak Portuguese, can you find a doctor online? Can you navigate your commune’s website? Can you find a crèche for your child?\nBy joining the two datasets — language availability and topic (hereafter sector) classification — I can now map which services are accessible in which languages."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#the-language-map-of-luxembourgs-sectors",
+    "href": "posts/language_sector_lux/index.html#the-language-map-of-luxembourgs-sectors",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "The Language Map of Luxembourg’s Sectors",
+    "text": "The Language Map of Luxembourg’s Sectors\nWhich languages does each sector make available? The heatmap below shows language availability across all sectors in 2024. Darker cells mean more websites in that sector offer that language.\n\n\nLanguage availability by sector (2024)\n\n\n\nShow code\n# Build heatmap data (exclude \"Other\" — it's a catch-all, not a real sector)\nsector_lang_filtered = [s for s in sector_lang if s['sector'] != 'Other']\nsectors_sorted = [s['sector'] for s in sector_lang_filtered]\nlangs = ['fr', 'de', 'en', 'lb', 'pt']\nlang_labels = [lang_names[l] for l in langs]\n\nz_data = []\nhover_data = []\nfor s in sector_lang_filtered:\n    row = [s[f'{l}_pct'] for l in langs]\n    z_data.append(row)\n    hover_row = [\n        f\"&lt;b&gt;{s['sector']}&lt;/b&gt;&lt;br&gt;\"\n        f\"{lang_names[l]}: {s[f'{l}_pct']}%&lt;br&gt;\"\n        f\"({s['n_websites']} websites)\"\n        for l in langs\n    ]\n    hover_data.append(hover_row)\n\nfig = go.Figure(go.Heatmap(\n    z=z_data,\n    x=lang_labels,\n    y=sectors_sorted,\n    colorscale=[\n        [0, '#f7f7f7'],\n        [0.15, '#d1e5f0'],\n        [0.35, '#92c5de'],\n        [0.55, '#4393c3'],\n        [0.75, '#2166ac'],\n        [1.0, '#053061']\n    ],\n    text=[[f'{v}%' for v in row] for row in z_data],\n    texttemplate='%{text}',\n    textfont=dict(size=11),\n    hovertext=hover_data,\n    hovertemplate='%{hovertext}&lt;extra&gt;&lt;/extra&gt;',\n    colorbar=dict(\n        title=dict(text='% of websites', side='right'),\n        ticksuffix='%',\n        len=0.7\n    ),\n    zmin=0,\n    zmax=100,\n))\n\nfig.update_layout(\n    height=max(450, len(sectors_sorted) * 32),\n    margin=dict(t=20, r=100, b=50, l=180),\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    xaxis=dict(side='top', tickangle=0),\n    yaxis=dict(autorange='reversed', tickfont=dict(size=11)),\n)\n\nfig.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: Each cell shows the percentage of websites in that sector offering that language. Sectors sorted by number of websites (largest at top). Only sectors with 5+ websites shown.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nThe heatmap reveals strikingly different language worlds. Finance & Law is the only sector where English (65%) beats French (62%) — the language of international capital markets. Childcare is the opposite extreme: 97% French, just 18% English, reflecting that crèches primarily communicate in French\nCommunity organizations (scouts, churches, fire services) have the highest Luxembourgish availability at 33% — these seem to be the most culturally rooted institutions. Culture & Tourism is the most multilingual sector overall (58%), serving international visitors.\nNow look at the Portuguese column: it’s near zero almost everywhere. Public Services show 0% — not a single municipal or government website in the sample offers Portuguese."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#essential-services-vs.-the-market",
+    "href": "posts/language_sector_lux/index.html#essential-services-vs.-the-market",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "Essential Services vs. the Market",
+    "text": "Essential Services vs. the Market\nDoes the market do a better job at multilingualism than the public sector? I grouped sectors into two categories: essential services (government, healthcare, childcare) that residents need, and market-driven sectors (real estate, restaurants, retail, finance) that compete for customers.\n\n\nLanguage availability: essential services vs. market-driven sectors (2024)\n\n\n\nShow code\ness = ess_vs_mkt['essential']\nmkt = ess_vs_mkt['market']\n\nlangs_compare = ['fr', 'de', 'en', 'lb', 'pt']\nlabels = [lang_names[l] for l in langs_compare] + ['Multilingual']\ness_vals = [ess.get(f'{l}_pct', 0) for l in langs_compare] + [ess.get('multilingual_pct', 0)]\nmkt_vals = [mkt.get(f'{l}_pct', 0) for l in langs_compare] + [mkt.get('multilingual_pct', 0)]\n\nfig = go.Figure()\n\nfig.add_trace(go.Bar(\n    name=f\"Essential Services (N={ess['n_websites']})\",\n    x=labels,\n    y=ess_vals,\n    marker_color='#2166ac',\n    text=[f'{v}%' for v in ess_vals],\n    textposition='outside',\n    hovertemplate='&lt;b&gt;Essential Services&lt;/b&gt;&lt;br&gt;%{x}: %{y:.1f}%&lt;extra&gt;&lt;/extra&gt;',\n))\n\nfig.add_trace(go.Bar(\n    name=f\"Market-Driven (N={mkt['n_websites']})\",\n    x=labels,\n    y=mkt_vals,\n    marker_color='#b2182b',\n    text=[f'{v}%' for v in mkt_vals],\n    textposition='outside',\n    hovertemplate='&lt;b&gt;Market-Driven Sectors&lt;/b&gt;&lt;br&gt;%{x}: %{y:.1f}%&lt;extra&gt;&lt;/extra&gt;',\n))\n\nfig.update_layout(\n    height=450,\n    margin=dict(t=20, r=20, b=100, l=60),\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    barmode='group',\n    yaxis=dict(\n        title='% of websites', ticksuffix='%',\n        gridcolor='#eee', zerolinecolor='#eee',\n        range=[0, max(max(ess_vals), max(mkt_vals)) * 1.2],\n    ),\n    xaxis=dict(gridcolor='#eee', zerolinecolor='#eee'),\n    legend=dict(orientation='h', y=-0.22, x=0.5, xanchor='center'),\n)\n\nfig.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: Essential services = Public Services, Healthcare, Childcare. Market-driven = Real Estate, Restaurants, Retail, Finance & Law.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nThe gap is clear in English: market-driven sectors offer it on 46% of websites, while essential services manage only 28%. This matters for the 48% of Luxembourg’s residents who are foreign-born — many of whom speak English but not necessarily French or German.\nLuxembourgish shows the reverse pattern: 14% in essential services vs. 4% in the market — government and healthcare websites are more likely to be offered in Luxembourgish.\nPortuguese availability is equally low in both groups (2.4%) — neither the market nor the public sector serves this community online."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#the-portuguese-gap",
+    "href": "posts/language_sector_lux/index.html#the-portuguese-gap",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "The Portuguese Gap",
+    "text": "The Portuguese Gap\nPortuguese speakers make up 14.5% of Luxembourg’s population — the largest immigrant community. Yet the previous analysis found Portuguese on just 2.4% of websites overall. How does this gap look across sectors that matter most for daily life?\n\n\nPortuguese availability by sector vs. population share (14.5%)\n\n\n\nShow code\n# Filter to named sectors with enough websites\npt_sectors = [s for s in pt_gap if s['n_websites'] &gt;= 10 and s['sector'] != 'Other'][:15]\n\nsectors_list = [s['sector'] for s in reversed(pt_sectors)]\npt_pcts = [s['pt_pct'] for s in reversed(pt_sectors)]\n\nfig = go.Figure()\n\n# Portuguese availability bars\nfig.add_trace(go.Bar(\n    y=sectors_list,\n    x=pt_pcts,\n    orientation='h',\n    name='Portuguese availability',\n    marker_color='#7c3aed',\n    text=[f'{v}%' for v in pt_pcts],\n    textposition='outside',\n    hovertemplate='&lt;b&gt;%{y}&lt;/b&gt;&lt;br&gt;Portuguese: %{x:.1f}%&lt;extra&gt;&lt;/extra&gt;',\n))\n\n# Population reference line\nfig.add_vline(\n    x=14.5, line_dash='dash', line_color='#ef4444', line_width=2,\n    annotation_text='Population share (14.5%)',\n    annotation_position='top',\n    annotation_font_color='#ef4444',\n)\n\nfig.update_layout(\n    height=max(400, len(pt_sectors) * 30),\n    margin=dict(t=40, r=80, b=50, l=180),\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    xaxis=dict(\n        title='% of websites offering Portuguese',\n        ticksuffix='%', gridcolor='#eee', zerolinecolor='#eee',\n        range=[0, max(max(pt_pcts) * 1.3, 18)],\n    ),\n    yaxis=dict(tickfont=dict(size=11)),\n    showlegend=False,\n)\n\nfig.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: The dashed red line marks the share of Portuguese speakers in Luxembourg’s population (14.5%, source). Sectors sorted by gap size (largest gap at top).\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nNot a single sector comes close to the 14.5% population benchmark. The closest is Automotive at 8.7%.\nPublic Services sit at exactly 0% — the most striking finding. Of 187 government and municipal websites, none offers Portuguese. Healthcare (2.9%) and Childcare (5.3%) fare marginally better, but the gap with the population share remains large.\nEven Construction — a sector where Portuguese workers make up a large share of the workforce — only offers 1.7% of its websites in Portuguese."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#is-the-gap-closing",
+    "href": "posts/language_sector_lux/index.html#is-the-gap-closing",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "Is the Gap Closing?",
+    "text": "Is the Gap Closing?\nHas multilingualism in essential services improved over time? The chart below tracks English and multilingual availability in key sectors from 2016 to 2024.\n\n\nEnglish availability over time in selected sectors\n\n\n\nShow code\nyears = evolution['years']\nfocus_sectors = [\n    'Public Services', 'Healthcare', 'Childcare',\n    'Real Estate', 'Finance & Law', 'Restaurants'\n]\n\nsector_colors = {\n    'Public Services': '#2166ac',\n    'Healthcare': '#469990',\n    'Childcare': '#fabed4',\n    'Real Estate': '#4363d8',\n    'Finance & Law': '#1e3a5f',\n    'Restaurants': '#e6194b',\n}\n\nfig = go.Figure()\n\nfor sector_data in evolution['sectors']:\n    name = sector_data['sector']\n    if name not in focus_sectors:\n        continue\n    en_pcts = sector_data['en_pct']\n    # Filter out None values for clean lines\n    valid = [(y, v) for y, v in zip(years, en_pcts) if v is not None]\n    if not valid:\n        continue\n    xs, ys = zip(*valid)\n\n    fig.add_trace(go.Scatter(\n        x=list(xs),\n        y=list(ys),\n        name=name,\n        mode='lines+markers',\n        line=dict(\n            color=sector_colors.get(name, '#999'),\n            width=3, shape='spline', smoothing=0.8,\n        ),\n        marker=dict(size=6),\n        hovertemplate=f'&lt;b&gt;{name}&lt;/b&gt;&lt;br&gt;English: %{{y:.1f}}%&lt;br&gt;Year: %{{x}}&lt;extra&gt;&lt;/extra&gt;',\n    ))\n\nfig.update_layout(\n    height=450,\n    margin=dict(t=20, r=20, b=100, l=60),\n    plot_bgcolor='white',\n    paper_bgcolor='white',\n    xaxis=dict(title='Year', dtick=1, gridcolor='#eee', zerolinecolor='#eee'),\n    yaxis=dict(\n        title='% of websites offering English', ticksuffix='%',\n        gridcolor='#eee', zerolinecolor='#eee',\n    ),\n    legend=dict(orientation='h', y=-0.28, x=0.5, xanchor='center'),\n    hovermode='x unified',\n)\n\nfig.show(config={'displayModeBar': False})\n\n\n                            \n                                            \n\n\n\nNote: Only sectors with 10+ websites per year are shown. Sectors with fewer observations in a given year are excluded from that data point.\n\n\n\n\n\n\n\n\nTipKey Findings\n\n\n\nFinance & Law has consistently led in English availability, hovering around 60-65% throughout the period. Real Estate also trends upward, reflecting international demand for Luxembourg property.\nThe most concerning trend is Childcare: English availability dropped from 33% (2016) to 18% (2024). Crèche websites are becoming more monolingual over time, not less — moving in the opposite direction of what digital inclusion would require. In a country where a growing share of parents are international workers, this narrowing of linguistic access is worth attention."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#methodology",
+    "href": "posts/language_sector_lux/index.html#methodology",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "Methodology",
+    "text": "Methodology\nThis analysis joins two existing datasets at the website-year level, combining language detection from the first post with topic classification from the second. No new machine learning models are trained — the value is in the cross-referencing.\n\n\n1. Language Data\n\nLanguage availability per website-year from a three-tier detection pipeline: hreflang extraction (regex), LLM-based language switcher detection (Magistral), and FastText fallback for monolingual sites. Covers 83,728 website-years with flags for French, German, English, Luxembourgish, Portuguese, Dutch, and Other.\n\n2. Topic Data\n\nSector classifications from a global BERTopic model run on 81,585 website-years. Each website-year is assigned one of 191 topics (or marked as outlier). Topics are manually grouped into 15 sectors (Real Estate, Healthcare, Public Services, etc.) via a sector mapping.\n\n3. Join & Aggregate\n\nAn inner join on (website_url, year) produces the analysis dataset. Outlier websites (42% — those too unique to cluster) are excluded, as they have no sector label. For each sector and year, I compute the share of websites offering each language and the overall multilingual rate.\n\n4. Policy Groupings\n\nSectors are grouped into essential services (Public Services, Healthcare, Childcare) and market-driven sectors (Real Estate, Restaurants, Retail, Finance & Law) for the comparative analysis. The Portuguese gap analysis compares web availability against the 14.5% population share of Portuguese speakers in Luxembourg (source)."
+  },
+  {
+    "objectID": "posts/language_sector_lux/index.html#citation",
+    "href": "posts/language_sector_lux/index.html#citation",
+    "title": "Lost in Translation on Luxembourg’s Web",
+    "section": "Citation",
+    "text": "Citation\nFor attribution, please cite this work as:\nGarbers, J. (2026, March). Lost in Translation on Luxembourg's Web.\nRetrieved from https://github.com/julio-garbers/blog/tree/main/language_sector_lux\nBibTeX:\n@misc{garbers2026translation,\n  author = {Garbers, Julio},\n  title = {Lost in Translation on Luxembourg's Web},\n  url = {https://github.com/julio-garbers/blog/tree/main/language_sector_lux},\n  year = {2026}\n}\n\n\n\n\n\nAll scripts available on GitHub"
   },
   {
     "objectID": "posts/website_languages_lux/index.html",
