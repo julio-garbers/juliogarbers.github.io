@@ -21,8 +21,6 @@ website:
         href: data.qmd
       - text: "Policy"
         href: policy.qmd
-      - text: "Experiments"
-        href: experiments.qmd
       - text: "Blog"
         href: blog.qmd
       - text: "CV"
