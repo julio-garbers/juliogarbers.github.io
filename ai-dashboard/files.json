@@ -1,0 +1,83 @@
+{
+  ".streamlit/config.toml": {
+    "url": "app/.streamlit/config.toml"
+  },
+  "app.py": {
+    "url": "app/app.py"
+  },
+  "assets/favicon.png": {
+    "url": "app/assets/favicon.png"
+  },
+  "assets/liser_logo_color.png": {
+    "url": "app/assets/liser_logo_color.png"
+  },
+  "assets/liser_logo_white.png": {
+    "url": "app/assets/liser_logo_white.png"
+  },
+  "assets/liser_mark.png": {
+    "url": "app/assets/liser_mark.png"
+  },
+  "lib/__init__.py": {
+    "url": "app/lib/__init__.py"
+  },
+  "lib/aggregations.py": {
+    "url": "app/lib/aggregations.py"
+  },
+  "lib/branding.py": {
+    "url": "app/lib/branding.py"
+  },
+  "lib/data.py": {
+    "url": "app/lib/data.py"
+  },
+  "lib/filters.py": {
+    "url": "app/lib/filters.py"
+  },
+  "lib/nace.py": {
+    "url": "app/lib/nace.py"
+  },
+  "lib/stats.py": {
+    "url": "app/lib/stats.py"
+  },
+  "lib/style.py": {
+    "url": "app/lib/style.py"
+  },
+  "views/coverage.py": {
+    "url": "app/views/coverage.py"
+  },
+  "views/geography.py": {
+    "url": "app/views/geography.py"
+  },
+  "views/industry.py": {
+    "url": "app/views/industry.py"
+  },
+  "views/methodology.py": {
+    "url": "app/views/methodology.py"
+  },
+  "views/overview.py": {
+    "url": "app/views/overview.py"
+  },
+  "data/communes4326.geojson.gz": {
+    "url": "data/communes4326.geojson.gz"
+  },
+  "data/cube_city.csv.gz": {
+    "url": "data/cube_city.csv.gz"
+  },
+  "data/cube_panel.csv.gz": {
+    "url": "data/cube_panel.csv.gz"
+  },
+  "data/cube_pop.csv.gz": {
+    "url": "data/cube_pop.csv.gz"
+  },
+  "data/cube_repr.csv.gz": {
+    "url": "data/cube_repr.csv.gz"
+  },
+  "data/nace_lookup.csv.gz": {
+    "url": "data/nace_lookup.csv.gz"
+  },
+  "data/official_section.csv.gz": {
+    "url": "data/official_section.csv.gz"
+  },
+  "data/official_year.csv.gz": {
+    "url": "data/official_year.csv.gz"
+  }
+}
