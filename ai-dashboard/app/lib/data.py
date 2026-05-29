@@ -2,10 +2,15 @@
 
 Browser / stlite build: the cubes ship as small **gzipped** CSVs and are read
 with pandas (`gzip` is in Pyodide's stdlib; neither polars nor pyarrow is). The
-firm-month panel is ~1.1M rows (~63 MB as plain CSV, ~2.7 MB gzipped), so
-gzip keeps both the repo and the first-load download small. Explicit dtypes are
-declared per file so the CSV round-trip reproduces the original parquet cubes
-exactly (nullable booleans and nullable integers in particular).
+firm-month panel is ~1.1M rows (~63 MB as plain CSV, ~2.7 MB gzipped), so gzip
+keeps both the repo and the first-load download small.
+
+IMPORTANT: every column is coerced to a **numpy-backed** dtype (object / int64 /
+float64 / bool), never a pandas *nullable extension* dtype (string / boolean /
+Int64). `st.cache_data` pickles each cached frame, and the extension arrays fail
+to deserialize in stlite's Pyodide pandas build (`NDArrayBacked.__setstate__`
+raises NotImplementedError). Reading every column as str first also preserves
+leading zeros in codes like "0100".
 """
 
 import gzip
@@ -17,75 +22,39 @@ import streamlit as st
 
 DATA_DIR = Path(__file__).resolve().parents[1] / "data"
 
-# Panel dimension dtypes shared by cube_pop / cube_panel / cube_repr.
-_DIM_DTYPES = {
-    "nace4": "string",
-    "size_classification": "string",
-    "is_active": "boolean",            # nullable: Operating / Closed / unknown
-    "period_imputed_start": "boolean",
-    "period_imputed_end": "boolean",
-    "decade_incorporation": "Int64",   # nullable
+# Column kinds (by name); anything not listed stays object (str codes/labels).
+_INT_COLS = {
+    "year", "month", "n_population", "n_sample", "n_ever_ai", "n_ever_observed",
+    "n_true", "n_false", "n_null", "n_ai",
 }
+_BOOL_COLS = {"is_active", "period_imputed_start", "period_imputed_end"}
+_FLOAT_NA_COLS = {"decade_incorporation", "official_active"}
 
-_DTYPES = {
-    "cube_pop.csv.gz": {
-        **_DIM_DTYPES,
-        "n_population": "int64",
-        "n_sample": "int64",
-        "n_ever_ai": "int64",
-        "n_ever_observed": "int64",
-    },
-    "cube_panel.csv.gz": {
-        **_DIM_DTYPES,
-        "year": "int64",
-        "month": "int64",
-        "n_true": "int64",
-        "n_false": "int64",
-        "n_null": "int64",
-    },
-    "cube_repr.csv.gz": {
-        **_DIM_DTYPES,
-        "year": "int64",
-        "n_sample": "int64",
-        "n_ai": "int64",
-    },
-    "cube_city.csv.gz": {
-        "lau2": "string",
-        "commune": "string",
-        "year": "int64",
-        "month": "int64",
-        "n_true": "int64",
-        "n_false": "int64",
-        "n_null": "int64",
-    },
-    "nace_lookup.csv.gz": {
-        "nace4": "string",
-        "sec_code": "string",
-        "sec_label": "string",
-        "div_code": "string",
-        "div_label": "string",
-        "grp_code": "string",
-        "grp_label": "string",
-        "cls_code": "string",
-        "cls_label": "string",
-    },
-    "official_year.csv.gz": {
-        "year": "int64",
-        "official_active": "Int64",
-        "kind": "string",
-        "source": "string",
-    },
-    "official_section.csv.gz": {
-        "sec_code": "string",
-        "official_active": "Int64",
-        "kind": "string",
-    },
-}
+_FILES = [
+    "cube_pop.csv.gz", "cube_panel.csv.gz", "cube_repr.csv.gz", "cube_city.csv.gz",
+    "nace_lookup.csv.gz", "official_year.csv.gz", "official_section.csv.gz",
+]
 
 
 def _read(name: str) -> pd.DataFrame:
-    # pandas infers gzip from the .gz extension (compression="infer").
-    return pd.read_csv(DATA_DIR / name, dtype=_DTYPES[name], keep_default_na=True)
+    # Read everything as str (preserves leading zeros, no dtype inference, no
+    # extension arrays), then coerce to numpy-backed dtypes.
+    df = pd.read_csv(DATA_DIR / name, dtype=str, keep_default_na=True)
+    for col in df.columns:
+        if col in _INT_COLS:
+            df[col] = pd.to_numeric(df[col]).astype("int64")
+        elif col in _FLOAT_NA_COLS:
+            df[col] = pd.to_numeric(df[col])  # float64, NaN for missing
+        elif col in _BOOL_COLS:
+            # -> object with python True / False / NaN (numpy-backed object)
+            df[col] = df[col].map({"True": True, "False": False}).astype(object)
+        else:
+            # codes / labels -> numpy object. (pandas 3.0's read_csv(dtype=str)
+            # yields the new 'str' EXTENSION dtype which — like string/boolean/
+            # Int64 — fails to unpickle in stlite's Pyodide pandas; .astype(object)
+            # forces a plain numpy object array on every pandas version.)
+            df[col] = df[col].astype(object)
+    return df
 
 
 @st.cache_data(show_spinner=False)

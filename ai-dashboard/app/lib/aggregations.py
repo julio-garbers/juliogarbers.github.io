@@ -140,7 +140,7 @@ def coverage_trend(fs: filters_lib.FilterState) -> pd.DataFrame:
     )
     official = data_lib.official_year()[["year", "official_active"]]
     trend = trend.merge(official, on="year", how="left")
-    off = trend["official_active"].astype("Float64").to_numpy(dtype=float)
+    off = trend["official_active"].to_numpy(dtype=float)
     with np.errstate(divide="ignore", invalid="ignore"):
         trend["coverage"] = np.where(
             ~np.isnan(off), trend["sample"].to_numpy(dtype=float) / off, np.nan
@@ -180,9 +180,7 @@ def sample_vs_official_by_section(
         merged["sample"] / total_sample if total_sample else np.nan
     )
     merged["official_share"] = (
-        merged["official_active"].astype("Float64") / total_official
-        if total_official
-        else np.nan
+        merged["official_active"] / total_official if total_official else np.nan
     )
     return merged.sort_values("official_active", ascending=False).reset_index(
         drop=True

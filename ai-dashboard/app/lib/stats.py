@@ -50,11 +50,13 @@ def add_observed_rate(df: pd.DataFrame, pos="n_true", obs="observed") -> pd.Data
     df["ci_lo"] = lo
     df["ci_hi"] = hi
     width = hi - lo
+    # .astype(object): keep a numpy object column (not pandas 3.0's 'str'
+    # extension dtype, which fails to unpickle in stlite's Pyodide pandas).
     df["tier"] = np.where(
         n < MIN_OBS,
         "suppressed",
         np.where(width >= CAUTION_CI_WIDTH, "caution", "reliable"),
-    )
+    ).astype(object)
     # suppressed cells carry no displayable rate
     df["rate_display"] = np.where(n >= MIN_OBS, rate, np.nan)
     return df
