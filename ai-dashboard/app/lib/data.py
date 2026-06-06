@@ -27,7 +27,10 @@ _INT_COLS = {
     "year", "month", "n_population", "n_sample", "n_ever_ai", "n_ever_observed",
     "n_true", "n_false", "n_null", "n_ai",
 }
-_BOOL_COLS = {"is_active", "period_imputed_start", "period_imputed_end"}
+_BOOL_COLS = {
+    "is_active", "period_imputed_start", "period_imputed_end",
+    "own_website", "in_group",
+}
 _FLOAT_NA_COLS = {"decade_incorporation", "official_active"}
 
 _FILES = [

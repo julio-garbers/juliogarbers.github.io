@@ -21,9 +21,9 @@ branding.page_header(
     "latest-month figure, mapped.",
 )
 st.caption(
-    f"Communes with fewer than {stats_lib.MIN_OBS} observed firms are shown in "
-    "grey. Covers all firms with a known commune; not affected by the sidebar "
-    "filters on other pages."
+    f"Businesses with a known commune. Communes with fewer than "
+    f"{stats_lib.MIN_OBS} observed firms are shown in grey; not affected by the "
+    "sidebar filters on other pages."
 )
 
 geojson = data_lib.communes_geojson()

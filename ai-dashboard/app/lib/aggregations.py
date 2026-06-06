@@ -207,7 +207,11 @@ def map_data() -> pd.DataFrame:
     filters."""
     y, m = latest_period()
     city = data_lib.cube_city()
-    city = city[(city["year"] == y) & (city["month"] == m)]
+    city = city[
+        (city["year"] == y)
+        & (city["month"] == m)
+        & (city["firm_category"] == "commercial")
+    ]
     by = (
         city.groupby(["lau2", "commune"], as_index=False, dropna=False)
         .agg(n_true=("n_true", "sum"), n_false=("n_false", "sum"))

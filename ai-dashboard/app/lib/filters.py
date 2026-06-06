@@ -24,13 +24,28 @@ SIZE_ORDER = [
 ]
 STATUS_LABELS = ["Operating", "Closed", "Status unknown"]
 
+# firm_category code -> friendly label. Default is businesses only — public
+# bodies, non-profits and uncoded entities are poorly covered by the register
+# and their AI signal is dominated by topic/discourse and group-site
+# misattribution (see Methodology), so they are opt-in.
+FIRM_TYPES = {
+    "commercial": "Businesses",
+    "non_profit": "Non-profits",
+    "public": "Public sector",
+    "unknown": "Unknown legal form",
+    "other": "Other",
+}
+
 
 @dataclass
 class FilterState:
     nace_level: int = 1
     nace_values: list[str] = field(default_factory=list)   # codes at nace_level
+    firm_types: list[str] = field(default_factory=lambda: ["commercial"])
     sizes: list[str] = field(default_factory=list)         # [] = all
     status: list[str] = field(default_factory=lambda: list(STATUS_LABELS))
+    own_website_only: bool = False
+    independent_only: bool = False
     only_confirmed_dates: bool = False
     decade_range: tuple[int, int] = (1900, 2020)
 
@@ -39,8 +54,11 @@ class FilterState:
         return (
             self.nace_level,
             tuple(self.nace_values),
+            tuple(self.firm_types),
             tuple(self.sizes),
             tuple(self.status),
+            self.own_website_only,
+            self.independent_only,
             self.only_confirmed_dates,
             self.decade_range,
         )
@@ -57,9 +75,24 @@ def render_sidebar() -> FilterState:
     with st.sidebar:
         st.markdown("### Filters")
         st.caption(
-            "Adjust the set of firms behind every chart. By default all "
-            "Luxembourg firms are included."
+            "Adjust the set of firms behind every chart. By default the charts "
+            "show Luxembourg **businesses**."
         )
+
+        # --- Firm type ---
+        codes = list(FIRM_TYPES)
+        chosen_types = st.multiselect(
+            "Firm type",
+            options=[FIRM_TYPES[c] for c in codes],
+            default=[FIRM_TYPES[c] for c in fs.firm_types],
+            placeholder="All firm types",
+            help="Defaults to Businesses — the cleanest denominator. Public "
+            "bodies, non-profits and uncoded entities are poorly covered by the "
+            "register and their AI signal is noisier — opt in with care. "
+            "Clearing the box shows all firm types.",
+        )
+        label_to_type = {v: k for k, v in FIRM_TYPES.items()}
+        fs.firm_types = [label_to_type[v] for v in chosen_types]
 
         # --- Industry: two-stage (level, then industries by label) ---
         st.markdown("**Industry**")
@@ -103,6 +136,24 @@ def render_sidebar() -> FilterState:
             default=fs.status,
             help="Operating = currently active; Closed = ceased; "
             "Status unknown = not recorded.",
+        )
+
+        # --- Attribution: own website + standalone ---
+        fs.own_website_only = st.checkbox(
+            "Only firms with their own website",
+            value=fs.own_website_only,
+            help="Exclude firms whose website is shared with other firms (a "
+            "group / portal / management-company site). The AI on such sites "
+            "belongs to the group, not the individual firm — own-site firms "
+            "show ~10% AI vs ~38% for heavily-shared sites.",
+        )
+        fs.independent_only = st.checkbox(
+            "Only standalone firms",
+            value=fs.independent_only,
+            help="Exclude subsidiaries of a multi-firm corporate group "
+            "(identified by a shared Global Ultimate Owner). The group's AI is "
+            "often mis-attributed to each subsidiary — standalone firms show "
+            "~12% AI vs ~34% for large groups.",
         )
 
         # --- Estimated dates ---
@@ -166,6 +217,17 @@ def predicates(df: pd.DataFrame, fs: FilterState) -> list[np.ndarray]:
     if fs.nace_values:
         codes = nace_lib.codes_for_level_values(fs.nace_level, fs.nace_values)
         preds.append(df["nace4"].isin(list(codes)).to_numpy(dtype=bool))
+
+    # Firm type: a non-empty selection includes exactly those categories;
+    # empty == all firm types (matches the original polars predicate).
+    if fs.firm_types:
+        preds.append(df["firm_category"].isin(fs.firm_types).to_numpy(dtype=bool))
+
+    if fs.own_website_only:
+        preds.append(_as_bool(df["own_website"] == True))  # noqa: E712
+
+    if fs.independent_only:
+        preds.append(_as_bool(df["in_group"] == False))  # noqa: E712
 
     if fs.sizes:
         preds.append(df["size_classification"].isin(fs.sizes).to_numpy(dtype=bool))
