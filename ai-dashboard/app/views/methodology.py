@@ -105,10 +105,12 @@ every month in the current selection clears the 30-firm threshold.
 
 ## The map
 
-The map assigns each firm to its commune and shows the observed share by
-commune. It covers all firms and is a standalone geographic overview — the
-sidebar filters on other pages do not change it. Communes with fewer than 30
-observed firms are greyed out.
+The map assigns each firm to its commune and shows the latest-month observed
+share by commune. It responds to the **Firm type** and **Industry** sidebar
+filters — so you can map, say, manufacturing businesses only — while the finer
+filters (size, activity status, and the website / ownership attribution
+toggles) are not held at commune level and leave it unchanged. Communes with
+fewer than 30 observed firms are greyed out.
 
 ## Known limitations
 

@@ -211,53 +211,82 @@ def _status_mask(df: pd.DataFrame, selected: list[str]) -> np.ndarray | None:
     return mask
 
 
-def predicates(df: pd.DataFrame, fs: FilterState) -> list[np.ndarray]:
-    preds: list[np.ndarray] = []
+def _decade_mask(df: pd.DataFrame, lo: int, hi: int) -> np.ndarray:
+    # Firms with an unknown founding date are always kept — a null decade must
+    # not be silently dropped.
+    d = df["decade_incorporation"]
+    in_range = _as_bool((d >= lo) & (d <= hi))
+    return d.isna().to_numpy(dtype=bool) | in_range
+
+
+def _specs(fs: FilterState) -> list:
+    """(required_columns, mask_builder) per active filter. apply() runs them
+    all; apply_present() runs only those whose columns exist in the frame."""
+    specs: list = []
 
     if fs.nace_values:
-        codes = nace_lib.codes_for_level_values(fs.nace_level, fs.nace_values)
-        preds.append(df["nace4"].isin(list(codes)).to_numpy(dtype=bool))
+        codes = list(nace_lib.codes_for_level_values(fs.nace_level, fs.nace_values))
+        specs.append((("nace4",), lambda df: df["nace4"].isin(codes).to_numpy(dtype=bool)))
 
     # Firm type: a non-empty selection includes exactly those categories;
     # empty == all firm types (matches the original polars predicate).
     if fs.firm_types:
-        preds.append(df["firm_category"].isin(fs.firm_types).to_numpy(dtype=bool))
+        ft = list(fs.firm_types)
+        specs.append((("firm_category",),
+                      lambda df: df["firm_category"].isin(ft).to_numpy(dtype=bool)))
 
     if fs.own_website_only:
-        preds.append(_as_bool(df["own_website"] == True))  # noqa: E712
+        specs.append((("own_website",),
+                      lambda df: _as_bool(df["own_website"] == True)))  # noqa: E712
 
     if fs.independent_only:
-        preds.append(_as_bool(df["in_group"] == False))  # noqa: E712
+        specs.append((("in_group",),
+                      lambda df: _as_bool(df["in_group"] == False)))  # noqa: E712
 
     if fs.sizes:
-        preds.append(df["size_classification"].isin(fs.sizes).to_numpy(dtype=bool))
+        sz = list(fs.sizes)
+        specs.append((("size_classification",),
+                      lambda df: df["size_classification"].isin(sz).to_numpy(dtype=bool)))
 
-    sm = _status_mask(df, fs.status)
-    if sm is not None:
-        preds.append(sm)
+    if not (set(fs.status) == set(STATUS_LABELS) or not fs.status):
+        sel = list(fs.status)
+        specs.append((("is_active",), lambda df: _status_mask(df, sel)))
 
     if fs.only_confirmed_dates:
-        preds.append(
-            _as_bool(df["period_imputed_start"] == False)  # noqa: E712
-            & _as_bool(df["period_imputed_end"] == False)  # noqa: E712
-        )
+        specs.append((
+            ("period_imputed_start", "period_imputed_end"),
+            lambda df: _as_bool(df["period_imputed_start"] == False)  # noqa: E712
+            & _as_bool(df["period_imputed_end"] == False),  # noqa: E712
+        ))
 
     lo, hi = fs.decade_range
     if (lo, hi) != (1900, 2020):
-        # Firms with an unknown founding date are always kept (matches the
-        # sidebar help) — a null decade must not be silently dropped.
-        d = df["decade_incorporation"]
-        in_range = _as_bool((d >= lo) & (d <= hi))
-        preds.append(d.isna().to_numpy(dtype=bool) | in_range)
+        specs.append((("decade_incorporation",), lambda df: _decade_mask(df, lo, hi)))
 
-    return preds
+    return specs
 
 
-def apply(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
-    masks = predicates(df, fs)
+def _combine(df: pd.DataFrame, masks: list[np.ndarray]) -> pd.DataFrame:
     if not masks:
         return df
     combined = np.ones(len(df), dtype=bool)
     for m in masks:
         combined &= m
     return df[combined]
+
+
+def predicates(df: pd.DataFrame, fs: FilterState) -> list[np.ndarray]:
+    return [fn(df) for _cols, fn in _specs(fs)]
+
+
+def apply(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
+    return _combine(df, [fn(df) for _cols, fn in _specs(fs)])
+
+
+def apply_present(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
+    """Like apply(), but only predicates whose referenced columns all exist in
+    `df` — for cubes carrying a subset of the panel dimensions (cube_city has
+    firm_category + nace4 but not size / status / attribution). Mirrors the
+    polars apply_present in dashboard/lib/filters.py."""
+    cols = set(df.columns)
+    return _combine(df, [fn(df) for need, fn in _specs(fs) if set(need) <= cols])

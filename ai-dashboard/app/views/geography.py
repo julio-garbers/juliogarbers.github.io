@@ -9,25 +9,61 @@ import streamlit as st
 from lib import aggregations as agg
 from lib import branding
 from lib import data as data_lib
+from lib import filters as filters_lib
+from lib import nace as nace_lib
 from lib import stats as stats_lib
 from lib.style import SHARE_SCALE
 
+
+def _firm_type_label(fs: filters_lib.FilterState) -> str:
+    if not fs.firm_types:
+        return "All firm types"
+    if fs.firm_types == ["commercial"]:
+        return "Businesses"
+    labels = [
+        filters_lib.FIRM_TYPES[c] for c in fs.firm_types if c in filters_lib.FIRM_TYPES
+    ]
+    return ", ".join(labels) if len(labels) <= 3 else f"{len(labels)} firm types"
+
+
+def _industry_label(fs: filters_lib.FilterState) -> str:
+    opts = dict(nace_lib.level_options(fs.nace_level))
+    labels = [opts.get(code, code) for code in fs.nace_values]
+    if len(labels) == 1:
+        return labels[0]
+    return ", ".join(labels) if len(labels) <= 3 else f"{len(labels)} industries"
+
+
+fs = filters_lib.render_sidebar()
 year, month = agg.latest_period()
 period = f"{calendar.month_name[month]} {year}"
+industry_aware = agg.map_is_industry_aware()
+
+scope_bits = [_firm_type_label(fs)]
+if industry_aware and fs.nace_values:
+    scope_bits.append(_industry_label(fs))
+scope = " · ".join(scope_bits)
 
 branding.page_header(
     "AI Adoption across Luxembourg",
-    f"Share of firms using AI by commune, {period} — the Overview's "
-    "latest-month figure, mapped.",
+    f"Share of firms using AI by commune — {scope}, {period}.",
 )
-st.caption(
-    f"Businesses with a known commune. Communes with fewer than "
-    f"{stats_lib.MIN_OBS} observed firms are shown in grey; not affected by the "
-    "sidebar filters on other pages."
-)
+if industry_aware:
+    st.caption(
+        f"Reflects the **Firm type** and **Industry** sidebar filters. Size, "
+        f"activity status and the website / ownership toggles are not held at "
+        f"commune level and leave the map unchanged. Communes with fewer than "
+        f"{stats_lib.MIN_OBS} observed firms are shown in grey."
+    )
+else:
+    st.caption(
+        f"Reflects the **Firm type** sidebar filter. Rebuild the dashboard cube "
+        f"(script 11) to enable Industry filtering on the map. Communes with "
+        f"fewer than {stats_lib.MIN_OBS} observed firms are shown in grey."
+    )
 
 geojson = data_lib.communes_geojson()
-df = agg.map_data()
+df = agg.map_data(fs)
 
 reportable = df[df["rate_display"].notna()].assign(share=100 * df["rate_display"])
 suppressed = df[df["rate_display"].isna()]
