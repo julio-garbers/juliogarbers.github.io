@@ -24,13 +24,28 @@ SIZE_ORDER = [
 ]
 STATUS_LABELS = ["Operating", "Closed", "Status unknown"]
 
+# firm_category code -> friendly label. Default is businesses only — public
+# bodies, non-profits and uncoded entities are poorly covered by the register
+# and their AI signal is dominated by topic/discourse and group-site
+# misattribution (see Methodology), so they are opt-in.
+FIRM_TYPES = {
+    "commercial": "Businesses",
+    "non_profit": "Non-profits",
+    "public": "Public sector",
+    "unknown": "Unknown legal form",
+    "other": "Other",
+}
+
 
 @dataclass
 class FilterState:
     nace_level: int = 1
     nace_values: list[str] = field(default_factory=list)   # codes at nace_level
+    firm_types: list[str] = field(default_factory=lambda: ["commercial"])
     sizes: list[str] = field(default_factory=list)         # [] = all
     status: list[str] = field(default_factory=lambda: list(STATUS_LABELS))
+    own_website_only: bool = False
+    independent_only: bool = False
     only_confirmed_dates: bool = False
     decade_range: tuple[int, int] = (1900, 2020)
 
@@ -39,8 +54,11 @@ class FilterState:
         return (
             self.nace_level,
             tuple(self.nace_values),
+            tuple(self.firm_types),
             tuple(self.sizes),
             tuple(self.status),
+            self.own_website_only,
+            self.independent_only,
             self.only_confirmed_dates,
             self.decade_range,
         )
@@ -57,9 +75,24 @@ def render_sidebar() -> FilterState:
     with st.sidebar:
         st.markdown("### Filters")
         st.caption(
-            "Adjust the set of firms behind every chart. By default all "
-            "Luxembourg firms are included."
+            "Adjust the set of firms behind every chart. By default the charts "
+            "show Luxembourg **businesses**."
         )
+
+        # --- Firm type ---
+        codes = list(FIRM_TYPES)
+        chosen_types = st.multiselect(
+            "Firm type",
+            options=[FIRM_TYPES[c] for c in codes],
+            default=[FIRM_TYPES[c] for c in fs.firm_types],
+            placeholder="All firm types",
+            help="Defaults to Businesses — the cleanest denominator. Public "
+            "bodies, non-profits and uncoded entities are poorly covered by the "
+            "register and their AI signal is noisier — opt in with care. "
+            "Clearing the box shows all firm types.",
+        )
+        label_to_type = {v: k for k, v in FIRM_TYPES.items()}
+        fs.firm_types = [label_to_type[v] for v in chosen_types]
 
         # --- Industry: two-stage (level, then industries by label) ---
         st.markdown("**Industry**")
@@ -103,6 +136,24 @@ def render_sidebar() -> FilterState:
             default=fs.status,
             help="Operating = currently active; Closed = ceased; "
             "Status unknown = not recorded.",
+        )
+
+        # --- Attribution: own website + standalone ---
+        fs.own_website_only = st.checkbox(
+            "Only firms with their own website",
+            value=fs.own_website_only,
+            help="Exclude firms whose website is shared with other firms (a "
+            "group / portal / management-company site). The AI on such sites "
+            "belongs to the group, not the individual firm — own-site firms "
+            "show ~10% AI vs ~38% for heavily-shared sites.",
+        )
+        fs.independent_only = st.checkbox(
+            "Only standalone firms",
+            value=fs.independent_only,
+            help="Exclude subsidiaries of a multi-firm corporate group "
+            "(identified by a shared Global Ultimate Owner). The group's AI is "
+            "often mis-attributed to each subsidiary — standalone firms show "
+            "~12% AI vs ~34% for large groups.",
         )
 
         # --- Estimated dates ---
@@ -160,42 +211,82 @@ def _status_mask(df: pd.DataFrame, selected: list[str]) -> np.ndarray | None:
     return mask
 
 
-def predicates(df: pd.DataFrame, fs: FilterState) -> list[np.ndarray]:
-    preds: list[np.ndarray] = []
+def _decade_mask(df: pd.DataFrame, lo: int, hi: int) -> np.ndarray:
+    # Firms with an unknown founding date are always kept — a null decade must
+    # not be silently dropped.
+    d = df["decade_incorporation"]
+    in_range = _as_bool((d >= lo) & (d <= hi))
+    return d.isna().to_numpy(dtype=bool) | in_range
+
+
+def _specs(fs: FilterState) -> list:
+    """(required_columns, mask_builder) per active filter. apply() runs them
+    all; apply_present() runs only those whose columns exist in the frame."""
+    specs: list = []
 
     if fs.nace_values:
-        codes = nace_lib.codes_for_level_values(fs.nace_level, fs.nace_values)
-        preds.append(df["nace4"].isin(list(codes)).to_numpy(dtype=bool))
+        codes = list(nace_lib.codes_for_level_values(fs.nace_level, fs.nace_values))
+        specs.append((("nace4",), lambda df: df["nace4"].isin(codes).to_numpy(dtype=bool)))
+
+    # Firm type: a non-empty selection includes exactly those categories;
+    # empty == all firm types (matches the original polars predicate).
+    if fs.firm_types:
+        ft = list(fs.firm_types)
+        specs.append((("firm_category",),
+                      lambda df: df["firm_category"].isin(ft).to_numpy(dtype=bool)))
+
+    if fs.own_website_only:
+        specs.append((("own_website",),
+                      lambda df: _as_bool(df["own_website"] == True)))  # noqa: E712
+
+    if fs.independent_only:
+        specs.append((("in_group",),
+                      lambda df: _as_bool(df["in_group"] == False)))  # noqa: E712
 
     if fs.sizes:
-        preds.append(df["size_classification"].isin(fs.sizes).to_numpy(dtype=bool))
+        sz = list(fs.sizes)
+        specs.append((("size_classification",),
+                      lambda df: df["size_classification"].isin(sz).to_numpy(dtype=bool)))
 
-    sm = _status_mask(df, fs.status)
-    if sm is not None:
-        preds.append(sm)
+    if not (set(fs.status) == set(STATUS_LABELS) or not fs.status):
+        sel = list(fs.status)
+        specs.append((("is_active",), lambda df: _status_mask(df, sel)))
 
     if fs.only_confirmed_dates:
-        preds.append(
-            _as_bool(df["period_imputed_start"] == False)  # noqa: E712
-            & _as_bool(df["period_imputed_end"] == False)  # noqa: E712
-        )
+        specs.append((
+            ("period_imputed_start", "period_imputed_end"),
+            lambda df: _as_bool(df["period_imputed_start"] == False)  # noqa: E712
+            & _as_bool(df["period_imputed_end"] == False),  # noqa: E712
+        ))
 
     lo, hi = fs.decade_range
     if (lo, hi) != (1900, 2020):
-        # Firms with an unknown founding date are always kept (matches the
-        # sidebar help) — a null decade must not be silently dropped.
-        d = df["decade_incorporation"]
-        in_range = _as_bool((d >= lo) & (d <= hi))
-        preds.append(d.isna().to_numpy(dtype=bool) | in_range)
+        specs.append((("decade_incorporation",), lambda df: _decade_mask(df, lo, hi)))
 
-    return preds
+    return specs
 
 
-def apply(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
-    masks = predicates(df, fs)
+def _combine(df: pd.DataFrame, masks: list[np.ndarray]) -> pd.DataFrame:
     if not masks:
         return df
     combined = np.ones(len(df), dtype=bool)
     for m in masks:
         combined &= m
     return df[combined]
+
+
+def predicates(df: pd.DataFrame, fs: FilterState) -> list[np.ndarray]:
+    return [fn(df) for _cols, fn in _specs(fs)]
+
+
+def apply(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
+    return _combine(df, [fn(df) for _cols, fn in _specs(fs)])
+
+
+def apply_present(df: pd.DataFrame, fs: FilterState) -> pd.DataFrame:
+    """Like apply(), but only predicates whose referenced columns all exist in
+    `df` — for cubes carrying a subset of the panel dimensions (cube_city has
+    firm_category + nace4 but not size / status / attribution). Mirrors the
+    polars apply_present in dashboard/lib/filters.py."""
+    cols = set(df.columns)
+    return _combine(df, [fn(df) for need, fn in _specs(fs) if set(need) <= cols])

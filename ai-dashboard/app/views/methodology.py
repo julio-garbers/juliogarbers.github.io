@@ -39,6 +39,12 @@ in recent years. The remaining gap is the difference between a register count
 turnover or employment) — we cannot close it without turnover data, and we do
 not try to.
 
+By default the dashboard shows **businesses**. Public bodies, non-profits and
+entities with an unrecorded legal form are incompletely covered by the register,
+and their AI signal is dominated by topic/policy discourse and shared-website
+misattribution (below), so they are opt-in via the *Firm type* filter rather
+than mixed into the headline.
+
 ## The two adoption rates
 
 Only some firms can be observed (those whose website appears in the archive),
@@ -99,10 +105,12 @@ every month in the current selection clears the 30-firm threshold.
 
 ## The map
 
-The map assigns each firm to its commune and shows the observed share by
-commune. It covers all firms and is a standalone geographic overview — the
-sidebar filters on other pages do not change it. Communes with fewer than 30
-observed firms are greyed out.
+The map assigns each firm to its commune and shows the latest-month observed
+share by commune. It responds to the **Firm type** and **Industry** sidebar
+filters — so you can map, say, manufacturing businesses only — while the finer
+filters (size, activity status, and the website / ownership attribution
+toggles) are not held at commune level and leave it unchanged. Communes with
+fewer than 30 observed firms are greyed out.
 
 ## Known limitations
 
@@ -113,6 +121,15 @@ observed firms are greyed out.
   *trading*; this is the main reason our firm count exceeds the official one.
 - The AI classifier reads marketing-style language; pure infrastructure
   providers may be over-counted and firms using AI silently may be under-counted.
+- Many firms list a **group or portal website** shared with other entities; the
+  AI shown there belongs to the group, not the individual firm. Firms with their
+  own website show ~10% AI versus ~38% for heavily-shared sites. The *Only firms
+  with their own website* filter isolates the firms whose web signal is
+  unambiguously their own.
+- Seen from the ownership side, subsidiaries of a **multi-firm corporate group**
+  (identified from the firm's ultimate owner) show ~34% AI versus ~12% for
+  standalone firms — the same group-attribution effect. The *Only standalone
+  firms* filter excludes group subsidiaries.
 - Two early archive crawls returned no usable pages, lowering how often firms
   were seen in those windows. The month axis itself is continuous (each firm's
   state is carried across months by the one-way rule), so this affects

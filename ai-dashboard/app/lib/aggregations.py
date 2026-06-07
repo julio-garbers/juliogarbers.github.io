@@ -198,19 +198,26 @@ def latest_period() -> tuple[int, int]:
     return int(last["year"]), int(last["month"])
 
 
-@st.cache_data(show_spinner=False)
-def map_data() -> pd.DataFrame:
+@st.cache_data(show_spinner=False, hash_funcs=_FS_HASH)
+def map_data(fs: filters_lib.FilterState) -> pd.DataFrame:
     """Per commune at the latest month: observed AI share with >=30-firm
     suppression. Numerator = firms AI-active that month; denominator = firms
-    active that month with in-period web data — exactly the Overview's
-    latest-month observed share, split by commune. Not affected by the sidebar
-    filters."""
+    active that month with in-period web data. Honours the sidebar Industry and
+    Firm type filters (the panel dimensions cube_city carries); the finer
+    filters are not at commune level and leave the map unchanged."""
     y, m = latest_period()
     city = data_lib.cube_city()
     city = city[(city["year"] == y) & (city["month"] == m)]
+    city = filters_lib.apply_present(city, fs)
     by = (
         city.groupby(["lau2", "commune"], as_index=False, dropna=False)
         .agg(n_true=("n_true", "sum"), n_false=("n_false", "sum"))
     )
     by["observed"] = by["n_true"] + by["n_false"]
     return stats_lib.add_observed_rate(by, pos="n_true", obs="observed")
+
+
+def map_is_industry_aware() -> bool:
+    """True once cube_city carries nace4 — lets the map page state honestly
+    whether the Industry filter applies."""
+    return "nace4" in data_lib.cube_city().columns
