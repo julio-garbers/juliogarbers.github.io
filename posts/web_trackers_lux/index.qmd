@@ -1,0 +1,506 @@
+---
+title: "The Consent Illusion: Who Really Runs Luxembourg's Web"
+description: "After GDPR, Luxembourg's web sprouted cookie banners — but only on about one site in three. Meanwhile nearly three in four .lu sites quietly load Google. By parsing the raw HTML of 83,000 website-years, I map the trackers they embed, the banners they show, and the handful of foreign companies the local web depends on."
+date: "2026-06-30"
+image: "thumbnail.png"
+format:
+  html:
+    code-fold: true
+    code-summary: "Show code"
+execute:
+  echo: true
+  warning: false
+---
+
+```{python}
+#| label: setup
+#| echo: false
+#| output: false
+
+import json
+import plotly.graph_objects as go
+
+with open('stats.json', 'r') as f:
+    data = json.load(f)
+
+summary = data['summary']
+over_time = data['over_time']
+sovereignty = data['sovereignty']
+top_entities = data['top_entities']
+by_sector = data['by_sector']
+ess_vs_mkt = data['essential_vs_market']
+
+# Owner-country palette (kept distinct from the language palette of earlier posts)
+country_colors = {
+    'US': '#b2182b',
+    'EU': '#2166ac',
+    'LU': '#d97706',
+    'Other': '#9aa0a6',
+}
+country_names = {
+    'US': 'United States',
+    'EU': 'European Union',
+    'LU': 'Luxembourg (local)',
+    'Other': 'Other',
+}
+
+GDPR_YEAR = 2018
+```
+
+In my [first three posts](../) I asked what Luxembourg's web *says* — its [languages](../website_languages_lux/), its [topics](../bert_topic_websites_lux/), and [who gets served in which language](../language_sector_lux/). This time I ask something different: how is the web *built*, and who controls it?
+
+Every time you open a website, your browser quietly fetches resources from other companies' servers — analytics scripts, advertising pixels, fonts, maps, embedded videos. You never see them, but many of them see you. So I parsed the **raw HTML** of every `.lu` website-year in the sample and recorded three things: the **third parties** each site connects you to, whether it shows a **cookie-consent banner**, and who **owns** those third parties.
+
+::: {.callout-note appearance="minimal"}
+## The Dataset
+
+**`{python} f"{summary['n_sites_latest']:,}"`** Luxembourg websites in `{python} summary['last_year']`, parsed from raw HTML. The median site reaches out to **`{python} f"{summary['median_third_parties_latest']:.0f}"`** third-party domains, **`{python} summary['google_pct_latest']`%** embed at least one Google service — yet only **`{python} summary['cmp_pct_latest']`%** show a cookie-consent banner.
+:::
+
+<div style="margin-top: 2.5rem;"></div>
+
+## The Consent Illusion
+
+In May 2018 the GDPR came into force and cookie banners began to bloom. The promise was control: you would be asked before being tracked. So did the banner and the tracker arrive together — or did the tracking quietly outrun the consent that was meant to gate it?
+
+::: {.figure-container}
+::: {.figure-title}
+Cookie banners vs. actual tracking, `{python} f"{summary['first_year']}–{summary['last_year']}"`
+:::
+
+```{python}
+years = over_time['years']
+
+fig = go.Figure()
+
+# Cookie-banner prevalence (bars)
+fig.add_trace(go.Bar(
+    x=years,
+    y=over_time['cmp_pct'],
+    name='Shows a cookie banner',
+    marker_color='rgba(120, 120, 120, 0.30)',
+    marker_line=dict(width=0),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% show a cookie banner<extra></extra>',
+))
+
+# Sites embedding a dedicated tracker (line)
+fig.add_trace(go.Scatter(
+    x=years,
+    y=over_time['any_tracker_pct'],
+    name='Loads a dedicated tracker',
+    mode='lines+markers',
+    line=dict(color='#b2182b', width=3, shape='spline', smoothing=0.6),
+    marker=dict(size=6),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% load a tracker<extra></extra>',
+))
+
+# Sites embedding any Google service (line)
+fig.add_trace(go.Scatter(
+    x=years,
+    y=sovereignty['google_pct'],
+    name='Embeds a Google service',
+    mode='lines+markers',
+    line=dict(color='#1a1a1a', width=3, shape='spline', smoothing=0.6),
+    marker=dict(size=6),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% embed Google<extra></extra>',
+))
+
+fig.add_vline(
+    x=GDPR_YEAR, line_dash='dash', line_color='#444', line_width=1.5,
+    annotation_text='GDPR in force', annotation_position='top left',
+    annotation_font_color='#444',
+)
+
+fig.update_layout(
+    height=460,
+    margin=dict(t=30, r=20, b=100, l=60),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(title='Year', dtick=1, gridcolor='#eee', zerolinecolor='#eee'),
+    yaxis=dict(title='% of websites', ticksuffix='%', range=[0, 100],
+               gridcolor='#eee', zerolinecolor='#eee'),
+    legend=dict(orientation='h', y=-0.28, x=0.5, xanchor='center'),
+    hovermode='x unified',
+    bargap=0.3,
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: "Dedicated tracker" = an embedded domain classified as analytics, advertising, social, tag-manager or marketing. "Google service" is broader — it also counts fonts, maps and reCAPTCHA, which still send the visitor's IP to Google. Cookie-banner detection looks for named consent platforms and is a lower bound.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+This is the consent illusion. By `{python} summary['last_year']`, a detectable cookie banner appeared on only **`{python} summary['cmp_pct_latest']`%** of sites — yet **`{python} summary['any_tracker_pct_latest']`%** loaded a dedicated tracker and **`{python} summary['google_pct_latest']`%** embedded Google. The data you would want to consent to is **more than twice as common as the consent box itself** — and even the narrowest count, sites loading a **dedicated tracker** (**`{python} summary['any_tracker_pct_latest']`%**), outnumbers the visible banners.
+
+And consent never caught up with tracking. Google's reach more than doubled across the decade and peaked *after* GDPR; even after slipping back from its 2020 high it still dwarfs the banner rate. The banner became a ritual layered on top of data flows that GDPR made visible and consented-to, not measurably lighter.
+
+The one unambiguous improvement of the decade was security, not privacy: HTTPS went from `{python} f"{over_time['https_pct'][0]:.0f}"`% of sites in `{python} summary['first_year']` to `{python} f"{over_time['https_pct'][-1]:.0f}"`% in `{python} summary['last_year']`.
+:::
+
+## The Consent We Can't See
+
+There is an honest objection to the chart above: a static read of the HTML only catches banners *written into the page*. A consent prompt injected at load time through **Google Tag Manager** — a script that can fire trackers and pop up banners after the page loads — leaves no fingerprint in the archive; the markup shows only `googletagmanager.com`. So the `{python} summary['cmp_pct_latest']`% is a floor. How high could the true banner rate be?
+
+::: {.figure-container}
+::: {.figure-title}
+The consent blind spot: Google Tag Manager vs. visible banners, `{python} f"{summary['first_year']}–{summary['last_year']}"`
+:::
+
+```{python}
+blindspot = data['cmp_blindspot']
+bs_years = blindspot['years']
+
+fig = go.Figure()
+
+fig.add_trace(go.Scatter(
+    x=bs_years, y=over_time['cmp_pct'],
+    name='Detected cookie banner',
+    mode='lines+markers',
+    line=dict(color='#2166ac', width=3, shape='spline', smoothing=0.6),
+    marker=dict(size=6),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% have a detectable banner<extra></extra>',
+))
+
+fig.add_trace(go.Scatter(
+    x=bs_years, y=blindspot['gtm_pct'],
+    name='Loads Google Tag Manager',
+    mode='lines',
+    line=dict(color='#9aa0a6', width=2, dash='dot', shape='spline', smoothing=0.6),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% load GTM<extra></extra>',
+))
+
+fig.add_trace(go.Scatter(
+    x=bs_years, y=blindspot['gtm_no_cmp_pct'],
+    name='Runs GTM with no banner we can see',
+    mode='lines+markers',
+    line=dict(color='#b2182b', width=3, shape='spline', smoothing=0.6),
+    marker=dict(size=6),
+    hovertemplate='<b>%{x}</b><br>%{y:.1f}% run GTM, no detected banner<extra></extra>',
+))
+
+fig.add_vline(
+    x=GDPR_YEAR, line_dash='dash', line_color='#444', line_width=1.5,
+    annotation_text='GDPR in force', annotation_position='top left',
+    annotation_font_color='#444',
+)
+
+fig.update_layout(
+    height=440,
+    margin=dict(t=30, r=20, b=100, l=60),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(title='Year', dtick=1, gridcolor='#eee', zerolinecolor='#eee'),
+    yaxis=dict(title='% of websites', ticksuffix='%', range=[0, 45],
+               gridcolor='#eee', zerolinecolor='#eee'),
+    legend=dict(orientation='h', y=-0.30, x=0.5, xanchor='center'),
+    hovermode='x unified',
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: "No banner we can see" means no named consent platform was found in the archived HTML, even though the site loads Google Tag Manager — which can inject a banner (or a tracker) at runtime. This is an upper bound on the consent we may be missing, not proof that these sites ask nothing.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+Even the most generous accounting leaves the illusion intact. Take the detected banners (`{python} summary['cmp_pct_latest']`%) and add **every** site that runs Google Tag Manager without one we can see (`{python} summary['gtm_no_cmp_pct_latest']`%) — assuming, charitably, that all of them inject a banner at load time — and you reach about **`{python} f"{summary['cmp_pct_latest'] + summary['gtm_no_cmp_pct_latest']:.0f}"`%**. That ceiling still sits well below the **`{python} summary['google_pct_latest']`%** that load Google. Even the loosest possible measure — *any* cookie-related text anywhere on the page (`{python} summary['cookie_text_pct_latest']`%) — does not catch up.
+
+However you count it, more of Luxembourg's web quietly sends your data than visibly asks your permission.
+:::
+
+## Whose Servers Are You Really Talking To?
+
+When a Luxembourg website loads, where do its third-party requests point? I mapped every embedded domain I could identify to the country of its owner. A `.lu` third party counts as *local*; everything else is foreign infrastructure the site leans on.
+
+::: {.figure-container}
+::: {.figure-title}
+Owner country of identified third parties, `{python} f"{summary['first_year']}–{summary['last_year']}"`
+:::
+
+```{python}
+sov_years = sovereignty['years']
+shares = sovereignty['country_share_identified']
+
+fig = go.Figure()
+
+for country in ['Other', 'LU', 'EU', 'US']:
+    fig.add_trace(go.Scatter(
+        x=sov_years,
+        y=shares[country],
+        name=country_names[country],
+        mode='lines',
+        stackgroup='one',
+        line=dict(color=country_colors[country], width=0),
+        fillcolor=country_colors[country],
+        hovertemplate=f"<b>{country_names[country]}</b><br>%{{y:.1f}}% of identified third parties<extra></extra>",
+    ))
+
+fig.update_layout(
+    height=460,
+    margin=dict(t=20, r=20, b=100, l=60),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(title='Year', dtick=1, gridcolor='#eee', zerolinecolor='#eee'),
+    yaxis=dict(title='% of identified third parties', ticksuffix='%',
+               range=[0, 100], gridcolor='#eee', zerolinecolor='#eee'),
+    legend=dict(orientation='h', y=-0.28, x=0.5, xanchor='center'),
+    hovermode='x unified',
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: Shares are computed over third parties that could be attributed to a known owner; about `{python} f"{summary['unidentified_share_latest']:.0f}"`% of all third-party connections in `{python} summary['last_year']` could not be attributed and are excluded from this chart.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+Luxembourg's web runs on someone else's infrastructure. Of the third parties I could identify in `{python} summary['last_year']`, **`{python} summary['us_share_identified_latest']`%** are US-owned against just **`{python} summary['lu_share_identified_latest']`%** local. Only **`{python} summary['lu_pct_latest']`%** of `.lu` sites embed *any* Luxembourg-hosted third party at all.
+
+For a country that talks about digital sovereignty, the web tells a blunter story: open almost any `.lu` site and you are, within milliseconds, talking to California.
+:::
+
+## The Companies Inside Luxembourg's Web
+
+Which specific companies sit inside the most sites?
+
+::: {.figure-container}
+::: {.figure-title}
+Most-embedded third-party companies (`{python} summary['last_year']`)
+:::
+
+```{python}
+top = list(reversed(top_entities))
+labels = [e['entity'] for e in top]
+vals = [e['pct_sites'] for e in top]
+bar_colors = [country_colors.get(e['country'], '#9aa0a6') for e in top]
+
+fig = go.Figure(go.Bar(
+    y=labels,
+    x=vals,
+    orientation='h',
+    marker=dict(color=bar_colors),
+    text=[f'{v:.0f}%' for v in vals],
+    textposition='outside',
+    customdata=[[country_names.get(e['country'], e['country']),
+                 'tracker' if e['tracker'] else 'functional'] for e in top],
+    hovertemplate='<b>%{y}</b><br>%{x:.1f}% of sites<br>%{customdata[0]} · %{customdata[1]}<extra></extra>',
+))
+
+fig.update_layout(
+    height=max(420, len(top) * 28),
+    margin=dict(t=20, r=70, b=50, l=160),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(title='% of websites embedding this company', ticksuffix='%',
+               gridcolor='#eee', zerolinecolor='#eee'),
+    yaxis=dict(tickfont=dict(size=11)),
+    showlegend=False,
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: Bars are colored by owner country (<span style="color:#b2182b">■</span> US, <span style="color:#2166ac">■</span> EU, <span style="color:#d97706">■</span> Luxembourg, <span style="color:#9aa0a6">■</span> other). A site counts once per company.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+One company stands apart. **Google reaches `{python} summary['google_pct_latest']`% of all `.lu` sites** — more than four times as common as any other company, and nearly ten times the reach of **Meta** (`{python} summary['meta_pct_latest']`%), the largest social tracker after it. Crucially, much of Google's reach is *not* ad-tracking but fonts, maps and reCAPTCHA — services a developer adds without a second thought. Yet even embedding Google Fonts hands the visitor's IP address to Google, which a German court ruled a GDPR violation in 2022. On Luxembourg's web, you don't have to be advertised to in order to be exposed; you just have to load the page.
+:::
+
+## Do Essential Services Track You Too?
+
+Reusing the sector labels from my [topic-modelling post](../bert_topic_websites_lux/), I can ask whether the sites you *have* to use — your commune, your doctor, your child's crèche — handle your data more carefully than the market does.
+
+::: {.figure-container}
+::: {.figure-title}
+Share of sites embedding a US-owned tracker, by sector (`{python} summary['last_year']`)
+:::
+
+```{python}
+sectors = [s for s in by_sector if s['n_sites'] >= 5]
+sectors_sorted = sorted(sectors, key=lambda s: s['us_tracker_pct'])
+
+names = [s['sector'] for s in sectors_sorted]
+vals = [s['us_tracker_pct'] for s in sectors_sorted]
+essential = set(ess_vs_mkt['essential_sectors'])
+bar_colors = ['#2166ac' if n in essential else '#b2182b' for n in names]
+
+fig = go.Figure(go.Bar(
+    y=names,
+    x=vals,
+    orientation='h',
+    marker=dict(color=bar_colors),
+    text=[f'{v:.0f}%' for v in vals],
+    textposition='outside',
+    hovertemplate='<b>%{y}</b><br>%{x:.1f}% embed a US tracker<extra></extra>',
+))
+
+fig.update_layout(
+    height=max(420, len(names) * 30),
+    margin=dict(t=20, r=70, b=50, l=160),
+    plot_bgcolor='white',
+    paper_bgcolor='white',
+    xaxis=dict(title='% of sites embedding a US-owned tracker', ticksuffix='%',
+               gridcolor='#eee', zerolinecolor='#eee'),
+    yaxis=dict(tickfont=dict(size=11)),
+    showlegend=False,
+)
+
+fig.show(config={'displayModeBar': False})
+```
+
+::: {.figure-note}
+Note: <span style="color:#2166ac">■</span> essential services (Public Services, Healthcare, Childcare), <span style="color:#b2182b">■</span> market-driven and other sectors. "US-owned tracker" = an analytics/advertising/social/tag-manager domain owned by a US company.
+:::
+:::
+
+::: {.callout-tip}
+## Key Findings
+
+```{python}
+#| echo: false
+#| output: asis
+ess = ess_vs_mkt['essential']
+mkt = ess_vs_mkt['market']
+childcare = next((s for s in by_sector if s['sector'] == 'Childcare'), None)
+pub = next((s for s in by_sector if s['sector'] == 'Public Services'), None)
+cc = f"{childcare['us_tracker_pct']:.0f}%" if childcare else "the most"
+gp = f"{childcare['google_pct']:.0f}%" if childcare else ""
+pubcmp = f"{pub['cmp_pct']:.0f}%" if pub else ""
+print(
+    f"Needing a service does not protect you. Essential-service sites embed a US "
+    f"tracker on **{ess.get('us_tracker_pct', 0)}%** of pages — slightly *more* than "
+    f"market-driven sites (**{mkt.get('us_tracker_pct', 0)}%**), not less. "
+    f"**Childcare is the most tracked sector of all** ({cc} embed a US tracker, {gp} load Google), "
+    f"even as it became one of the [least multilingual](../language_sector_lux/). "
+    f"Public-service sites show the most cookie banners ({pubcmp}) — the institutions most "
+    f"bound by the law are the ones that ask — but they still hand you to the same foreign platforms."
+)
+```
+:::
+
+## Methodology
+
+This analysis parses the raw HTML behind the same CommonCrawl sample used across the series — no new models are trained; the value is in reading what the markup reveals about a site's infrastructure.
+
+::: {.pipeline-steps}
+
+**1. Third-Party Extraction**
+: For each website-year I parse every archived page and collect the external hosts it loads resources from — `src` attributes (`<script>`, `<img>`, `<iframe>`, `<source>`), `<link>` `href`s, and absolute URLs inside inline scripts. Navigation links (`<a href>`) are deliberately excluded so "follow us on Facebook" is not miscounted as an embedded third party. A *third party* is any host whose registrable domain (eTLD+1) differs from the site's own. I also flag named cookie-consent platforms and HTTPS.
+
+**2. Entity & Country Mapping**
+: Each third-party domain is matched against a curated, version-controlled [entity map](https://github.com/julio-garbers/blog/blob/main/web_trackers_lux/reference/entity_map.json) of the dominant web companies, giving an owning entity, owner country (US / EU / LU / Other), and a category. Any `.lu` third party counts as local. *Trackers* (analytics, advertising, social, tag managers, marketing) are separated from functional infrastructure (CDNs, fonts, payments, maps, video). Domains not in the map are reported as unidentified and never assumed to be trackers — a deliberately conservative count, and the reason the sovereignty chart shows only the share that could be attributed.
+
+**3. Aggregation**
+: Per website-year I compute third-party counts, the owner-country mix, and big-tech reach, inner-joined to the [language sample](../website_languages_lux/) (same universe as the other posts) and to the [BERTopic sector mapping](../bert_topic_websites_lux/) for the sector and essential-vs-market cuts.
+
+:::
+
+::: {.figure-note}
+Note: This measures third parties *declared in the archived HTML*, not live network traffic. CommonCrawl archives only a handful of pages per site and captures markup before JavaScript runs, so scripts injected at runtime (and many banners) are undercounted — every tracker figure here is a lower bound.
+:::
+
+## Citation
+
+For attribution, please cite this work as:
+
+```
+Garbers, J. (2026, June). The Consent Illusion: Who Really Runs Luxembourg's Web.
+Retrieved from https://github.com/julio-garbers/blog/tree/main/web_trackers_lux
+```
+
+BibTeX:
+
+```bibtex
+@misc{garbers2026consent,
+  author = {Garbers, Julio},
+  title = {The Consent Illusion: Who Really Runs Luxembourg's Web},
+  url = {https://github.com/julio-garbers/blog/tree/main/web_trackers_lux},
+  year = {2026}
+}
+```
+
+---
+
+::: {.github-link}
+<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+[All scripts available on GitHub](https://github.com/julio-garbers/blog/tree/main/web_trackers_lux)
+:::
+
+```{=html}
+<script>
+(function() {
+  function updateChartsForMobile() {
+    var plots = document.querySelectorAll('.js-plotly-plot');
+    if (plots.length < 5) return;
+
+    var isMobile = window.innerWidth < 768;
+
+    // Figures 1-3: line / area charts (consent illusion, blind spot, sovereignty)
+    [plots[0], plots[1], plots[2]].forEach(function(p) {
+      Plotly.relayout(p, isMobile ? {
+        'legend.font.size': 10, 'margin.b': 120, 'margin.l': 45, 'margin.r': 10
+      } : {
+        'legend.font.size': 12, 'margin.b': 100, 'margin.l': 60, 'margin.r': 20
+      });
+    });
+
+    // Figures 4 & 5: horizontal bars (top entities, by sector)
+    [plots[3], plots[4]].forEach(function(p) {
+      Plotly.relayout(p, isMobile ? {
+        'margin.l': 100, 'margin.r': 50, 'yaxis.tickfont.size': 9
+      } : {
+        'margin.l': 160, 'margin.r': 70, 'yaxis.tickfont.size': 11
+      });
+    });
+  }
+
+  setTimeout(updateChartsForMobile, 150);
+  window.addEventListener('resize', updateChartsForMobile);
+})();
+</script>
+```
+
+```{python}
+#| label: thumbnail
+#| echo: false
+#| output: false
+
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
+
+years = over_time['years']
+banner = over_time['cmp_pct']
+google = sovereignty['google_pct']
+
+fig, ax = plt.subplots(figsize=(8, 5), dpi=150)
+ax.bar(years, banner, color='#cfcfcf', width=0.7, label='Shows a cookie banner')
+ax.plot(years, google, color='#1a1a1a', linewidth=3, marker='o', label='Embeds Google')
+ax.axvline(2018, color='#444', linestyle='--', linewidth=1.2)
+ax.set_ylim(0, 100)
+ax.set_ylabel('% of websites', fontsize=11)
+ax.set_title("The Consent Illusion", fontsize=15, fontweight='bold')
+ax.legend(loc='upper left', fontsize=9, frameon=False)
+fig.patch.set_facecolor('white')
+plt.tight_layout(pad=0.8)
+plt.savefig('thumbnail.png', bbox_inches='tight', facecolor='white')
+plt.close()
+```
