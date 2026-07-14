@@ -60,7 +60,7 @@
     "href": "posts/website_languages_lux/index.html",
     "title": "The Linguistic Web of Luxembourg",
     "section": "",
-    "text": "Using CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. Below, I explore language trends over time, multilingual patterns, and the most common language configurations."
+    "text": "Share:\n\n\nBluesky\n\n\n\nLinkedIn\n\n\n\nCopy link\nUsing CommonCrawl data, I analyzed 83,728 pages of Luxembourg websites from 2013 to 2024, detecting which languages each website offers. Below, I explore language trends over time, multilingual patterns, and the most common language configurations."
   },
   {
     "objectID": "posts/website_languages_lux/index.html#the-language-landscape",
@@ -102,7 +102,7 @@
     "href": "posts/language_sector_lux/index.html",
     "title": "Lost in Translation on Luxembourg’s Web",
     "section": "",
-    "text": "In my first post, I found that 75% of Luxembourg websites offer French but only 2.4% offer Portuguese — despite Portuguese speakers being 14.5% of the population. In the second, I discovered that real estate dominates the web while construction splits into 11 subgroups. But neither post could answer the following question: if you only speak Portuguese, can you find a doctor online? Can you navigate your commune’s website? Can you find a crèche for your child?\nBy joining the two datasets — language availability and topic (hereafter sector) classification — I can now map which services are accessible in which languages."
+    "text": "Share:\n\n\nBluesky\n\n\n\nLinkedIn\n\n\n\nCopy link\nIn my first post, I found that 75% of Luxembourg websites offer French but only 2.4% offer Portuguese — despite Portuguese speakers being 14.5% of the population. In the second, I discovered that real estate dominates the web while construction splits into 11 subgroups. But neither post could answer the following question: if you only speak Portuguese, can you find a doctor online? Can you navigate your commune’s website? Can you find a crèche for your child?\nBy joining the two datasets — language availability and topic (hereafter sector) classification — I can now map which services are accessible in which languages."
   },
   {
     "objectID": "posts/language_sector_lux/index.html#the-language-map-of-luxembourgs-sectors",
@@ -193,7 +193,7 @@
     "href": "posts/bert_topic_websites_lux/index.html",
     "title": "What Does Luxembourg’s Web Talk About?",
     "section": "",
-    "text": "In my previous post, I found that 75% of Luxembourg websites offer French, while Luxembourgish appears on just 9%. But language is only part of the story — what are these websites actually about?\nUsing the same CommonCrawl sample, I aggregated all crawled text per website-year, removed repeated boilerplate (navigation bars, footers, cookie banners), and let BERTopic discover themes on its own — no predefined categories, just multilingual embeddings, clustering, and keyword extraction across all years at once."
+    "text": "Share:\n\n\nBluesky\n\n\n\nLinkedIn\n\n\n\nCopy link\nIn my previous post, I found that 75% of Luxembourg websites offer French, while Luxembourgish appears on just 9%. But language is only part of the story — what are these websites actually about?\nUsing the same CommonCrawl sample, I aggregated all crawled text per website-year, removed repeated boilerplate (navigation bars, footers, cookie banners), and let BERTopic discover themes on its own — no predefined categories, just multilingual embeddings, clustering, and keyword extraction across all years at once."
   },
   {
     "objectID": "posts/bert_topic_websites_lux/index.html#a-map-of-luxembourgs-web",
@@ -228,7 +228,7 @@
     "href": "posts/web_trackers_lux/index.html",
     "title": "The Consent Illusion: Who Really Runs Luxembourg’s Web",
     "section": "",
-    "text": "In my first three posts I asked what Luxembourg’s web says — its languages, its topics, and who gets served in which language. This time I ask something different: how is the web built, and who controls it?\nEvery time you open a website, your browser quietly fetches resources from other companies’ servers — analytics scripts, advertising pixels, fonts, maps, embedded videos. You never see them, but many of them see you. So I parsed the raw HTML of every .lu website-year in the sample and recorded three things: the third parties each site connects you to, whether it shows a cookie-consent banner, and who owns those third parties."
+    "text": "Share:\n\n\nBluesky\n\n\n\nLinkedIn\n\n\n\nCopy link\nIn my first three posts I asked what Luxembourg’s web says — its languages, its topics, and who gets served in which language. This time I ask something different: how is the web built, and who controls it?\nEvery time you open a website, your browser quietly fetches resources from other companies’ servers — analytics scripts, advertising pixels, fonts, maps, embedded videos. You never see them, but many of them see you. So I parsed the raw HTML of every .lu website-year in the sample and recorded three things: the third parties each site connects you to, whether it shows a cookie-consent banner, and who owns those third parties."
   },
   {
     "objectID": "posts/web_trackers_lux/index.html#the-consent-illusion",
