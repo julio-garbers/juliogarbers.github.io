@@ -742,6 +742,54 @@ pre {
   font-weight: 500;
 }
 
+// Share buttons (blog posts)
+.share-buttons {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 0 0 1.75rem 0;
+}
+
+.share-label {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-text-muted);
+  margin-right: 0.15rem;
+}
+
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-accent) !important;
+  padding: 0.4rem 0.8rem;
+  background: var(--color-bg-alt);
+  border: 1px solid var(--color-border);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+  font-family: var(--font-body);
+}
+
+.share-btn:hover {
+  background: var(--color-border);
+  text-decoration: none;
+  color: var(--color-accent-hover) !important;
+}
+
+.share-btn.share-copied {
+  color: #2e7d32 !important;
+  border-color: #2e7d32;
+}
+
+.quarto-dark .share-btn {
+  background: #222;
+  border-color: #333;
+}
+
 // Responsive adjustments
 
 // Tablet

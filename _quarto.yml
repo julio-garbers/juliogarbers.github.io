@@ -9,6 +9,8 @@ website:
   title: "Julio Garbers"
   description: "PhD in Economics - LISER and University of Luxembourg"
   site-url: "https://juliogarbers.github.io"
+  open-graph: true
+  twitter-card: true
 
   navbar:
     background: light

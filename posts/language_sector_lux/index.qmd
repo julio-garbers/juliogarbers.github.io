@@ -12,6 +12,8 @@ execute:
   warning: false
 ---
 
+{{< include ../_share.qmd >}}
+
 ```{python}
 #| label: setup
 #| echo: false
