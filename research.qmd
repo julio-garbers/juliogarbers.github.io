@@ -67,7 +67,7 @@ We develop a novel firm-level indicator of Artificial Intelligence adoption in E
 :::
 :::
 
-## Work in Progress
+## Selected Work in Progress
 
 ::: {.paper}
 ### The Impact of Artificial Intelligence Adoption on Employment and Productivity in European Firms {.paper-title}
@@ -94,7 +94,7 @@ with [David Marguerit](https://sites.google.com/view/davidmarguerit/home/){targe
 :::
 
 ::: {.paper}
-### AI and Spillover Effects {.paper-title}
+### Difference-in-Differences Identification of Direct Treatment and Interference Effects via Exposure Mappings {.paper-title}
 
 ::: {.paper-meta}
 with [Michela Bia](https://liser.elsevierpure.com/en/persons/michela-bia/){target="_blank"}, [Martin Huber](https://www.unifr.ch/appecon/en/team/people/7260/c8d1a){target="_blank"} and [Mattia Laudi](https://liser.elsevierpure.com/en/persons/mattia-laudi/){target="_blank"}
