@@ -4,6 +4,9 @@ project:
   resources:
     - experiments/**
     - ai-dashboard/**
+    # Unlisted: copied to the site but linked from nowhere, and the page
+    # carries a noindex tag so it stays out of search results.
+    - risiko/**
 
 website:
   title: "Julio Garbers"
