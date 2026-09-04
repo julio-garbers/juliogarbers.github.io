@@ -26,14 +26,20 @@ Several European countries have reformed their citizenship policies over the pas
 ## Working Papers
 
 ::: {.paper}
-### Arriving LATE: Access to Citizenship and Economic Integration {.paper-title}
+### The Diffusion of Artificial Intelligence Across Firms: Evidence from Europe {.paper-title}
 
 ::: {.paper-meta}
-with [Christina Gathmann](https://sites.google.com/view/christina-gathmann/start){target="_blank"}
+with [Terry Gregory](https://sites.google.com/view/terrygregory){target="_blank"}<br>
+*Revise and Resubmit at Research Policy*
 :::
 
 ::: {.paper-abstract}
-We study whether a more liberal citizenship policy fosters the economic integration of first-generation immigrants. Our empirical setting is Germany, which abandoned its strict concept of citizenship based on ancestry (`jus sanguinis') in favor of a modern citizenship policy. We exploit the sharp discontinuity in residency requirements defined by a major citizenship reform in 1990. Based on a  local randomization approach to account for the discrete running variable, we demonstrate that faster access to citizenship is a powerful catalyst of integration, especially for immigrant women. Their labor force participation increases by 8.9 percentage points and their monthly income by 23.6%, while we find no significant effects for immigrant men. This gender asymmetry mirrors the legal constraints that citizenship removes: immigrant women's residence and right to work for pay were often tied to a husband's permit---a dependence immigrant men did not face. The gains are not driven by younger arrivals' greater exposure to German schooling: they hold among immigrants with identical schooling exposure, survive controlling for education, and run through vocational qualifications acquired well after the age of compulsory schooling. A more liberal citizenship policy thus fosters integration and narrows the substantial gender gaps in the immigrant population.
+We develop a novel firm-level indicator of Artificial Intelligence adoption in Europe (MAP-AI) by extracting information on AI usage from more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024) using a Large Language Model. The indicator captures realized AI adoption as signaled on their website rather than potential exposure. Our method allows to detect not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. Validation against human-coded benchmarks and external referenecs confirms high accuracy and external validity. We find that the share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation in the AI ecosystem, as expanding AI adoption increases the share of adopters in overall AI activity, signaling widespread diffusion and more integrated AI use, including generative AI. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis shows that foundational data skills form a necessary base for adoption, while a small set of specialized AI skills—such as machine learning and natural language processing—act as strong complements, highlighting human capital as a central driver of AI diffusion across firms.
+:::
+
+::: {.paper-links}
+[Working Paper](https://docs.iza.org/dp18434.pdf){.paper-link target="_blank"}
+[Data Repository](https://github.com/MAP-AI-data/data){.paper-link target="_blank"}
 :::
 :::
 
@@ -50,20 +56,14 @@ A 2018 Airbnb design intervention reduced the size of the host profile picture, 
 :::
 
 ::: {.paper}
-### The Diffusion of Artificial Intelligence Across Firms: Evidence from Europe {.paper-title}
+### Arriving LATE: Access to Citizenship and Economic Integration {.paper-title}
 
 ::: {.paper-meta}
-with [Terry Gregory](https://sites.google.com/view/terrygregory){target="_blank"}<br>
-*Revise and Resubmit at Research Policy*
+with [Christina Gathmann](https://sites.google.com/view/christina-gathmann/start){target="_blank"}
 :::
 
 ::: {.paper-abstract}
-We develop a novel firm-level indicator of Artificial Intelligence adoption in Europe (MAP-AI) by extracting information on AI usage from more than three million firm websites from Belgium, France, Germany, and Luxembourg (2016–2024) using a Large Language Model. The indicator captures realized AI adoption as signaled on their website rather than potential exposure. Our method allows to detect not only whether firms adopt AI, but also their role in the AI ecosystem and the type of AI technology they employ. Validation against human-coded benchmarks and external referenecs confirms high accuracy and external validity. We find that the share of AI-active firms grew from 1% in 2016 to 12% in 2024, with acceleration after 2022. We document a structural transformation in the AI ecosystem, as expanding AI adoption increases the share of adopters in overall AI activity, signaling widespread diffusion and more integrated AI use, including generative AI. While adoption is concentrated among larger, younger, knowledge-intensive firms in urban innovation clusters, workforce skills emerge as a key factor associated with AI adoption. Our skill-level analysis shows that foundational data skills form a necessary base for adoption, while a small set of specialized AI skills—such as machine learning and natural language processing—act as strong complements, highlighting human capital as a central driver of AI diffusion across firms.
-:::
-
-::: {.paper-links}
-[Working Paper](https://docs.iza.org/dp18434.pdf){.paper-link target="_blank"}
-[Data Repository](https://github.com/MAP-AI-data/data){.paper-link target="_blank"}
+We study whether a more liberal citizenship policy fosters the economic integration of first-generation immigrants. Our empirical setting is Germany, which abandoned its strict concept of citizenship based on ancestry (`jus sanguinis') in favor of a modern citizenship policy. We exploit the sharp discontinuity in residency requirements defined by a major citizenship reform in 1990. Based on a  local randomization approach to account for the discrete running variable, we demonstrate that faster access to citizenship is a powerful catalyst of integration, especially for immigrant women. Their labor force participation increases by 8.9 percentage points and their monthly income by 23.6%, while we find no significant effects for immigrant men. This gender asymmetry mirrors the legal constraints that citizenship removes: immigrant women's residence and right to work for pay were often tied to a husband's permit---a dependence immigrant men did not face. The gains are not driven by younger arrivals' greater exposure to German schooling: they hold among immigrants with identical schooling exposure, survive controlling for education, and run through vocational qualifications acquired well after the age of compulsory schooling. A more liberal citizenship policy thus fosters integration and narrows the substantial gender gaps in the immigrant population.
 :::
 :::
 
